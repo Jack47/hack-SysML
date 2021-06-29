@@ -1,7 +1,14 @@
 ## Papers
 ### Parallelism
+
+[GSPMD: General and Scalable Parallelization for ML Graphs](https://arxiv.org/pdf/2105.04663.pdf)(2021-5-10)
+
+
+
 #### Pipeline Parallelism
 [PipeDream: Generalized Pipeline Parallelism for DNN Training](https://cs.stanford.edu/~matei/papers/2019/sosp_pipedream.pdf)(SOSP'19)
+
+[GPipe: Efficient training of giant neural networks using pipeline parallelism]()(NIPS 2019)
 
 [Source Code](https://github.com/msr-fiddle/pipedream)
 
@@ -22,6 +29,14 @@
 [Scaling Distributed Machine Learning with the Parameter Server](https://www.cs.cmu.edu/~muli/file/parameter_server_osdi14.pdf)(2013?)
 
 ## Course：
+[CS294-AI-Sys](https://ucbrise.github.io/cs294-ai-sys-sp19/)(UC Berkely)
+
+[笔记](./courses/ucberkely-cs294-ai-sys/)
+
+
+里面提到的一些经典论文，找到人讨论效果更佳
+
+
 ###  [CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/)
 >  This course is a deep dive into the details of deep learning architectures with a focus on learning end-to-end models for these tasks, particularly image classification. During the 10-week course, students will learn to implement and train their own neural networks and gain a detailed understanding of cutting-edge research in computer vision. Additionally, the final assignment will give them the opportunity to train and apply multi-million parameter networks on real-world vision problems of their choice. Through multiple hands-on assignments and the final course project, students will acquire the toolset for setting up deep learning tasks and practical engineering tricks for training and fine-tuning deep neural networks.
 > 
@@ -88,7 +103,33 @@ Runtime Parallel Scheduing / Networks
 [Deep Learning](https://www.deeplearningbook.org/): Ian Goodfellow and Yoshua Bengio and Aron Courville
 > intended to help students and practitioners enter the field of machine learning in general and deep learning in particular. The online version of the book is now complete and will remain available online for free.
 
-## OpenSource Frameworks
+## OpenSource Frameworks And Libs
+### [Pytorch]()
+### [Tensorflow]()
+[Tensorflow: a system for large-scale machine learning]()(OSDI 2016)
+
+[Automatic differetiation in Pytorch]()(2017)
+
+[Mesh-tensorflow: Deep learning for supercomputers]()(NIPS 2018)
+
+### [Acme: A Research Framework for Distributed Reinforcement Learning](https://arxiv.org/pdf/2006.00979.pdf)(arXiv: June 1 2020)
+> Agents are different scales of both complexity and computation -- including distributed versions.
+
+让 RL 从单机版原型可以无痛扩展到多机分布式。
+### [Launchpad]()
+
+From Acme Paper:
+> Roughly speaking, Launchpad provides a mechanism for creating a distributed program as a graph cnosisting of nodes and edges. Nodes exactly correspond to the modules -- represented as class instances as described above -- whereas the edges represent a client/server channel allowing communication between two modules. The key innovation of Launchpad is that it handles the creating of these edges in such a way that from perspective of any module there is no ditinction between a local and remote communication, e.g. for an actor retrieving parameters from a learner in both instances this just looks like a method call.
+
+直观感觉是这些领域里需要一些基础的框架和库，去解决分布式通信，把问题抽象，和具体场景解耦出来，这样研究人员复用这些轮子。跟当年互联网领域 rpc 通信框架、最近几年的微服务里服务中心、服务主键等功能类似。
+
+![](./imgs/acme-fig4-distrbuted-asynchronous-agent.png)
+
+### Reverb(2020)
+The dataset in RL can be backed by a low-level data storaeg system.
+> It enables efficient insertion and routing of items and a flexible sampling mechanism that allows:FIFO, LIFO, unifrom, and weighted sampling schemes.
+
+
 ### [Weld](https://www.weld.rs/)(Standford)
 Fast rust parallel code generation for data analytics frameworks. Developed at Standford University.
 > Weld is a language and runtime for improving the performance of data-intensive applications. It optimizes across libraries and functions by expressing the core computations in libraries using a common intermediate repersentation, and optimizing across each framwork.
@@ -106,4 +147,5 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 [Reverb is an efficient and easy-to-use data storage and trasport system designed for machine learning research](https://github.com/deepmind/reverb)(DeepMind, 2021-4-22)
 
 > Used an an experience replay system for distributed reinforcement learning algorithms
+
 
