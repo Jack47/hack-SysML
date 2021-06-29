@@ -11,6 +11,51 @@ Pytorch Data Loader
 8. map style dataset 如何实现？从硬盘读取所有文件，假设是 num_workers = 0。Dataset 里可以自己实现，就跟自己实现 iterator 一样，可以一次性读取出来，一个chun 读取，一个 sample 读取，然后 get_item() 里逐个读出去。
 9. dataloader worker 里读取完一个 batch 的数据，是会释放掉的吧，不会傻傻地保存着，，直到一个 epoch 读取完。
 
+## 在贵司 Coco 检测(Object Detection)中的用法
+COCO 里有好几类数据：
+
+ 目标检测（分割）
+![](https://images.squarespace-cdn.com/content/v1/55652c24e4b0edcadf841347/1547938537626-83OBYBW0QMNFUASYA6Z2/detection-splash.png?format=1000w)
+
+关键点检测
+
+![](https://images.squarespace-cdn.com/content/v1/55652c24e4b0edcadf841347/1547938614758-R4XNFJIJ1JVA5QN5EIP7/keypoints-splash.png?format=1000w)
+
+Stuff Segmentation(人？）
+![](https://images.squarespace-cdn.com/content/v1/55652c24e4b0edcadf841347/1547938667879-PXWV4U5J579SD072D4W1/stuff-splash.png?format=1500w)
+Panoptic分割
+![](https://images.squarespace-cdn.com/content/v1/55652c24e4b0edcadf841347/1547938696238-RLEW8NLGAM6EZHMK7IWI/panoptic-splash.png?format=1500w)
+
+图片标题
+![](https://images.squarespace-cdn.com/content/v1/55652c24e4b0edcadf841347/1547269235230-B71AMR72ZRLEQAQ2TWLO/coco-examples.jpg?format=1000w)
+
+## 在贵司 ImageNet 分类中的用法
+use_dali, batch_size = 64, num_workers: 4, pin_memory: True, input_size: 224
+
+image_reader: pil, sampler: distributed_iteration, transforms: STANDARD
+
+### Sampler
+
+DistributedSampler: 要考虑 rank，world_size。给出的排列是下标索引，而非key
+
+### ImageNetDataset
+是 map-style dataset
+
+self.metas = [ {'filename': fn, 'lable': label} ]
+
+所以看到其实是一个顺序的列表，那么要 getitem 时就得用下标，而非文件名这类。
+
+__getitem__(self, idx):
+  item = {
+  'image': img,
+  'label': label,
+  'image_id': idx, // filename
+  'filename': filename
+  }
+
+支持从 `fake`、`mc`、`ceph`、`petrel`、`fs` 和 `osg` 里读取数据
+
+
 ## 收获
 shuffle=True 时，数据是在每个 epoch 级别做 shuffle的
 sampler 和 shuffle 是互斥的
