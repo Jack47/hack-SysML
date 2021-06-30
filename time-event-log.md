@@ -2,8 +2,12 @@
 1. 看下 Gradient-Based Learning Applied to Document Recognition、 ImageNet、AlexNet 的论文
 2. 自己实现一些常见的算子，这样了解的更加深刻。可以参考 lectuer 、智能计算系统等
 3. 七月份目标是主攻卷积神经网络
+4. 看下 dataloader 里 workers 之间的 multiprocessing 实现
 
 ## 2021-6-30
+
+11:05- 12:00 pm
+
 6:40-7:50 am Read dataloader useage in prototype and pod
 
 ## 2021-6-29
