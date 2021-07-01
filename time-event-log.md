@@ -4,9 +4,14 @@
 3. 七月份目标是主攻卷积神经网络
 4. 看下 dataloader 里 workers 之间的 multiprocessing 实现
 
+## 2021-7-1
+7:30 - 8:00 am
+[Read pytorch dataloder source code](./framworks/DataLoader.md)
+
 ## 2021-6-30
 
 11:05- 12:00 pm
+[multiprocessing in pytorch](./frameworks/multiprocessing.md)
 
 6:40-7:50 am Read dataloader useage in prototype and pod
 
@@ -15,7 +20,7 @@
 
 6:40 - 7: 20 
 
-10:20 - 12:30 ： pytorch dataloader
+10:20 - 12:30 ： [pytorch dataloader](./framworks/DataLoader.md)
 
 ## 2021-6-28
 2h
@@ -24,7 +29,9 @@
 Reading GShard
 
 10:20 -  12:11 pm
-cs 294-ai-sys
+
+[cs 294-ai-sys: lecture 1](./courses/ucberkely-cs294-ai-sys
+l1.md)
 
 ## 2021-6-27
 3.5h
