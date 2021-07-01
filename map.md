@@ -148,4 +148,9 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 > Used an an experience replay system for distributed reinforcement learning algorithms
 
+## Hardware
+[NVLink](./hardware/GPU/nvlink.md) vs PCiE
 
+### Misc
+
+[HPC-oriented Latency Numbers Every Programmer Should Know](https://gist.github.com/understeer/4d8ea07c18752989f6989deeb769b778)
