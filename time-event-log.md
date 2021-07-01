@@ -5,10 +5,16 @@
 4. 看下 dataloader 里 workers 之间的 multiprocessing 实现
 
 ## 2021-7-1
+2.5 h
+
+10:00 pm - 12:09 pm
+[Read pytorch ddp paper](./papers/pytorch-ddp.md) and [draw illustration of ddp]()
+
 7:30 - 8:00 am
 [Read pytorch dataloder source code](./framworks/DataLoader.md)
 
 ## 2021-6-30
+2 h
 
 11:05- 12:00 pm
 [multiprocessing in pytorch](./frameworks/multiprocessing.md)

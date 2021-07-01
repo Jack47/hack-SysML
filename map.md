@@ -1,6 +1,7 @@
 ## Papers
 ### Parallelism
 
+[Pytorch Data Distributed Parallelism](). My notes](./papers/PyTorch Distributed-Data Parallel Training.md)
 [GSPMD: General and Scalable Parallelization for ML Graphs](https://arxiv.org/pdf/2105.04663.pdf)(2021-5-10)
 
 
