@@ -4,6 +4,15 @@
 3. 七月份目标是主攻卷积神经网络
 4. 看下 dataloader 里 workers 之间的 multiprocessing 实现
 
+## 2021-7-2
+7:15 am - 7:40 am
+
+1. [pytorch 里ddp 如何具体实现](https://pytorch.org/docs/stable/notes/ddp.html)？
+2. [pytorch tunning performance guide](https://pytorch.org/tutorials/recipes/recipes/tuning_guide.html)
+2. 如何画出动图：DDP
+
+https://github.com/pytorch/pytorch/issues/37030
+
 ## 2021-7-1
 2.5 h
 
