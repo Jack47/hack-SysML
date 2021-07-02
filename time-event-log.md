@@ -17,7 +17,7 @@ https://github.com/pytorch/pytorch/issues/37030
 2.5 h
 
 10:00 pm - 12:09 pm
-[Read pytorch ddp paper](./papers/pytorch-ddp.md) and [draw illustration of ddp]()
+[Read pytorch ddp paper](./papers/papers/PyTorch Distributed-Data Parallel Training.md) and [draw illustration of ddp]()
 
 7:30 - 8:00 am
 [Read pytorch dataloder source code](./framworks/DataLoader.md)
