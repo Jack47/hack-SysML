@@ -4,7 +4,24 @@
 3. 七月份目标是主攻卷积神经网络
 4. 看下 dataloader 里 workers 之间的 multiprocessing 实现
 
+
+## 2021-7-4
+图解 Pytorch DataLoader
+
+Megatron LM
+
+## 2021-7-3
+6h
+
+14:20 pm - 20:00 pm
+
+动画详解 Pytorch Data Distributed Parallel
+
 ## 2021-7-2
+2h
+
+10:30 pm 12:00 pm
+
 7:15 am - 7:40 am
 
 1. [pytorch 里ddp 如何具体实现](https://pytorch.org/docs/stable/notes/ddp.html)？
