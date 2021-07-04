@@ -11,6 +11,8 @@
 2. data 时间如何计算的？
 
 ## 2021-7-4
+4h20min
+
 10:30 am - 12:00: train resnet101, batchsize 1k, epoch 100
 
 13:00 - 13:20 
@@ -18,6 +20,9 @@ read pod, prototype DistModule, record questions
 
 13:40- (-30) - 4:00 pm
 read pytorch ddp source code: distributed.py
+
+9:00 pm - 1:14 am 
+draw DDP keynote, write blog
 
 ## 2021-7-3
 6h
