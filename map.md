@@ -1,8 +1,16 @@
 ## Papers
+### OPs in Network
+
+#### Batch Normalization
+
+[Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167)(2015): 用了 BN 后学习率可以调大，初始化过程更鲁棒。也有 regularization 作用，可以一定程度代替 drop out。 faster training and high performance 
+
+[Norm matters: efficient and accurate normalization schemes in deep networks](https://arxiv.org/pdf/1803.01814.pdf)(2019 ): suggest several alternatives to the widely used L2 batch-norm, using normalization in L1 and L∞ space
+
 ### Parallelism
 
 [Pytorch Data Distributed Parallelism](). My notes](./papers/PyTorch Distributed-Data Parallel Training.md)
-[GSPMD: General and Scalable Parallelization for ML Graphs](https://arxiv.org/pdf/2105.04663.pdf)(2021-5-10)
+[GSPMD: General and Scalable Parallelization for ML Graphs](https://arxiv.org/pdf/2105.04663.pdf)(2021-5-10) (for transformers)
 
 
 
@@ -11,7 +19,7 @@
 
 [GPipe: Efficient training of giant neural networks using pipeline parallelism]()(NIPS 2019)
 
-[Source Code](https://github.com/msr-fiddle/pipedream)
+[PipeDream Source Code](https://github.com/msr-fiddle/pipedream)
 
 #### Parallelization Strategies
 [Beyond Data and Model Parallelism for Deep Neural Networks](https://arxiv.org/pdf/1807.05358.pdf)

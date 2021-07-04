@@ -3,12 +3,21 @@
 2. 自己实现一些常见的算子，这样了解的更加深刻。可以参考 lectuer 、智能计算系统等
 3. 七月份目标是主攻卷积神经网络
 4. 看下 dataloader 里 workers 之间的 multiprocessing 实现
+5. 图解 Pytorch DataLoader
+6. Megatron LM
 
+## 问题
+1. flops，显存，通信各自如何衡量出来？
+2. data 时间如何计算的？
 
 ## 2021-7-4
-图解 Pytorch DataLoader
+10:30 am - 12:00: train resnet101, batchsize 1k, epoch 100
 
-Megatron LM
+13:00 - 13:20 
+read pod, prototype DistModule, record questions
+
+13:40- (-30) 
+read pytorch ddp source code
 
 ## 2021-7-3
 6h
