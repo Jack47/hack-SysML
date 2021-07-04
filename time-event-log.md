@@ -16,8 +16,8 @@
 13:00 - 13:20 
 read pod, prototype DistModule, record questions
 
-13:40- (-30) 
-read pytorch ddp source code
+13:40- (-30) - 4:00 pm
+read pytorch ddp source code: distributed.py
 
 ## 2021-7-3
 6h
