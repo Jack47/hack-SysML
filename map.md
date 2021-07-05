@@ -32,6 +32,10 @@
 
 [PipeDream Source Code](https://github.com/msr-fiddle/pipedream)
 
+[fairscale pipeline parallelism source code](https://github.com/facebookresearch/fairscale/tree/master/fairscale/nn/pipe)
+
+[torochpipe](https://github.com/kakaobrain/torchgpipe)
+
 #### Parallelization Strategies
 [Beyond Data and Model Parallelism for Deep Neural Networks](https://arxiv.org/pdf/1807.05358.pdf)
 > Defined a more comprehensive search space of parallelization strategies for DNNs called SOAP, which includes strategies to parallelize a DNN in the Sample, Operation, Attribute, and Parameter dimesions. Proposed FlexFlow, a deep learning framework that uses guided randomized search of the SOAP spaceto find a fast parallelization strategy for a specific parallel machine. To accelerate this search, FlexFlow introduces a novel execution simulator that can accurately predict a parallelizaiton strategy's performance.
@@ -125,6 +129,10 @@ Runtime Parallel Scheduing / Networks
 
 ## OpenSource Frameworks And Libs
 ### [Pytorch]()
+#### JIT
+
+![](https://github.com/pytorch/tvm/blob/master/pt_execution.png?raw=true)
+
 ### [Tensorflow]()
 [Tensorflow: a system for large-scale machine learning]()(OSDI 2016)
 
