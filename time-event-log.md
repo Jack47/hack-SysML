@@ -2,15 +2,21 @@
 1. 看下 Gradient-Based Learning Applied to Document Recognition、 ImageNet、AlexNet 的论文
 2. 自己实现一些常见的算子，这样了解的更加深刻。可以参考 lectuer 、智能计算系统等
 3. 七月份目标是主攻卷积神经网络
-4. 看下 dataloader 里 workers 之间的 multiprocessing 实现
-5. 图解 Pytorch DataLoader
+4. 看下 dataloader 里 workers 之间的 multiprocessing 实现，图解 Pytorch DataLoader
 6. Megatron LM
 
 ## 问题
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-7-6
+结合 fairscale 看看它在显存优化方面的工作
+
 ## 2021-7-5
+1h 10min
+
+10:30pm - 11:20 pm
+
 7:20-7:40
 Paper: [ImageNet Classification with Deep Convolutional Neural Networks](http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf), [My Notes](imagenet-classification-with-deep-convolutional-neural-networks.md)
 
