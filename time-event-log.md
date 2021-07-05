@@ -10,6 +10,10 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-7-5
+7:20-7:40
+Paper: [ImageNet Classification with Deep Convolutional Neural Networks](http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf), [My Notes](imagenet-classification-with-deep-convolutional-neural-networks.md)
+
 ## 2021-7-4
 4h20min
 
