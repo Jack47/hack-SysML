@@ -9,7 +9,12 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-7-7
+fairscale checkpointing with test
+
 ## 2021-7-6
+10:10 - 11:00
+
 7:30-8:00
 [亚线性内存优化—activation checkpointing在oneflow中的实现](https://zhuanlan.zhihu.com/p/373662730)
 [Explore Gradient Checkpointing in PyTorch](https://qywu.github.io/2019/05/22/explore-gradient-checkpointing.html)

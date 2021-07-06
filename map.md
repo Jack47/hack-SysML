@@ -23,6 +23,8 @@ Sys Papers:
 ### Memory Efficiency
 
 [Low-Memory Neural Network Training: A Technical Report](https://arxiv.org/pdf/1904.10631.pdf)(2019-4-24)
+[Visual Gifs to show gradient checkpointing](https://github.com/cybertronai/gradient-checkpointing)
+
 
 ### Parallelism
 
