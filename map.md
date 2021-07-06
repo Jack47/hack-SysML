@@ -20,6 +20,8 @@ ML Papers:
 
 Sys Papers:
 
+### Memory Efficiency
+
 [Low-Memory Neural Network Training: A Technical Report](https://arxiv.org/pdf/1904.10631.pdf)(2019-4-24)
 
 ### Parallelism
@@ -130,6 +132,7 @@ Runtime Parallel Scheduing / Networks
 [AI-Sys Spring 2019](https://ucbrise.github.io/cs294-ai-sys-sp19/)(UC Berkeley)
 
 ## Books：
+[Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com/chap2.html)
 
 ### Deep Learning
 [Deep Learning](https://www.deeplearningbook.org/): Ian Goodfellow and Yoshua Bengio and Aron Courville
@@ -187,6 +190,8 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 ## Hardware
 [NVLink](./hardware/GPU/nvlink.md) vs PCiE
 
+## Visualizing Neural Networks
+[Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)
 ### Misc
 
 [HPC-oriented Latency Numbers Every Programmer Should Know](https://gist.github.com/understeer/4d8ea07c18752989f6989deeb769b778)

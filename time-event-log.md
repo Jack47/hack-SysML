@@ -15,6 +15,8 @@
 [Explore Gradient Checkpointing in PyTorch](https://qywu.github.io/2019/05/22/explore-gradient-checkpointing.html)
 结合 fairscale 看看它在显存优化方面的工作
 
+[Dynamic Tensor Rematerialization](https://arxiv.org/abs/2006.09616)(2020-6-17) MegaEngine 实现了
+
 ## 2021-7-5
 1h 10min
 
