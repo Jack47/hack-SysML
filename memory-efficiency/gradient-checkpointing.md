@@ -17,3 +17,8 @@
 3. speed：最大化运行速度，通过 checkpoint 那些重计算比较慢的节点，比如卷积和矩阵乘
 
 
+
+## 问题：
+1. phony 这个 size 为 1 的占位 tensor 干嘛用的？
+2. Checkpointing 里的实现没看到递归找到 Checkpoint，执行一遍 forwawrd 的地方呢？
+3. 而且要区分是否第二遍forward，第一遍时释放掉，第二遍时不能释放，用完才释放
