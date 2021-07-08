@@ -4,16 +4,28 @@
 3. 七月份目标是主攻卷积神经网络
 4. 看下 dataloader 里 workers 之间的 multiprocessing 实现，图解 Pytorch DataLoader
 6. Megatron LM
+7. 看看 torch.autograd.backward 的实现
 
 ## 问题
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-7-8
+1h 45 min
+
+10:15 pm -12:00 
+
 ## 2021-7-7
+1h 40 min
+
 7:20-8:00 am
 fairscale checkpointing with test
 
+9:40-10:40 pm
+
 ## 2021-7-6
+1h 20min
+
 10:10 - 11:00
 
 7:30-8:00
