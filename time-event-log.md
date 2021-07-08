@@ -11,6 +11,13 @@
 2. data 时间如何计算的？
 
 ## 2021-7-8
+
+6:35 am - 7:10
+
+Reading PyTorch Autograd docs
+Reading MegaTron LM: [Efficient Large-Scale Language Model Training on GPU Clusters](https://arxiv.org/pdf/2104.04473.pdf)
+
+## 2021-7-8
 1h 45 min
 
 10:15 pm -12:00 
