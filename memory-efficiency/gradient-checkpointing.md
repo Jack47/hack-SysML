@@ -22,3 +22,5 @@
 1. phony 这个 size 为 1 的占位 tensor 干嘛用的？
 2. Checkpointing 里的实现没看到递归找到 Checkpoint，执行一遍 forwawrd 的地方呢？
 3. 而且要区分是否第二遍forward，第一遍时释放掉，第二遍时不能释放，用完才释放
+4. 正常 backward 时，是如何找到上一层的呢？
+5. 在 [fairscale]()/[pytorch]() 的实现里，没找到backward时，先找到最近的 checkpoint 的点，然后 recompute 一遍的地方呢？
