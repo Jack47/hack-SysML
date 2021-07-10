@@ -5,12 +5,21 @@
 4. 看下 dataloader 里 workers 之间的 multiprocessing 实现，图解 Pytorch DataLoader
 6. Megatron LM
 7. 看看 torch.autograd.backward 的实现
+8. 可以看看 ActNN 里压缩算法在 GPU 上怎么写的，起始就是简单的加减乘除
 
 ## 问题
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
-## 2021-7-8
+## 2021-7-10
+2:20 pm- 
+
+2h15m
+
+11:20 am -1:35 pm
+[Reading ActNN: Reducing Training Memory Footprint via 2-Bit Activation Compressed Training](https://arxiv.org/pdf/2104.14129.pdf)
+
+## 2021-7-9
 
 6:35 am - 7:10
 
