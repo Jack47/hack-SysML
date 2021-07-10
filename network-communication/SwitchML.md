@@ -78,9 +78,9 @@ Intel 搞的网卡交换机上的 ASIC。
 
 ## Compare
 Mellanox的 SHARP 的对比
-在特定的 InfiniBand 交换机上可以使用。它使用特定的片上芯片 FPU 来做集合通信的下放。最新的版本 SHARPv2，也使用 流式聚合。它是 IB 兼容的硬件架构，需要固定功能的 ASIC。它使用 Reliable COnnection 传输，通过 Remote Direct Memory Access，技术，绕过 CPU，直接与 GPU通信。但是需要 IB, 价格贵。
+在特定的 InfiniBand 交换机上可以使用。它使用特定的片上芯片 FPU 来做集合通信的下放。最新的版本 SHARPv2，也使用 流式聚合。它是 IB 兼容的硬件架构，需要固定功能(fixed function)的 ASIC。它使用 Reliable COnnection 传输，通过 Remote Direct Memory Access，技术，绕过 CPU，直接与 GPU通信。但是需要 IB, 价格贵。需要 Mellanox的固定功能交换机，支持浮点元素。
 
-SwitchML: 一个包只能携带 128 字节的梯度，无法完全发挥 NIC 和 switch 的处理能力。而 NetReduce 使用 FPGA 可以处理 1024 B。它使用 UDP 来构建传输层，无法完全使用网络带宽。因此 它使用 Data Plane Development Kit (DPDK) 来绕过内核增加吞吐。为了利用起 100GE 带宽，需要许多 CPU 核使用 DPDK 绑定在 特定端口。拥塞控制和重传需要应用层自己感知，耗时而且需要额外cpu开销。在云裳环境里是个问题。需要特定的 ASIC，比如Intel的 Tofino。 这类 ASIC 芯片由于寄存器等资源限制，无法处理 Ethernet 里的完整长度的帧，导致端到端吞吐不高。
+SwitchML: 一个包只能携带 128 字节的梯度，无法完全发挥 NIC 和 switch 的处理能力。而 NetReduce 使用 FPGA 可以处理 1024 B。它使用 UDP 来构建传输层，无法完全使用网络带宽。因此 它使用 Data Plane Development Kit (DPDK) 来绕过内核增加吞吐。为了利用起 100GE 带宽，需要许多 CPU 核使用 DPDK 绑定在 特定端口。拥塞控制和重传需要应用层自己感知，耗时而且需要额外cpu开销。在云裳环境里是个问题。需要特定的 ASIC，比如Intel的 Tofino 可编程交换机。 这类 ASIC 芯片由于寄存器等资源限制，无法处理 Ethernet 里的完整长度的帧，导致端到端吞吐不高。只支持整数。支持 SHARP 的交换机有40个端口，200Gbps。
 
 SwitchML improves the baseline on the three models by 17.5%, 14.4%, and
 4.4% respectively while the percentages by using NetReduce
