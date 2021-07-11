@@ -28,8 +28,8 @@ Tensor.detach() : Returns a new Tensor, detached from the current graph. The res
 4. 正常 backward 时，是如何找到上一层的呢？是 pytorch 内部自己实现内的，研究员只需要掉用整个 module 的 backward 即可
 5. 在 [fairscale]()/[pytorch]() 的实现里，没找到backward时，先找到最近的 checkpoint 的点，然后 recompute 一遍的地方呢？ 它利用的还是 PyTorch 里实现的 checkpoint_sequential(functions, segments, input, **kwargs)。只不过自己实现了 checkpoint,这个给一个 module 整体进行 checkpoint的函数：保存输入tensor 和参数，forward 时只计算最终 loss，backward 时先 recompute，再backward
 6. 如果模型有嵌套，如何处理 ? 只要 checkpoint 的节点划分好了，其他都好说。主要是 checkpoint 划分这里需要考虑
-7. 什么情况下适合用？当这段逻辑重计算不复杂，比如非卷积和矩阵乘运算，而激活值和梯度有比较大的情况，比如 transoformer
- 里参数就很多
+7. 什么情况下适合用？当这段逻辑重计算不复杂，比如非卷积和矩阵乘运算，而激活值和梯度有比较大的情况，比如 transoformer 里参数就很多
+8. checkpoint 之间，如何传递 loss 的？ 假设就俩层，那么后一层打开 grad，然后 forward 之后，backward 时就算出了 grad，然后等前一个也打开，backward 时就自动能拿到后一个的 grad 来计算？gg
 
 ## PyTorch 实现
 

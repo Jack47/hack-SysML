@@ -52,7 +52,7 @@ Pushing deep learning beyond the gpu memory limit via smart swapping. (2020)
 
 Tensor-based gpu memory management for deep learning. (2020)
 
-[ActNN: Reducing Training Memory Footprint via 2-Bit Activation Compressed Training](https://arxiv.org/pdf/2104.14129.pdf) (2021-7-6) [My notes](./papers/ActNN.md)
+[ActNN: Reducing Training Memory Footprint via 2-Bit Activation Compressed Training](https://arxiv.org/pdf/2104.14129.pdf) (2021-7-6) [My notes](./papers/ActNN.md), [source code notes](ActNN-source-code.md)
 
 [Low-Memory Neural Network Training: A Technical Report](https://arxiv.org/pdf/1904.10631.pdf)(2019-4-24)
 
@@ -230,11 +230,14 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 > Used an an experience replay system for distributed reinforcement learning algorithms
 
+## Videos
+[Flexible systems are the next frontier of machine learning](https://www.youtube.com/watch?v=Jnunp-EymJQ&list=WL&index=14) Stanford 邀请 Jeff Dean 和 Chris Re 探讨最新的进展(2019) [My Notes](./videos/Flexible-systems-are-the-next-frontiner-of-machine-learning.md)
+
 ## Hardware
 [NVLink](./hardware/GPU/nvlink.md) vs PCiE
 
 ## Visualizing Neural Networks
 [Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)
-### Misc
+## Misc
 
 [HPC-oriented Latency Numbers Every Programmer Should Know](https://gist.github.com/understeer/4d8ea07c18752989f6989deeb769b778)

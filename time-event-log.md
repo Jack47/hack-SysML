@@ -1,17 +1,23 @@
 ## TODO
 1. 看下 Gradient-Based Learning Applied to Document Recognition、 ImageNet、AlexNet 的论文
-2. 自己实现一些常见的算子，这样了解的更加深刻。可以参考 lectuer 、智能计算系统等
 3. 七月份目标是主攻卷积神经网络
-4. 看下 dataloader 里 workers 之间的 multiprocessing 实现，图解 Pytorch DataLoader
 6. Megatron LM
-7. 看看 torch.autograd.backward 的实现
 8. 可以看看 ActNN 里压缩算法在 GPU 上怎么写的，起始就是简单的加减乘除
 
 ## 问题
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-7-11
+
+10:30 pm - 12:00 
+Reading ActNN source code, train POD, review MR
+
 ## 2021-7-10
+10h
+
+9:40 pm - 12:00 pm
+
 2:20 pm- 7:00 pm
 
 2h15m
