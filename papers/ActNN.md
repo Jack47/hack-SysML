@@ -40,7 +40,8 @@ Activation compressed training (ACT) 是一个非常有前景的方法，可以�
 收敛时的误差会被梯度的方差所限制。推导出了使用量化压缩后，随机梯度下降计算出的方差= mnibatch采样时随机梯度下降的方差 + 有损压缩额外引入的方差。说明有损压缩带来的方差远小于随机梯度下降带来的方差即可，这样不影响收敛性
 
 ## 4. 压缩策略
-
+![](./imgs/actnn-heterogeneity-in-a-ResNet50-activations.jpg
+)
 从图3可以看到 ResNet50 中激活值的异构性：
 
 a) conv_2_2_1这个层在不通分组(per-group) 的范围下直方图，可以看到主要集中在前面
