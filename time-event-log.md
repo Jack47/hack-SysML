@@ -8,6 +8,19 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-7-13
+Reading qscheme.py: compute\_quantization\_bits
+layers.py: track\_running\_stats
+
+## 2021-7-12
+1h40min
+
+10:00 pm - 11:40pm
+
+Chat with friends about ML
+
+Reading ActNN source code
+
 ## 2021-7-11
 
 10:30 pm - 12:00 
