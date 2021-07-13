@@ -27,3 +27,11 @@ batch normalization 里做了些什么？
 
 ## 目标：看懂 quantize_activation
 
+## 目标：看懂 quantize_activation
+
+## 基本概念
+Warp shuffle: \_shfl\_down_sync
+
+pytorch tensor  slice
+
+block, thread
