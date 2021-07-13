@@ -9,6 +9,9 @@
 2. data 时间如何计算的？
 
 ## 2021-7-13
+25 min
+
+11:45pm- 12:10
 Reading qscheme.py: compute\_quantization\_bits
 layers.py: track\_running\_stats
 

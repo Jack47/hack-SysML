@@ -35,3 +35,15 @@ Warp shuffle: \_shfl\_down_sync
 pytorch tensor  slice
 
 block, thread
+
+
+## 看 Schema 相关
+QBNScheme
+
+config.initial_bits = 8
+
+`Scheme.compute_quantization_bits()`
+
+`calc_precision(bits, Range_sqr, w, bits * N)` 这里计算的公示和目标是什么呢？
+
+怎么体现的每个 layer 级别的 precision？主要想看针对不同 sensity 的东西
