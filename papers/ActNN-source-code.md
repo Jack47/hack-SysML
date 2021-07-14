@@ -6,6 +6,70 @@
 5. `adaptive_bn_scheme`
 5. `adaptive_conv_scheme`
 
+## 看 Schema 相关
+QBNScheme
+
+config.initial_bits = 8
+
+`Scheme.compute_quantization_bits()`
+
+
+### Per Sample
+如果想用 per-sample 梯度信息，来做自适应量化，需要修改 dataloader 来返回 sample indices，然后配置： `config.use_gradient = True, QScheme.num_samples = 1300000 // size of training set`
+
+### perlayer
+
+怎么体现的每个 layer 级别的 precision？主要想看针对不同 sensity 的东西 => range_sqr * grad
+
+### QScheme 
+初始化：
+
+```
+QScheme(num_locations=num_locations, group=0, depthwise_groups=1)
+
+```
+
+QScheme 类级别变量：
+
+```
+layers[] // 是 QScheme 的实例
+num_layers // 
+num_samples // 总共一个 epoch 里 samples 的数量
+prev_layer // 
+batch: dataloader 里 loader i，就设置为 i
+```
+
+QScheme.layer 里的变量：
+```
+.C 
+.bits // layer 级别的 bits，是 layer 里N 个sample 的 一个 batch 里 mixed_precision 计算出后(per group的好像)，取个中位数
+// 没找到哪里用到 bits 了
+```
+
+#### QScheme 函数：
+```
+// 会在 op.run_backward() 里设置，是 scheme 需要
+set_scale(self, grad) // 这个 scale 传递进去的是梯度。里面最终保存的是 norm.square().mean // 此时从向量变数字？
+```
+
+### calc\_precision 函数: // 看起来是考虑了梯度(上一次的？) 和 range 之后，对每个数据各自计算出 bit 数
+
+```
+calc_precision(initial_bits, Range_sqr * grad, w[1,(N),1], bits * N) 这里计算的公示和目标是什么呢？
+b = calc_precision(b, C, w, int(self.bits * N)) // 最后一个是 target，意思是总共的 bit 数？ 这样算出来的 bit 数，就是每个 batch 里的 一个输入 tensor
+ 有一个了
+
+```
+所以精妙之处是即使是 allocate\_perlayer，也可以把对应的 initial\_bits, range\_sqr * grad, 等各自 concat 一下，调用一次 calc\_precision 即可算出
+### op.if\_allocate\_perlayer() 
+// 在 backward 时调用，而且是只让第一层做： QScheme.allocate_perlayer()
+actnn.QBNScheme.allocate\_perlayer() 
+
+```
+allocate_perlayer() // 计算出 layers[i].bits
+    
+```
+
 ## 问题
 1. 用贪心求解的是要用的 bit 数？它的限定是拿到 sample 了，就能算出来？
 2. cuda kernel 里写了 if 条件？是否会影响效率
@@ -106,14 +170,3 @@ pytorch tensor  slice
 
 block, thread
 
-
-## 看 Schema 相关
-QBNScheme
-
-config.initial_bits = 8
-
-`Scheme.compute_quantization_bits()`
-
-`calc_precision(bits, Range_sqr, w, bits * N)` 这里计算的公示和目标是什么呢？
-
-怎么体现的每个 layer 级别的 precision？主要想看针对不同 sensity 的东西
