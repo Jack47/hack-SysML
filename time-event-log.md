@@ -8,6 +8,11 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-7-15
+10:00 pm - 11:00 
+
+Read Efficient Large Scale Language Model Training, [my Notes](papers/efficient-large-scale-language-model-training.md)
+
 ## 2021-7-14
 看下 Megatron 里的实现？结合oneflow 的文章，理解为啥难
 或看懂 zero 及实现

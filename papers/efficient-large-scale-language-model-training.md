@@ -96,9 +96,19 @@ GPipe 提出一个调度策略：一个batch里所有的microbatches先全部 fo
 
 tpb/tid = (p-1)\*(tf+tb)/m*(tf+tb) = (p-1)/m
 
-所以为了气泡小，需要 m >> p。对于这么大的m，这种方法需要很多内存，因为需要保存中间的激活值(使用激活值重计算，就是每层pipeline stage上输入的激活值），给一次迭代/batch 过程中所有的m个microbatches。
+所以为了气泡小，需要 m >> p。对于这么大的m，这种方法需要很多内存，因为需要保存中间的激活值(使用激活值重计算，就是每层pipeline stage上输入的激活值），给一次迭代/batch 过程中所有的m个microbatches。这个可以通过早点开始 backward，并不一定要全部 microbatch forward 完，才 backward。
 
 我们使用的是 PipeDream Flush 调度。首先进入一个热身的阶段，workers 会执行不同数量的 forward 。此调度**限制**了正在执行的（backward pass 和需要维护的 activations 的数量） microbatches 数量为流水线长度，而不是一个batch 里microbatch的数量。在热身阶段之后，每个worker执行一个 forward 和一个 backward(缩写1F1B)。最终在一个batch的尾部，我们完成所有剩余的backward轮次。这个方法的好处是节省内存，因为只需要保存 p 轮次的激活值。
+
+#### Micro Batch vs DDP
+不同：
+
+1. Micro 是想减少要保存的激活值，比如一个batch是1024，那我切为10个，每个 100。这样我可以想办法减少同时在内存里的激活值。
+2. Micro 是分多个 micro batch 去一个个处理。而 batch 是tensor里第一个维度，直接就一次性处理了
+
+相同:
+
+1. 都会在batch 里数据都处理完后，进行梯度的聚合，保证大家看到的参数是一致的版本
 
 #### 2.2 交替形式的调度
 
