@@ -244,6 +244,18 @@ X = 140 teraFlOP/s per GPU
 
 n = 1024
 
+### 5.3
+
+total number of pipeline stages should thus be limited so that the number of microbatches in the pipeline is a reasonable multiple of the number of pipeline stages. 为啥？
+
+## 7 Discussion and Conclusion
+compute data gradients before weight gradients. 这分别是啥？ 不就一个 weight gradients 么
+
+问题：
+1. 3D 并行时，并发是咋样的？比如先 Tensor 内，在 Pipeline 间，最后每个 gradents all-reduce? pipeline 里引入的是几个forward 陆续走这种？以前是跑完 forward 再backward，不会交叉
+2. 为啥说 interleaved scheduler 是通信敏感的？
+3. 4.2 里的 change datalayout,避免 memory-intensive transpose operations. 理解下原理？
+4. fused kernels for a sequence of element-wise operations (bias+Gelu and bias + drop out + add) using PyThon JIT。为啥要用？不是固定的么，就直接掉优化后的 kernel 即可。
 
 
 

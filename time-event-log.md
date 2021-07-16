@@ -2,14 +2,20 @@
 1. 看下 Gradient-Based Learning Applied to Document Recognition、 ImageNet、AlexNet 的论文
 3. 七月份目标是主攻卷积神经网络
 6. Megatron LM
-8. 可以看看 ActNN 里压缩算法在 GPU 上怎么写的，起始就是简单的加减乘除
+7. 图解 Pipeline 里的气泡，1F1B 和 interleaved
+
 
 ## 问题
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-7-16
+10:15 pm - 11:30
+
 ## 2021-7-15
-10:00 pm - 11:00 
+1h
+
+10:00 pm - 11:00
 
 Read Efficient Large Scale Language Model Training, [my Notes](papers/efficient-large-scale-language-model-training.md)
 
