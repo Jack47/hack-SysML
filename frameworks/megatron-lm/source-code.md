@@ -14,3 +14,8 @@ tensor model parallel 参数：
 
 ## TODO
 1. 看如何用几行代码实现的 tensor 级别并行，而且是在 g 和 f 那里要all-reduce 一下
+
+## P2P communication
+`send_forward_recv_backward` 
+1. 谁调用它？它不涉及并发和重叠吧？就是同步的。
+2. 怎么知道应该发给谁？

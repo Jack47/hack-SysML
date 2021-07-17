@@ -10,6 +10,10 @@
 2. data 时间如何计算的？
 
 ## 2021-7-16
+2:00 pm - 2:30
+Find JIT usage, P2P communication in Megatron LM
+
+## 2021-7-16
 10:15 pm - 11:30
 
 ## 2021-7-15
