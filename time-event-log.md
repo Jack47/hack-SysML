@@ -9,7 +9,13 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
-## 2021-7-16
+## 2021-7-17
+1h40min
+
+4:50 - 6:10 
+8:10 - 30
+
+## 2021-7-17
 2:00 pm - 2:30
 Find JIT usage, P2P communication in Megatron LM
 
