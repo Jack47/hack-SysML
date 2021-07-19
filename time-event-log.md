@@ -9,11 +9,17 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
-## 2021-7-17
-1h40min
+## 2021-7-19
+2h20min
+5:20 pm  - 6:30
+9:30 pm - 10:10
+10:40 pm - 11:10 pm
 
-4:50 - 6:10 
-8:10 - 30
+## 2021-7-18
+
+1h40min
+4:50 - 6:10 pm draw 3d parallel graph, [megatron lm source code](./frameworks/megatron-lm/source-code.md)
+8:10 - 30 am
 
 ## 2021-7-17
 2:00 pm - 2:30
