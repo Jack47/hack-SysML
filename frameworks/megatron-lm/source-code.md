@@ -2,6 +2,8 @@
 1. 看如何用几行代码实现的 tensor 级别并行，而且是在 g 和 f 那里要all-reduce 一下
 2. pretrain_gpt.py
 3. timers 里记录的数据从哪里能获得?
+4. 从上到下看一下。最近都是在下面看的，比较碎，而且和上面没有连接起来。比如 tensor model parallel 如何实现？
+5. 看一下 pipeline 的三个版本实现
 
 ## P2P communication
 `send_forward_recv_backward` 
@@ -84,6 +86,26 @@ global_batch_size = dist.get_world_size() * micro_batch_size`
 num_micro_batches = global_batch_size // micro_batch_times_data_parallel # 看起来就是i全局来看，需要多少次 micro_batch
 所以要一个 batch 里消耗的 sample 数量 = data_parallel_world_size() * micro_batch_size * num_microbatches() # 也是等于 global_batch_size 吧，只不过这个也是算出的
 ```
+batch 是直接在代码层面当作数据里的一个维度来处理？这样上层看到的就是batch size 个数据放到一个 tensor 里进行后续处理。而 micro batch 是为了在大 batch 情况下节省内存，即较小规模地进行 forward/backward，等凑够 batch size 之后，再做多个副本之间的同步？
+
+## dataloader 用到的 sampler
+dataloader 没啥特殊的
+```
+data/data_samplers.py
+    MegatronPretrainingSampler // 给 dataloader 的，具体 num_workers 是 dataloader 自己去处理的。sampler 只需关心当前worker 需要需处理哪些 sample 的数据
+    里面就是按照 (global) batch size = data_parallel_world_size()[2] * micro_batch_size 来取数据，然后只关注自己的那部分(rank*micro_batch_size, iter*global_batch_size)，然后 yield。所以是处理好每个micro batch，然后在里面划分data sharding
+    
+    _iter__(self): 返回的是一个 micro batch size 大小的采样数据
+    
+```
+random 时，不需要 多个 进程之间用同一个seed嘛？需要，所以里面的 seed 统一用 self.epoch 来做。
+
+```
+MegatronPretrainingRandomSampler
+
+```
+
+## training.py:
 
 ## 问题
 1. 如何实现 Pipieline 里的 interleaving 1F1B 调度？
