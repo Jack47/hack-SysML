@@ -5,6 +5,16 @@
 4. 从上到下看一下。最近都是在下面看的，比较碎，而且和上面没有连接起来。比如 tensor model parallel 如何实现？
 5. 看一下 pipeline 的三个版本实现
 
+## model/transformer.py
+ParallelTransformerLayer : LayerNorm -> ParallelAttention -> LayerNorm => ParallelMLP
+
+```
+ParallelAttention:
+    query_key_value = mpu.ColumnParallelLinear()
+    attention_dropout = torch.nn.Dropout(args.attention_dropout)
+    dense = mpu.RowParallelLinear()
+```
+
 ## P2P communication
 `send_forward_recv_backward` 
 1. 谁调用它？它不涉及并发和重叠吧？就是同步的。
@@ -113,7 +123,7 @@ MegatronPretrainingRandomSampler
 3. data parallel group 里，是只要对应颜色(2个)需要同步？还是说4个之间的 all-reduce？应该是后者，因为有 tensor model parallel，所以只需要同步一个 tensor 的相同 split 部分。如果模型不是横向都切分，只切分了大的 op，那就得升级 mapping 关系了
 4. Megatron-LM 是否可以用于 CV 模型？是否是特化的。特化于 transformer 的，为何不能用于 CV ？
 6. seq-length 这些参数如何起作用的？ 
-7. schedules.py 里的 data_trunk 干嘛的？
+7. schedules.py 里的 model_trunk 干嘛的？
 8. 这些操作语义都清楚了，但是是否并发，如何同步？
 
 ## 可优化的方向
