@@ -262,4 +262,13 @@ compute data gradients before weight gradients. 这分别是啥？ 不就一个 
 
 
 
-
+## TODO: 看看引用的论文
+Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour. arXiv preprint arXiv:1706.02677, 2017.
+Training Large Models without Batches. Proceedings of Machine Learning and Systems, 2021
+TeraPipe: Token-Level Pipeline Parallelism for Training Large-Scale Language Models. arXiv preprint arXiv:2102.07988, 2021.
+PipeDream: Generalized Pipeline Parallelism for DNN Training
+Memory-Efficient Pipeline-Parallel DNN 2020
+PyTorch: An Imperative Style, High-Performance Deep Learn- ing Library. In Advances in Neural Information Processing Systems, volume 32, 2019.
+Mesh-TensorFlow: Deep Learning for Supercomputers. In Neural Information Processing Systems, 2018.
+Efficient Algorithms for Device Placement of DNN Graph Operators. In Advances in Neural Information Processing Systems, pages 15451–15463, 2020.
+ImageNet Training in Minutes. In Proceedings of the 47th International Conference on Parallel Processing, pages 1–10, 2018.
