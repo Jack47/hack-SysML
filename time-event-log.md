@@ -3,13 +3,19 @@
 3. 七月份目标是主攻卷积神经网络
 6. Megatron LM
 7. 图解 Pipeline 里的气泡，1F1B 和 interleaved
-
+8. 看 Megatron 第一篇论文，有助于理解 Transformer
 
 ## 问题
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-7-21
+8:45 pm - 9:45 pm. [Oneflow zhihu articles](./frameworks/oneflow/misc.m)
+7:45 am - 9:00 am
+model/transformer.py
+
 ## 2021-7-20
+
 1h
 
 samples in dataloader
