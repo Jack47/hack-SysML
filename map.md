@@ -187,6 +187,14 @@ Runtime Parallel Scheduing / Networks
 > intended to help students and practitioners enter the field of machine learning in general and deep learning in particular. The online version of the book is now complete and will remain available online for free.
 
 ## OpenSource Frameworks And Libs
+### TensorFlow RunTime (TFRT)
+
+> aims to provide a unified, extensble infrastructure layer with best-in-class performance across a wide variety of domain specific hardware.
+
+[TFRT DeepDive](https://drive.google.com/drive/folders/1fkLJuVP-tIk4GENBu2AgemF3oXYGr2PB)
+
+目前还在比较早期阶段，还无法做到通用
+
 ### OneFlow
 
 ### [Pytorch]()

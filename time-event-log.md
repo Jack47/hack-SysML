@@ -9,6 +9,11 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-7-22
+1h20min
+
+10:00 pm - 11:20 pm
+
 ## 2021-7-21
 8:45 pm - 9:45 pm. [Oneflow zhihu articles](./frameworks/oneflow/misc.m)
 7:45 am - 9:00 am
