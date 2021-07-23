@@ -4,10 +4,14 @@
 6. Megatron LM
 7. 图解 Pipeline 里的气泡，1F1B 和 interleaved
 8. 看 Megatron 第一篇论文，有助于理解 Transformer
+9. 围绕着 oneflow, megatron 以及 ZeRO，结合源码(fairscale/layers) 把这些概念吃透。周末搞个 4D 的演示，interleaved pipeline
 
 ## 问题
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
+
+## 2021-7-23
+7:20 am - 8:10 
 
 ## 2021-7-22
 1h20min
