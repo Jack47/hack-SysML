@@ -10,6 +10,10 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-7-24
+8:00 pm - 9:00 pm Reading A Study of Persistent Thread Style GPU Programming for GPGPU Workloads
+10:00 pm - 12:30 pm
+
 ## 2021-7-23
 7:20 am - 8:10 
 

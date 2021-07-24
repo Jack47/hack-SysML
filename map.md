@@ -250,6 +250,8 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 ## Hardware
 [NVLink](./hardware/GPU/nvlink.md) vs PCiE
+### GPU
+[Persistent threads style gpu programming for gpgpu workloads]() (2012 IEEE) [My Notes]()
 
 ## Visualizing Neural Networks
 [Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)

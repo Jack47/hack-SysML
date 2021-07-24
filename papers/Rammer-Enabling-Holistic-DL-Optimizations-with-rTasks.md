@@ -1,3 +1,8 @@
+问题本质：两层调度之间的gap比较大，导致效率不高
+
+[开源的 NNFusion](https://github.com/microsoft/nnfusion) 是:
+> a flexible and efficient DNN compiler, in which Rammer is integrated
+
 核心原理就是加大并行，采用了三个方法：
 
 1. 图里算子并发rTask（静态调度）
