@@ -51,6 +51,27 @@ Rammer 只用在论文里，实现叫 NNFusion，是一个端到端的 DL compil
 [vDevice -> BlockParallelDevice](src/nnfusion/engine/pass/graph/blockfusion/block_parallel_device.hpp
 )
 
+## vDevice with two vEUs
+下面是 PTB 的例子，可以在一个 PTB 里连续地运行多个rTasks，需要。
+
+2个Matmul的 rTask 运行在 vEU0 上，4个 rTask的Relu运行在 vEU1 上。两者并行运行都结束后（各自运行一个barrier-rTask: vEU0 等待 4th rTask on vEU1 结束，vEU1 等待2th rTask on vEU0 结束），都执行 一个 conv2d 的 rTask
+```
+__global__ void vdevice_run() {
+    if (Get_vEU_Id() == 0) { // vEU 0
+       MatmulrTaskOp.compute_rtask(0); // 依次执行两个 Matmul？
+       MatmulrTaskOp.compute_rtask(1);
+       // wait the rTask on vEU 1 with order=3
+       BarrierTask({<1, 3>}).compute_rtask();
+       Conv2DrTaskOp.compute_rtask(0);
+    } else if (Get_vEU_Id() == 1) { // vEU 1
+       for(auto i : 4) {
+           ReluTaskOp.compute_task(i);
+       } 
+       BarrierTask({0, 1}).compute_rtask(); // 这个 BarrierTask 语义如何实现？  while([vEU][rtask] != done) {}
+       Conv2DrTaskOp.compute_rtask(1);
+    }
+}
+```
 
 ## 
 
@@ -114,8 +135,10 @@ Rammer 只用在论文里，实现叫 NNFusion，是一个端到端的 DL compil
 * 把 DFG 根据 BFS 分成一拨拨的：在一波里的 operators 没有依赖，可以并行运行。每一波里，如果不会耗光资源，rammer就选择最快的kernel实现；反之选择资源高效的kernel实现
 * 
 
-## 问题
+## 疑问
 1. Rammer 里训练 BERT，能让哪些算子并发呢？目前看来都是有前后依赖关系(Self Attention, MLP)，没有可以并发的把？
+
+1. AlexNet 里没有可以并发的 OP 吧？除非做 op间流水？
 
 ## TODO
 1. 看看 [Persistent Thread Block 论文](https://www.classes.cs.uchicago.edu/archive/2016/winter/32001-1/papers/AStudyofPersistentThreadsStyleGPUProgrammingforGPGPUWorkloads.pdf)
