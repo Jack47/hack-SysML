@@ -250,8 +250,15 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 ## Hardware
 [NVLink](./hardware/GPU/nvlink.md) vs PCiE
-### GPU
-[Persistent threads style gpu programming for gpgpu workloads]() (2012 IEEE) [My Notes]()
+## ML Compilers
+### Rammer
+
+### IREE(Intermediate Representation Execution Environment)
+> It's an MLIR-based end-to-end compiler and runtime that lowers ML modeles to a unified IR that scales up to meet the needs of the datacenter and down to satisfy the constraints and special considerations of mobile and edge deployments.
+目前支持 TensorFlow, JAX
+
+## Parallel Programming
+[Persistent threads style gpu programming for gpgpu workloads]() (2012 IEEE) [My Notes](papers/persistent-threads.md)
 
 ## Visualizing Neural Networks
 [Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)
