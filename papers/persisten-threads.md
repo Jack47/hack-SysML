@@ -38,6 +38,8 @@ PT 是解决上述问题的方法之一，绝不是唯一方法
 ### 疑问
 1. 
 
+### 大家的评价
+[Rammer 里提到](https://zhuanlan.zhihu.com/p/275837455)> 但是persistent thread在多数情况下并不是best practice，需要额外引入sync语义而且对于不同的硬件需要修改配置参数，可能还是需要寄希望于accelerator vendor未来开放更多的可编程接口。在生产环境里还没有久经考验。
 ### 线程间如何同步？
 1. 这里是同一个Kernel的不同线程块间(inter-thread block)的同步，使用 CUDA 提供的全局内存上的原子操作来协作，比如从队列里取数据：atomaticIncrement()
 

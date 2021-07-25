@@ -1,4 +1,14 @@
-问题本质：两层调度之间的gap比较大，导致效率不高
+想解决的问题本质：框架层的OP级别调度和硬件层面的Block Thread 两层调度之间的gap比较大（是不同层面的软件实现），导致效率不高。采用的是 whole program optimization。这个原则在 ML 里又用了一次。而 Google 的 IREE 也是 holistic(通盘) optimization
+
+举例：上述提到的 inter op 与 intra op 调度是互相影响的。比如同一个算子的两种实现，一种较另一种消耗三倍资源，但只获得两杯加速。在 TensorFlow 这类单个算子独占整个硬件情况下，会选择更快实现。
+但是两者协同调度下，选择资源“性价比”最高的实现而非“最快”往往是更优的选择。
+
+为什么这个问题现在提出来解决是重要的？因为现在模型结构更复杂，有了 inter op 并发的需求。
+
+## 前提
+
+kernel 需要先 profiling 一下，要求实际执行时的性能表现是 deterministic 的。可以看看代码，这个 profiling 里关注的应该就是耗时和现存占用吧。
+
 
 [开源的 NNFusion](https://github.com/microsoft/nnfusion) 是:
 > a flexible and efficient DNN compiler, in which Rammer is integrated
@@ -103,6 +113,9 @@ Rammer 只用在论文里，实现叫 NNFusion，是一个端到端的 DL compil
 * 每个 rOperator 有不同的kernel实现：最快的kernel，执行时间短，但是使用的资源大；节省资源的 kernel，执行性能差一些，但是使用的资源少。
 * 把 DFG 根据 BFS 分成一拨拨的：在一波里的 operators 没有依赖，可以并行运行。每一波里，如果不会耗光资源，rammer就选择最快的kernel实现；反之选择资源高效的kernel实现
 * 
+
+## 问题
+1. Rammer 里训练 BERT，能让哪些算子并发呢？目前看来都是有前后依赖关系(Self Attention, MLP)，没有可以并发的把？
 
 ## TODO
 1. 看看 [Persistent Thread Block 论文](https://www.classes.cs.uchicago.edu/archive/2016/winter/32001-1/papers/AStudyofPersistentThreadsStyleGPUProgrammingforGPGPUWorkloads.pdf)
