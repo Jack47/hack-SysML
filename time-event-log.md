@@ -10,6 +10,11 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-7-31
+3h 30 min
+10:25 pm - 10:55 pm
+3:10 pm - 6:10 pm Reading [Characterizing Deep Learning Training Workloads on Alibaba-PAI](./papers/characterizing-deep-learning-training-workloads-on-alibaba-pai.md)
+
 ## 2021-7-30
 20 min 
 打印一下 PAI 的那篇论文，看一下杨老师发的一些资料
