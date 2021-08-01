@@ -13,7 +13,7 @@
 ## 2021-8-1
 2h 30 min 
 
-10:25 pm - 11:30 pm
+10:25 pm - 11:30 pm # install actnn in sh38
 
 6:00 pm - 6:30 pm 
 9:45 am - 11:00 am
