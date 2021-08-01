@@ -10,6 +10,13 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-8-1
+1h
+
+9:45 am - 11:00 am
+
+1. actnn practice
+2. characterizing 
 ## 2021-7-31
 3h 30 min
 10:25 pm - 10:55 pm
