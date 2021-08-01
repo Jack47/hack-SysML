@@ -52,6 +52,12 @@ Sys Papers:
 [MONeT: Memory optimization for deep networks](https://openreview.net/pdf?id=bnY0jm4l59)(ICLR 2021) : 发在了 Learning Representation 上，说明不是系统的改进，是算法的改进
 1. MONeT: Memory Optimization for Deep Networks：https://github.com/utsaslab/MONeT
 
+[Backprop with approximate activations for memory-efficient network training]() (arXiv 2019)
+
+[Don't waste your bits! squeeze activations and gradients for deep neural networks via tinyscript]() (ICML, 2020)
+
+上面这俩都是对所有元素采用同样的量化方法
+
 Dynamic tensor rematerializatio(2020)
 Pushing deep learning beyond the gpu memory limit via smart swapping. (2020)
 
@@ -64,6 +70,12 @@ Tensor-based gpu memory management for deep learning. (2020)
 [Visual Gifs to show gradient checkpointing](https://github.com/cybertronai/gradient-checkpointing)
 
 Binaryconnect: Training deep neural networks with binary weights during propagations. (2015)
+
+### Compression
+
+Deep compression: Compressing deep nerual networks with pruning, trained quantization and huffman coding. (ICLR, 2016 Song Han)
+
+Deep gradient compression: Reducing the communication bandwidth for distributed training. (ICLR, 2018 Songhan)
 
 ### Parallelism
 

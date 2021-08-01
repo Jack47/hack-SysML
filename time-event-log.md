@@ -11,8 +11,11 @@
 2. data 时间如何计算的？
 
 ## 2021-8-1
-1h
+2h 30 min 
 
+10:25 pm - 11:30 pm
+
+6:00 pm - 6:30 pm 
 9:45 am - 11:00 am
 
 1. actnn practice
