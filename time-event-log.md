@@ -11,6 +11,10 @@
 2. data 时间如何计算的？
 
 ## 2021-8-1
+
+9:15 pm - 10:22 pm successfully compiled actnn
+
+## 2021-8-1
 2h 30 min 
 
 10:25 pm - 11:30 pm # install actnn in sh38
