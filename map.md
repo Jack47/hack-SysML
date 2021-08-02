@@ -47,6 +47,7 @@ Sys Papers:
 ### Compute Efficiency
 [AdderNet: Do We Really Need Multiplications in Deep Learning](https://arxiv.org/abs/1912.13200v2)
 
+[Rammer]() [My Notes](./papers/Rammer-Enabling-Holistic-DL-Optimizations-with-rTasks.md)
 ### Memory Efficiency
 
 [MONeT: Memory optimization for deep networks](https://openreview.net/pdf?id=bnY0jm4l59)(ICLR 2021) : 发在了 Learning Representation 上，说明不是系统的改进，是算法的改进
@@ -274,6 +275,9 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 ## Parallel Programming
 [Persistent threads style gpu programming for gpgpu workloads]() (2012 IEEE) [My Notes](papers/persistent-threads.md)
+[Persistent Threads Block](https://www.classes.cs.uchicago.edu/archive/2016/winter/32001-1/papers/AStudyofPersistentThreadsStyleGPUProgrammingforGPGPUWorkloads.pdf)
+
+### CUDA
 
 ## Visualizing Neural Networks
 [Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)
