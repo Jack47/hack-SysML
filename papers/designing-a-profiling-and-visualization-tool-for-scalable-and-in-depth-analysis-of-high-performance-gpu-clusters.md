@@ -32,6 +32,9 @@ Profiling API:
 
 ## 3. 设计高性能、低开销、可扩展的 GPU profiling 工具
                                                   
+                                                  
+## 问题
+1. 标题里的 scalable 体现在哪里？
 
 
 
