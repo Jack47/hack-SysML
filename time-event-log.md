@@ -10,8 +10,11 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-8-5
+9:00 - 9:30 Capuchin
+
 ## 2021-8-3
-1h30min Reading Capuchin: Tensor-based GPU Memory Management for Deep Learning
+1h30min Reading [Capuchin: Tensor-based GPU Memory Management for Deep Learning](./papers/)
 10:00 pm -11:00pm
 9:00pm-9:30 pm
 
