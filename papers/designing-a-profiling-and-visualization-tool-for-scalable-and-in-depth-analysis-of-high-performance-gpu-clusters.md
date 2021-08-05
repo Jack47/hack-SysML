@@ -16,6 +16,8 @@
 * 在有 NVLink 的环境里实际运行并分析了效率
 * 与 NVLink 类似，展示了给 MPI通信分析和分类流量和link 使用率
 
+本质：获得单个节点内 NVLink 的链接拓扑：各自 id，然后和 MPI 的某个具体操作关联起来（时间和 uuid）
+
 ### 底层的 GPU Profiling 工具接口
 CUDA Profiling Tools Interface( CUPTI) 提供了 tracing 和 profiling 目标 CUDA 程序的 API。有如下五类：
 
@@ -31,10 +33,36 @@ Profiling API:
 2. CVAR(Control vars)：可以改变 MPI 库里的参数
 
 ## 3. 设计高性能、低开销、可扩展的 GPU profiling 工具
-                                                  
-                                                  
+
+![](./imgs/infiniband-network-analysis-and-monitoring-tool-arch)
+
+数据结构：
+
+### Intra_node_topoo
+记录的是一根 NVLink 的信息，它链接了两个 GPU。这个信息是静态的
+
+这个是某个主机级别的
+Id, Node_name（物理主机)，Physical\_link\_count（不是有几根 NVLink,而是序号？），Link\_capacity（带宽？），Source, Source\_id， destination, destination\_id
+
+### NVLink_metrics
+记录 CUPTI 里获取到的 NVLink 指标：其中 dest\_global\_rank 这类是当前任务里全局唯一的次序 id。相当于关注的是当前任务粒度的
+
+id,Link\_id, **Node\_name**, Source\_name, Source\_port, Source\_id, Dest\_name, Dest\_port, Dest\_id, Added\_on, Source\_local\_rank, **source\_global\_rank**(这个是 MPI 里的，如何拿到呢？可能是初始化时传递给了 CUDA？), dest\_local\_rank, **Dest\_global\_rank**, Data\_unit, Data\_recv, Data\_sent, Data\_recv\_rate, Data\_sent\_rate
+
+### PVAR_table
+记录的某次 MPI 粒度的数据？
+
+Id, jobid, **Node\_name**, start\_time, end\_time, bytes\_recv, bytes\_sent, PVAR\_name, algorithm(gather, scatter or all-reduce?), **source\_rank**, **dest\_rank**, added_on
+
 ## 问题
-1. 标题里的 scalable 体现在哪里？
+1. 标题里的 scalable 体现在哪里？ 计算了一下一个节点上 GPU数量增加时 query gpu coutner 的 overhead，发现跟 GPU 数量成线性关系，就说明可扩展（哭）。而不同主机间是并行的，所以跟节点个数无关
+2. 如何达到 low overhead ? 如何衡量引入的 overhead？
+3. NVLink\_metrics 里的 Data\_recv 是当前任务从启动到现在，总共的接收数据？
+4. 为什么 V 里最后部分说 Resnet50 里，batchsize 越大，通信利用率越高？传输的数据并没有增加，而且由于计算增加了，导致两次同步之间的时间会增加呢 =》 是说同步的次数变少了，所以效率增加了
 
+## 启发
+1. 我们可以精确知道模型训练时，哪个时刻进行了什么类型的 MPI 通信，耗时多久，用了哪个NVLink发送了多少数据，还可以知道背后有哪些 NVLink 参与，各自的带宽是多少？
 
-
+## 参考资料
+1. [MPI Micro-benchmarks ](http://mvapich.cse.ohio-state.edu/benchmarks)
+2. [2018 年 pdf 介绍](https://www.hpcadvisorycouncil.com/events/2018/australia-conference/pdf/WednesdayAug29/HSubramoni_OSU_IntlDialogSysts_Wed082918.pdf)
