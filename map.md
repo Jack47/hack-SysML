@@ -274,6 +274,10 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 目前支持 TensorFlow, JAX
 
 ## Profiling
+### Memory Profiling
+[Capuchin: Tensor-based GPU Memory Management for Deep Learning]()(2020 ASPLOS) , [My notes](./papers/capuchin.md)
+
+### Communication Profiling
 [Designing-a-profiling-and-visualization-tool-for-scalable-and-in-depth-analysis-of-high-performance-gpu-clusters]()(2019 HiPC), [My notes](./papers/designing-a-profiling-and-visualization-tool-for-scalable-and-in-depth-analysis-of-high-performance-gpu-clusters.md)
 
 ## Parallel Programming

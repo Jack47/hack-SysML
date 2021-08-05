@@ -6,6 +6,8 @@
 6. 这个工作可能有什么深远的影响？启发大家，在 DNN 里需要一个全局视角，每个 iteration 粒度的 profiling 工具
 
 
+注意：本文讨论的是 MPI，与 NV 自己实现的 NCCL 不一样
+
 利用了 OSU InfiniBand Network Analysis and Monitoring Tool (INAM)
 
 ## A. 本文主要贡献
