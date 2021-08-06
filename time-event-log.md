@@ -10,6 +10,9 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-8-6
+11:00 pm  - 11:10 Find Codahale metrics implmemented in python
+
 ## 2021-8-5
 9:00 - 9:30 Capuchin
 
