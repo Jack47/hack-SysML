@@ -11,6 +11,8 @@
 2. data 时间如何计算的？
 
 ## 2021-8-6
+9:00 pm - 9:15 pm Flexible systems are the next frontier of machine learning
+## 2021-8-6
 11:00 pm  - 11:10 Find Codahale metrics implmemented in python
 
 ## 2021-8-5
