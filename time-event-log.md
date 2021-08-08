@@ -10,6 +10,9 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-8-7
+11:00 pm - 11:18 Finish Capuchin
+
 ## 2021-8-6
 9:00 pm - 9:15 pm Flexible systems are the next frontier of machine learning
 ## 2021-8-6
