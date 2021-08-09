@@ -10,10 +10,18 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
-## 2021-8-7
+## 2021-8-9
+20 min
+10:45 pm - 11:05 Reading Zero
+
+## 2021-8-8
+18 min
+
 11:00 pm - 11:18 Finish Capuchin
 
-## 2021-8-6
+## 2021-8-7
+15 min
+
 9:00 pm - 9:15 pm Flexible systems are the next frontier of machine learning
 ## 2021-8-6
 11:00 pm  - 11:10 Find Codahale metrics implmemented in python
