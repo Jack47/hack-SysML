@@ -13,6 +13,9 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-8-10
+11:25 pm - 12:00 Zero / Efficient(Megatron) Communication 
+
 ## 2021-8-9
 20 min
 10:45 pm - 11:05 Reading Zero
