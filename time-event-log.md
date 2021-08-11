@@ -5,6 +5,9 @@
 7. 图解 Pipeline 里的气泡，1F1B 和 interleaved
 8. 看 Megatron 第一篇论文，有助于理解 Transformer
 9. 围绕着 oneflow, megatron 以及 ZeRO，结合源码(fairscale/layers) 把这些概念吃透。周末搞个 4D 的演示，interleaved pipeline
+10. 看看 CheckMate: optimal tensor rematerialization (2019)
+11. Superneurons: Dynamic GPU memory management for training deep neural networks. vdnn (2016)
+12. 看 DeepSpeed 的实现
 
 ## 问题
 1. flops，显存，通信各自如何衡量出来？
