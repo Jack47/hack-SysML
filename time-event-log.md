@@ -14,6 +14,10 @@
 2. data 时间如何计算的？
 
 ## 2021-8-11
+45 min, think about how to profile memory, computation, communication and I/O
+
+11:15 pm - 12:00 pm
+## 2021-8-11
 1h
 
 9:40 pm - 10:40pm  Reading DeepSpeed Related Docs and code
