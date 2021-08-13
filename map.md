@@ -288,6 +288,12 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 ## Visualizing Neural Networks
 [Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)
+
+## Cluster Scheduler
+[Pollux: Co-adaptive Cluster Scheduling for Goodput-Optimized-Deep-Learning]() [My notes](papers/scheduler/pollux.md)
+
+AntMan
+
 ## Misc
 
 [HPC-oriented Latency Numbers Every Programmer Should Know](https://gist.github.com/understeer/4d8ea07c18752989f6989deeb769b778)

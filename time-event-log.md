@@ -13,7 +13,11 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
-## 2021-8-11
+
+## 2021-8-12
+30 min
+11:25 pm - 12:00 Readinig Adaptive DL
+## 2021-8-12
 45 min, think about how to profile memory, computation, communication and I/O
 
 11:15 pm - 12:00 pm
