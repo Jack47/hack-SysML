@@ -14,7 +14,11 @@
 2. data 时间如何计算的？
 
 
-## 2021-8-12
+## 2021-8-14
+20min
+11:40pm-12:00pm Reading Pollux
+
+## 2021-8-13
 30 min
 11:25 pm - 12:00 Readinig Adaptive DL
 ## 2021-8-12
