@@ -41,7 +41,7 @@ url/discover/key/group # 这样也挺合理，相当于 job_id 标识一个训�
 4. 他们测试的方法是把 Azure 上任务的 trace 结果拿出来，在一个实验台性质的集群里回放，然后统计结果
 5. gradient noise scale: GNS, 用来说明训练效率对于大 batchsize 和 LR 是否敏感
 6. 可以看看实验台上的日志和统计分析脚本：pollux-results.
-7. 我们也可以实现这样一个动态改变 worker 数量的训练系统，用空闲资源训练任务？
+7. 我们也可以实现这样一个动态改变 worker 数量的训练系统，用空闲资源训练任务？里面 AdaptiveDataloader，ElasticDataSampler, checkpoint 和 动态 nccl 都做好了
 
 ## 看代码的启发
 [import portpicker](https://github.com/petuum/adaptdl/blob/11dd3ad691f89a9f02282737ce2a57015f0d3349/adaptdl/adaptdl/torch/__init__.py?plain=1) portpicker.pick_\unused\_port()
