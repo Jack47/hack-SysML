@@ -34,6 +34,11 @@ url/discover/key/group # 这样也挺合理，相当于 job_id 标识一个训�
 
 我们做 gpus，也可以这样呀，封装一个简单的 lib 函数，让用户用我们的这个库替换就行？
 
+### [supervisor](https://github.com/petuum/adaptdl/blob/11dd3ad691f89a9f02282737ce2a57015f0d3349/sched/adaptdl_sched/supervisor.py?plain=1#L65)
+找出标有 adaptdl/group 为同一个 job 的，而且同一个 group的组，返回 pod\_ip\_list。
+
+所以就是通过一个中心化服务，大家都带着一些标签来做这个事儿。最重要的是知道 master ip：取list里第一个
+
 ## 启发
 1. 通过调度，能让训练更快
 2. 可以整一个预测模型，预测某任务在不同硬件和参数下，速度是多少？那我们是否也可以这样来加速训练
