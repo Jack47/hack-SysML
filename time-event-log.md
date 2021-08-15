@@ -15,6 +15,9 @@
 
 
 ## 2021-8-14
+10:30 pm - [Writing Notes on Pollux](./papers/cluster_scheduler/pollux.md)
+
+## 2021-8-14
 20min
 11:40pm-12:00pm Reading Pollux
 
