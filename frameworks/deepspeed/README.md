@@ -1,5 +1,5 @@
 ## TODO
-1. contiguous_memory_allocator.py
+1. contiguous\_memory\_allocator.py
 2. weight_quantizer.py
 3. stage1.py
 4. partition_parameters.py
@@ -17,8 +17,23 @@
 from deepspeed.profiling.flops\_profiler import get_model_profile
 
 
+### Launcher:
+
+### MPI Discovery
+作用是利用 mpi 自己的 API，获取 world\_size，rank, rank0 的 ip 地址作为master，把这几个变量传递给 torch.distributed
+```
+from mpi4py import MPI
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+world_size = comm.Get_size() # 所以它谁如何知道 world size 和自己的 rank 呢？
+```
+
 ## 启发
 
 1. 我们可以用这个轮子，自动算出 flops，以及每一层的 flops
 2. [获取 hostname 的方法](https://github.com/microsoft/DeepSpeed/blob/504893aea40004cf9916ddc3ca0ddbfd0e784c8d/deepspeed/utils/distributed.py?plain=1#L66)
 3. [获取并打印 torch, nvcc 等版本的方法](https://github.com/microsoft/DeepSpeed/blob/504893aea40004cf9916ddc3ca0ddbfd0e784c8d/deepspeed/env_report.py?plain=1#L84)
+4. 获得某一刻的内存使用情况：current alloc, cache,
+5. 可以用 ThroughputTimer 类似的计时器来确定时间流逝
+6. contiguous memory allocator
+7. FlopsProfiler:  `prof = FlopsProfiler(model), prof.start_profile, prof.end_profile()` => `prof.get_total_flops(), prof.get_total_params` . 原理是 start_profile 时，会 hook F.Relu, F.Conv 等。那我们能不能也用这种方式来计算通信及I/O？
