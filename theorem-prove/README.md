@@ -1,1 +1,0 @@
-prove of theorem
