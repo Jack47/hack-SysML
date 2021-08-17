@@ -1,5 +1,5 @@
 ## nvidia-smi 
-1. 也提供 PCI Express Bandwidth Utilization in KiB/s ? 这个是 GPU 对PCIe 的利用率，还是 PCIe 的利用率？
+1. 也提供 PCI Express Bandwidth Utilization in KiB/s ? 这个是 GPU 对PCIe 的利用率，还是 PCIe 的利用率？是前者，每个 GPU 在 PCIe 上的 rx, tx
 2. GPU Utilization
 
 ## PCIe
