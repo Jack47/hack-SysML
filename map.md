@@ -24,6 +24,7 @@ paper: [Scaling Distributed Machine Learning with In-Network Aggregation](https:
 
 [NetReduce: RDMA-Compatible In-Network Reduction for Distributed DNN Training Acceleration](https://arxiv.org/pdf/2009.09736.pdf) : 华为做的，需要硬件实现，好处是不需要修改网卡或交换机。
 
+[MPI](./network-communication/MPI.md)
 
 #### Gradient Compression
 
@@ -200,6 +201,10 @@ Runtime Parallel Scheduing / Networks
 > intended to help students and practitioners enter the field of machine learning in general and deep learning in particular. The online version of the book is now complete and will remain available online for free.
 
 ## OpenSource Frameworks And Libs
+### [Tensor Comprehensions]() 2018.2.13 Facebook AI Research Technical Report
+
+[My notes](./papers/frameworks/tensor-comprehensions.md)
+
 ### TensorFlow RunTime (TFRT)
 
 > aims to provide a unified, extensble infrastructure layer with best-in-class performance across a wide variety of domain specific hardware.

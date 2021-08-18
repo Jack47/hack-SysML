@@ -14,6 +14,9 @@
 2. data 时间如何计算的？
 
 
+## 2021-8-18
+10:05 pm - 10:40 pm Reading Tensor Comprehensions, [my notes](./papers/)
+
 ## 2021-8-17
 PCIe, NVLink, GPU Utils
 
