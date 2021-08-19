@@ -14,6 +14,11 @@
 2. data 时间如何计算的？
 
 
+## 2021-8-19
+20min 
+
+11:40 pm - 12:00 am
+
 ## 2021-8-18
 10:05 pm - 10:40 pm Reading Tensor Comprehensions, [my notes](./papers/)
 
