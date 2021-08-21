@@ -18,6 +18,11 @@
 
 6:40 pm - 7:00 pm DTR
 
+## 2021-8-20
+20min
+
+11:40 pm - 12:00 am Readnig DTR source code
+
 ## 2021-8-19
 20min 
 
