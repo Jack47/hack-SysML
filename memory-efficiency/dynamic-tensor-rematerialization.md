@@ -41,8 +41,18 @@ fallback 举例：
 2. 如何决定 rematerialization 时机
 3. 与 Captuchin 区别和联系
 
+## 实现
+主要有这么几块：
+
+1. [CheckpointTensorImpl.h](https://github.com/uwsampl/dtr-prototype/blob/eff53cc4804cc7d6246a6e5086861ce2b846f62b/dtr_code/dtr-implementation.patch#L762-L812) : 所有这些实现的 tensor 都可以被清理/重计算，包括一个 checkpoint dispatch key
+2. [Checkpoint.cpp](https://github.com/uwsampl/dtr-prototype/blob/eff53cc4804cc7d6246a6e5086861ce2b846f62b/dtr_code/dtr-implementation.patch#L1505): Tensor checkpoint_add() 之类，实现每个 op 的 rematerialize 操作
+3. [New dispatcher functions for some backward functions(是说为了向前兼容？). native_functions.yaml](https://github.com/uwsampl/dtr-prototype/blob/eff53cc4804cc7d6246a6e5086861ce2b846f62b/dtr_code/dtr-implementation.patch#L3944)
+4. [Some generic PyTorch fixes]()
 ## 线索
 
 1. The best description of the implementation aspects of this code are in Appendix E
 2. boxing/unboxing fallback => 免去人工 codegen ？ `aten/src/ATen/core/dispatch/backend_fallback_test.cpp` , vmap fallback kernel
 
+
+## 参考资料
+1. [issues met when implement Dynamic tensor rematerialization](https://github.com/pytorch/pytorch/issues/62448): pytorch 的作者介绍了 一些对 DTR 第一版的一些问题和看法
