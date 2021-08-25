@@ -13,6 +13,11 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-8-25
+1h20min update DTR implementation
+
+9:40 pm - 11:10 pm
+
 ## 2021-8-24
 30 min 
 11:00 pm - 11:30 pm [Pytorch TODO](./frameworks/pytorch/TODO.md)

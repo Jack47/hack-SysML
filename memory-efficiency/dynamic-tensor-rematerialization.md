@@ -8,11 +8,13 @@
 ### Boxed functions vs C++ calling convention
 a boxed kernel function with signature `void(const OperatorHandle&, Stack*)`. i.e., they receive a stack of arguments in a boxed calling convention, ranther than in the native C++ calling convention. Boxed functions are typically only used to register backend fallbacks via torch::Library::fallback().
 
-### Fallback
+### Boxed Fallback/Backend fallbacks
+
+为什么有这个东西？看起来是8月份新出的，主要是更优雅的实现，以前需要手工写/codegen 里来实现一些操作，现在可以用 Boxed Fallback 处理一类 OP
 
 Register a **fallback** implementation for all operators which will be used if there is not a specific implementation for an operator available. There MUST be a **DispatchKey** associated with a fallback; e.g., only call this from TORCH\_LIBRARY\_IMPL() with namespace `_`. Unboxed functions typically do not work as fallback functions, as fallback functions must work for every operator(even though they have varing type signatures)
 
-fallback 举例：
+fallback 举例： 下面的 TESTING_ONLY_GenericMode 是 DispatchKeySet
 
 ```
  auto gm = MAKE_TORCH_LIBRARY_IMPL(_, TESTING_ONLY_GenericMode); // 这个和 L107 行的声明有啥区别？
@@ -54,5 +56,12 @@ fallback 举例：
 2. boxing/unboxing fallback => 免去人工 codegen ？ `aten/src/ATen/core/dispatch/backend_fallback_test.cpp` , vmap fallback kernel
 
 
+
+## DTR 和 Capuchin 的对比
+噢？capuchin 里，recompute 是二等公民，swap因为用的 PCIe，并不跟 GPU 并发冲突，所以优先 swap 的
+可能不能recompute 提前是因为实现复杂点，目前  pytorch 里默认用一个 stream，所以多个不同类型 kernel 是串行的，不会并发
+而且显存用很多时，计算也达到峰值了，没有空间用来并发 recompute（记得论文里这么写的
 ## 参考资料
 1. [issues met when implement Dynamic tensor rematerialization](https://github.com/pytorch/pytorch/issues/62448): pytorch 的作者介绍了 一些对 DTR 第一版的一些问题和看法
+2. [Reimplementing DTR in generic](https://github.com/uwsampl/pytorch/pull/62)
+3. [first dtr pr](https://github.com/pytorch/pytorch/pull/42056)
