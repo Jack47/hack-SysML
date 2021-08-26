@@ -1,6 +1,8 @@
 ## TODO
 1. 看下 Gradient-Based Learning Applied to Document Recognition、 ImageNet、AlexNet 的论文
 3. 七月份目标是主攻卷积神经网络
+4. 看 SyncBN 的原理
+5. 看 POD 的源码
 6. Megatron LM
 7. 图解 Pipeline 里的气泡，1F1B 和 interleaved
 8. 看 Megatron 第一篇论文，有助于理解 Transformer

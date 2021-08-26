@@ -289,6 +289,9 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 [Persistent threads style gpu programming for gpgpu workloads]() (2012 IEEE) [My Notes](papers/persistent-threads.md)
 [Persistent Threads Block](https://www.classes.cs.uchicago.edu/archive/2016/winter/32001-1/papers/AStudyofPersistentThreadsStyleGPUProgrammingforGPGPUWorkloads.pdf)
 
+## Mixed Precision Training
+[https://arxiv.org/abs/1710.03740](https://arxiv.org/abs/1710.03740) (2017 ICLR)
+
 ### CUDA
 
 ## Visualizing Neural Networks
