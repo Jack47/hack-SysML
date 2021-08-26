@@ -15,6 +15,10 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-8-26
+1h 
+9:00 pm - 10:00 pm Reading Memory management in DeepSpeed, MegaEngine and ActNN
+
 ## 2021-8-25
 1h20min update DTR implementation
 
