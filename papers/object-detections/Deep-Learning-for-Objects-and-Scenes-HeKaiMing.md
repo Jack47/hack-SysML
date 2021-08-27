@@ -17,6 +17,7 @@
 * Dropout : In-network ensembling, Reduce overfitting(might be instead done by BN)
 * Data augmentation: Label-preserving transformation & Reduce overfitting.
 
+
 ### VGG
 
 ### GoogleNet

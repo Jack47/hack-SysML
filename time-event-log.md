@@ -27,6 +27,9 @@
 9:00 pm - 10:00 pm Reading Memory management in DeepSpeed, MegaEngine and ActNN
 
 ## 2021-8-25
+20min read AlexNet, VGG, GogoleNet
+
+## 2021-8-25
 1h20min update DTR implementation
 
 9:40 pm - 11:10 pm
