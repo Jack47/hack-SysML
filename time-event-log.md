@@ -15,6 +15,11 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-8-28
+20 min
+
+9:35 am - 9:50 am 
+
 ## 2021-8-26
 1h 
 9:00 pm - 10:00 pm Reading Memory management in DeepSpeed, MegaEngine and ActNN
