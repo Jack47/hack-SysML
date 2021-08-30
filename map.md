@@ -1,6 +1,12 @@
 ## Papers
 ML Papers:
 
+### Convolution Neural Networks
+[Gradient-Based Learning Applied to Document Recognition]()(1996?) : [Notes](./papers/LeNet.md)
+
+[ImageNet Classification with Deep Convolutional Neural Networks]() (2012?) : [Notes](./papers/ImageNet.md)
+
+
 ### Transformers
 [Attention is All you need](https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf) (Google Brain 2017) [My Notes](./papers/attention-is-all-you-need.md)
 ### Classification
