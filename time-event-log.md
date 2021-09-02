@@ -15,6 +15,10 @@
 1. flops，显存，通信各自如何衡量出来？
 2. data 时间如何计算的？
 
+## 2021-9-2
+30 min
+10:35-11:05 Deep Residual Learning for Image Recognition, You Only Look Once: Unified, Real-Time Object Detection
+
 ## 2021-8-29
 9:00 pm - 9:20 pm MegaEgine Dtr
 ## 2021-8-28
