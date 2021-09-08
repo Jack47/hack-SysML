@@ -41,6 +41,16 @@ MPI2 里定义了如下概念：
 
 One-size communication: MPI\_Put, MPI\_Get, and MPI_Accumulate, 可以写入/读取从一个远程的内存里。
 
+1. MPI processes can be collected into groups
+2. Each group can have multiple colors (some times called context)–Group + color == communicator (it is like a name for the group)。所以 linklink 和 pytorch 的 distributed 可以共存，就是两个不同的 communicator
+3. When an MPI application starts, the group of all processes is initially given a predefined name called  \MPI\_COMM\_WORLD
+
+The same group can have many names, but simple programs do not have to worry about multiple names
+
+A process is identified by a unique number within each communicator, called rank
+
+
+
 Dynamic process management: 一个 MPI 进程可以参与到新的 MPI processes 创建，或建立连接。有三个主要接口：`MPI_Comm_spawn`, `MPI_Comm_accept`/`MPI_Comm_connect` and `MPI_Comm_join`
 
 有 MPICH 实现，有 Open MPI 实现。
@@ -58,3 +68,7 @@ Dynamic process management: 一个 MPI 进程可以参与到新的 MPI processes
 
 ## 问题
 1. slurm 里如何支持 MVAPICH2
+
+## 参考资料
+1. https://wiki.mpich.org/mpich/index.php/PMI_v2_API，介绍了 PMI 和 MPI 如何配合，比如 PMI_Init 时，会返回 size, int *rank, int *appnum(MPI_COMM_WORLD) 等
+2. https://anl.app.box.com/v/2019-06-21-basic-mpi： 介绍了 MPI里的基本概念，比如 MPI_COMM_WORLD，communicator,
