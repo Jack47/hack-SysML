@@ -71,6 +71,7 @@ Sys Papers:
 
 [Don't waste your bits! squeeze activations and gradients for deep neural networks via tinyscript]() (ICML, 2020)
 
+[ZeRO-offload]() 2021.1.18 ](./papers/ZeRO-offload.md)
 上面这俩都是对所有元素采用同样的量化方法
 
 Dynamic tensor rematerializatio(2020)
