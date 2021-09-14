@@ -81,7 +81,7 @@ Sys Papers:
 
 上面这俩都是对所有元素采用同样的量化方法
 
-[ZeRO-offload]() 2021.1.18 [My Notes](./papers/ZeRO-offload.md) : 把 NLP中 Adam 优化器实现在了 CPU 上，这样能 offload 优化器的内存和计算
+[ZeRO-offload]() 2021.1.18 [My Notes](./papers/ZeRO-offload.md) : 基于 ZeRO-2，把 NLP中 Adam 优化器实现在了 CPU 上，这样能 offload 优化器的内存和计算
 
 [Capuchin: Tensor-based GPU Memory Management for Deep Learning]()(2020 ASPLOS) , [My notes](./papers/capuchin.md): 目标是为了节省内存，能训更大的 batchsize。内存管理到了 tensor 级别，而且是模型/计算图无关。在运行时 profile 出来是 swap 合适还是 recompute 合适。有 prefetch / evict 机制
 

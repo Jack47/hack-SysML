@@ -38,5 +38,8 @@ zeRO-DP 里使用 OS+P，没有额外的开销
 4. 为啥 Parameter Partitioning 的内存节省跟机器数量(DP degree) 相关呢？
 5. ScatterReduce 是啥操作？ 是两个步骤
 6. ZeRO 是不是除了节省内存外，还能提高训练效率？并不能
-## 
+
+## 其他
+
+可以参考 ZeRO 系列其他文章，里面也有提到 ZeRO, 比如 [ZeRO-Infinity](./../memory-efficiecy/ZeRO-Infinity.md)
 
