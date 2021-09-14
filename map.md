@@ -22,9 +22,10 @@ ML Papers:
 
 ### Object Detection
 
-[Fast R-CNN](): (2015) 提出用一个统一的网络来训练 R-CNN，而不是之前的三个阶段，不同的网络
-[Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks](https://arxiv.org/pdf/1506.01497.pdf) (2016)：提出了 Region Proposal Network (RPN)，和检测网络共享图片卷积特征，因此 region proposal 的代价非常小。
+[Fast R-CNN](): (2015) 提出用一个统一的网络来训练 R-CNN，而不是之前的三个阶段，不同的网络. [My Notes](./papers/object-detection/Fast-R-CNN.md)
+[Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks](https://arxiv.org/pdf/1506.01497.pdf) (2016)：提出了 Region Proposal Network (RPN)，和检测网络共享图片卷积特征，因此 region proposal 的代价非常小。 [My Notes](./papers/object-detection/Faster-R-CNN.md)
 
+[YOLO]() : (2016): [My Notes](./papers/object-detection/YOLO.md)
 
 ### Network Communication
 [Flare: Flexible In-Network Allreduce](https://arxiv.org/pdf/2106.15565.pdf) 2021-6-29:  SwitchML 不灵活，他们设计了一个交换机：by using as a building block PsPIN, a RISC-V architecture implementing the sPIN programming model. 
@@ -37,7 +38,9 @@ paper: [Scaling Distributed Machine Learning with In-Network Aggregation](https:
 
 [NetReduce: RDMA-Compatible In-Network Reduction for Distributed DNN Training Acceleration](https://arxiv.org/pdf/2009.09736.pdf) : 华为做的，需要硬件实现，好处是不需要修改网卡或交换机。
 
-[MPI](./network-communication/MPI.md)
+[MPI](./network-communication/MPI.md): 并行编程中的一种编程模型， Message Passing Interface
+
+[PMI](./network-communication/PMI.md): 并行编程中的Process Management System
 
 #### Gradient Compression
 
@@ -56,12 +59,17 @@ Finally, we present a thorough quantitative evaluation with a variety of DNNs (c
 
 [Norm matters: efficient and accurate normalization schemes in deep networks](https://arxiv.org/pdf/1803.01814.pdf)(2019 ): suggest several alternatives to the widely used L2 batch-norm, using normalization in L1 and L∞ space
 
+#### Group Normalization
+
 Sys Papers:
 
 ### Compute Efficiency
 [AdderNet: Do We Really Need Multiplications in Deep Learning](https://arxiv.org/abs/1912.13200v2)
 
 [Rammer]() [My Notes](./papers/Rammer-Enabling-Holistic-DL-Optimizations-with-rTasks.md)
+
+[1 Bit Adam]() () [My Notes](./network-communication/1-bit-Adam.md): 实现了 GPU 上的 error compensated Adam preconditioned momentum SGD。减少了 GPU 和 CPU间通信，还加速了优化器的计算
+
 ### Memory Efficiency
 
 [MONeT: Memory optimization for deep networks](https://openreview.net/pdf?id=bnY0jm4l59)(ICLR 2021) : 发在了 Learning Representation 上，说明不是系统的改进，是算法的改进
@@ -71,10 +79,14 @@ Sys Papers:
 
 [Don't waste your bits! squeeze activations and gradients for deep neural networks via tinyscript]() (ICML, 2020)
 
-[ZeRO-offload]() 2021.1.18 ](./papers/ZeRO-offload.md)
 上面这俩都是对所有元素采用同样的量化方法
 
-Dynamic tensor rematerializatio(2020)
+[ZeRO-offload]() 2021.1.18 [My Notes](./papers/ZeRO-offload.md) : 把 NLP中 Adam 优化器实现在了 CPU 上，这样能 offload 优化器的内存和计算
+
+[Capuchin: Tensor-based GPU Memory Management for Deep Learning]()(2020 ASPLOS) , [My notes](./papers/capuchin.md): 目标是为了节省内存，能训更大的 batchsize。内存管理到了 tensor 级别，而且是模型/计算图无关。在运行时 profile 出来是 swap 合适还是 recompute 合适。有 prefetch / evict 机制
+
+Dynamic tensor rematerializatio(2020): [My Notes](./memory-efficiency/dynamic-tensor-rematerialization.md): 实现了根据前一个 iteration，来自动选择 。 TODO：看下论文
+
 Pushing deep learning beyond the gpu memory limit via smart swapping. (2020)
 
 Tensor-based gpu memory management for deep learning. (2020)
@@ -86,6 +98,8 @@ Tensor-based gpu memory management for deep learning. (2020)
 [Visual Gifs to show gradient checkpointing](https://github.com/cybertronai/gradient-checkpointing)
 
 Binaryconnect: Training deep neural networks with binary weights during propagations. (2015)
+
+[ZeRO Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning]()(2021.4.16), [My Notes](./memory-efficiency/ZeRO-Infinity.md) : 在 ZeRO 基础上，把显存交换到 CPU、NVMe 上
 
 ### Compression
 
