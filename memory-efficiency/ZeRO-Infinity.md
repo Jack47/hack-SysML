@@ -32,3 +32,4 @@ Adam 在大模型训练里常用，以占用更多内存的方式，给模型参
 
 ## 启发
 1. 有个关于 DL 中并行的 survey：Ben-Nun and Hoefler[19]: Demystifying parallel and distributed deep learning: An in-depth concurrency analysis. 2019
+2. 里面有 Transformer 如何计算内存占用的公式
