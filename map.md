@@ -16,6 +16,8 @@ ML Papers:
 ### Transformers
 [Attention is All you need](https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf) (Google Brain 2017) [My Notes](./papers/attention-is-all-you-need.md)
 
+### Attribute Recognition
+[Hierarchical Feature Embedding for Attribute Recognition]() (2020.5.23) [My Notes](./papers/attribute-recognition/hierarchical-feature-embedding-for-attribute-recognition.md)
 ### Classification
 
 
