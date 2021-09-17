@@ -1,8 +1,8 @@
 1. 在解决的是什么问题？显存发展不够，大模型缺显存而跑不起来的问题。
-2. 为何成功，标志/准是什么？
+2. 为何成功，标志/准是什么？ 自动做分片的
 3. 在前人基础上的关键创新是什么？不需要做模型拆分，不需要修改研究员的代码。提出了 bandwidth centric 的分片方式，这样可以利用多机的带宽，而非集中到一台主机上。memory-centirc tiling (这个应该是为了不拆分模型而做的）
-4. 关键结果有哪些？
-5. 有哪些局限性？如何优化？
+4. 关键结果有哪些？能支撑未来1000倍的大模型，到 1000T。
+5. 有哪些局限性？如何优化？ 没法解决模型算力太大的问题
 6. 这个工作可能有什么深远的影响？
 
 
@@ -28,7 +28,25 @@ ZeRO Offload: 有哪些局限性？如何优化？是针对 NLP 里 模型状态
 
 Adam 在大模型训练里常用，以占用更多内存的方式，给模型参数和梯度维护了一阶和二阶统计数据
 
+bandwidth-centric partitioning + powerful communication overlap-centric design + high performance NVMe access 
+
+## 显存需求
+论文里主要基于 Transformer 架构的 billion 级别模型 +  Adam 来分析的内存需求
+
+Model states: optimizer states, gradients, model parameters。而这些都是跟参数有关，是 20*M。而 M = 12\*nl\*hd^2 => 240\*nl\*hd^2 。其中 nl: number of transformer layers，hd: hidden dimension
+
+Residual states: primarily referring to activation memory，它取决于模型结构，batch size 和 sequence length. 可以通过 checkpointing 等技术显著减小占用。 ci: number of Transformer blocks between two activation checkpoints. bsz * seq * hd is the size of the input to each Transformer block.
+
+GPU working memory: 为了支持训练，在 GPU 上需要有的最小量的显存大小，假设其他状态都可以 offload 出去
+
+Figure 2 a: 展示了模型参数逐步变大时，Model states、每个节点上的 Activation，以及 MS 和 A 的 working memory 变化情况。
+
+## 带宽需求
+
 ## 问题
+1. 是不是满足一些条件，才能发挥出威力？
+2. 为什么能达到线性加速？原因是 NVMe 足够大？比 GPU，CPU 的内存都大。不像 ZeRO-2，里面 Parameters 是GPU 上也要存储一份，所以有上限
+3. 没太看明白 Figure 2 b 里的东西：NVMe 的带宽比
 
 ## 启发
 1. 有个关于 DL 中并行的 survey：Ben-Nun and Hoefler[19]: Demystifying parallel and distributed deep learning: An in-depth concurrency analysis. 2019
