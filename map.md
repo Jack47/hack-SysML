@@ -235,6 +235,15 @@ Runtime Parallel Scheduing / Networks
 > intended to help students and practitioners enter the field of machine learning in general and deep learning in particular. The online version of the book is now complete and will remain available online for free.
 
 ## OpenSource Frameworks And Libs
+
+### TIMM
+PyTorch Image Models (TIMM) is a library for state-of-the-art image classification. With this library you can:
+* Choose from 300+ pre-trained state-of-art image classification models.
+* Train models afresh on research datasets such as ImageNet using provided scripts
+* Finetune pre-trained modes on your own datasets, including the latest cutting edge models.
+
+Pytorch Image Models
+
 ### [Tensor Comprehensions]() 2018.2.13 Facebook AI Research Technical Report
 
 [My notes](./papers/frameworks/tensor-comprehensions.md)
