@@ -1,3 +1,6 @@
+## TODO
+看看微软官网的几篇文章介绍，有动图
+
 1. 在解决的是什么问题？显存发展不够，大模型缺显存而跑不起来的问题。
 2. 为何成功，标志/准是什么？ 自动做分片的
 3. 在前人基础上的关键创新是什么？不需要做模型拆分，不需要修改研究员的代码。提出了 bandwidth centric 的分片方式，这样可以利用多机的带宽，而非集中到一台主机上。memory-centirc tiling (这个应该是为了不拆分模型而做的）
@@ -41,12 +44,49 @@ GPU working memory: 为了支持训练，在 GPU 上需要有的最小量的显�
 
 Figure 2 a: 展示了模型参数逐步变大时，Model states、每个节点上的 Activation，以及 MS 和 A 的 working memory 变化情况。
 
+
 ## 带宽需求
+
+定义了 efficiency 的公式
+
+主要是 Fig 3，这个图是计算出来的，还是实际测试出来的？图跟 AIT ，peak 有关。答：实际测试出来的，不同的 bs，固定的 sequence length: 1024. 其中有一些是根据公式计算的，比如 efficiency. 
+
+Optimizer States 对带宽要求比较高：跟 parameter 和 梯度相比，需要4倍带宽。这个原因是它比他们大4倍把？
+
+Bandwidth w.r.t activation memory:
+
+这个反而是比较小的
+
+## 5. 设计概览
+### 5.1 给未来/前所未有的规模设计
+5.1.1 Infinity offload engine for model states: Infinity 基于 ZeRO-3，把所有模型状态都分片。跟其他 ZeRO 系列不同，Infinity 有强大的 offload 机制，把所有分片的模型状态可以 offload 到 CPU 或者 NVMe 内存里，或者放到 GPU里，基于对内存的需求。
+
+5.1.2 CPU Offload for activations: 除了上面提到的 Model states，Infinity 还可以 offload 激活值内存，如果有需要。
+
+通过上述两个方法，基本上 **几百T** 的模型参数，也是能训练的
+
+5.1.3 Memory-centric  tiling  for working memory : 把一个算子拆成了多个分片(tiles) ，顺序执行
+
+### 5.2 Design for Excellent Training Efficiency
+Offload 所有 model states 和 激活值到 CPU 或 NVMe，只有当带宽非常高效，才能达到预期目的。这个非常有挑战：CPU 内存带宽比 GPU 显存慢数量级，而 NVMe 的带宽又比 CPU 的慢数量级。
+
+接下来讨论如何让 Infinity 达到上述的所需带宽：
+
+![](./imgs/v100-dgx-2-bandwidth.png)
+
+1: u
+
+6.1.1
+
+## 启发
+1. 可以把 AllReduce 关闭，这样可以测试无网络情况下，各台主机速度有多块
 
 ## 问题
 1. 是不是满足一些条件，才能发挥出威力？
 2. 为什么能达到线性加速？原因是 NVMe 足够大？比 GPU，CPU 的内存都大。不像 ZeRO-2，里面 Parameters 是GPU 上也要存储一份，所以有上限
 3. 没太看明白 Figure 2 b 里的东西：NVMe 的带宽比
+4. 为啥 4.1， 4.2 里都提到 Activation checkpoints?
+5. 4.2 里提到的 Bandwidth w.r.t Parameter and Gradients. 没理解是说实验表明？70GB/s 的带宽，就可以有 50% 的效率，即使是最小的 batch size？此时数据移动理论上就可以完全被计算掩盖？ 而我们用的是 PCie 3/4， 是 64GB/s
 
 ## 启发
 1. 有个关于 DL 中并行的 survey：Ben-Nun and Hoefler[19]: Demystifying parallel and distributed deep learning: An in-depth concurrency analysis. 2019
