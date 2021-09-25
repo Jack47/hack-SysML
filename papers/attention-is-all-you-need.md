@@ -17,9 +17,19 @@ Transformer 是第一个翻译模型：完全依赖自注意力机制来计算�
 ## 3. 模型结构
 Transformer 遵循堆叠自注意力机制和 point-wise ，把 encoder 和 decoder 完全连接起来。
 
+![](./imgs/transformer-architecture.png)
+
+其中 attention 部分的结构如下图，论文里从两种方案里选取的 scaled dot attention:
+
+![](./imgs/scaled-dot-attention.png)
+
 ## 问题
 1. Q K V 的矩阵乘里，Q 和 V 分别是什么？
 2. 是不是里面有 encoder、decoder，positional embedding 的介绍？
 3. attention mechanism 到底是啥？
-4. Transformer 就是 自注意力机制(self attention?)
+4. Transformer 就是 自注意力机制(self attention?) 不是，transformer  是 attention + 全连接的结合体j
 5. 3 Model architecutre 里，第一段： At each step the model is auto-regressive，这个是什么意思？前面产出的符号是后面的输入？
+
+## 参考资料：
+1. [illustrated transformer](http://jalammar.github.io/illustrated-transformer/)
+
