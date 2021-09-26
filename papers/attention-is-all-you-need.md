@@ -48,11 +48,45 @@ linearly project the q,ke,v h 次。使用不同的学到的映射到 dk, dv. �
 ### 3.3 Position-wise Feed-Forward Networks
 Two linear transformations with a ReLU activation in between:
 
-FFN(x) =  max(0, xW1+b1)W2+b2
+FFN(x) =  max(0, xW1+b1)W2+b2 , 可以结合下文中提到的代码实现
 
 ### 3.4 Embeddings and Softmax
 
 ### 3.5 Positional Encoding
+
+## 实际代码实现
+参考 TIMM 里的 [ViT 实现]()
+
+可以看到把一张图片转换成一个个 patch 有两种方法：经过 Backbone 或使用 PatchEmbed: 一个 Conv。此时是输入 <B,H,W,C(3)> -> <B, N, C(3)>，其中 N 为 224 x 224/(16x16) 
+
+一般输出是 
+Mlp: 
+
+
+x = dropout(activation(fc1(x))) 
+
+x = dropout(fc2(x))
+
+
+除了输入和输出，中间有一个隐藏层： hidden_layer
+
+
+        out_features = out_features or in_features
+        hidden_features = hidden_features or in_features
+        self.fc1 = nn.Linear(in_features, hidden_features)
+        self.act = act_layer()
+        self.fc2 = nn.Linear(hidden_features, out_features)
+        self.drop = nn.Dropout(drop)
+
+与论文里的表示方法有出入的地方：
+
+实际上多头，直接就在 qkv() 这个函数(Linear)里计算了，算出来的是q,k,v 三个值，这三个值都是根据输入算出来的
+### 问题：
+
+1. 其中的 proj 操作就是一个 结束时候的 Linear + Dropout 操作。
+2. attn @ v 的地方，需要多大内存？
+
+参考 LightSeq 里的 [Transformer Encoder 实现]()
 
 ## 问题
 1. Q K V 的矩阵乘里，Q 和 V 分别是什么？
@@ -61,6 +95,7 @@ FFN(x) =  max(0, xW1+b1)W2+b2
 4. Transformer 就是 自注意力机制(self attention?) 不是，transformer  是 attention + 全连接的结合体
 5. 3 Model architecutre 里，第一段： At each step the model is auto-regressive，这个是什么意思？前面产出的符号是后面的输入？
 6. FFN 里，是一个全连接？算是有隐藏层吗？
+7. 算 qkv 时，qkv = self.qkv(x).reshape(B, N, 3, self.num\_heads, C//self.num_heads).permute(2, 0, 3, 1, 4)。这个最后的 permute 是干嘛的？用来转换 tensor 维度用的，原来的 0,1,2,3 -> 2, 0, 3, 1, 4。即 <B, N, C, num\_heads, C // self.num\_heads> -> <C, B, num\_heads, N, C // self.num\_heads>
 
 ## 参考资料：
 1. [illustrated transformer](http://jalammar.github.io/illustrated-transformer/)
