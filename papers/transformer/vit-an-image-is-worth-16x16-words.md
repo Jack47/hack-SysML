@@ -15,6 +15,25 @@
 Transformer 缺乏一些归纳性的偏见(inductive biases)，跟CNN相比，比如：转换不变性(translation equivariance and locality)，所以如果训练时的数据量不够大，就很难很好地泛化
 
 但是挡在大数据集(14M-300M图片）上训练后，就胜出了。
+
+## 实现
+
+参考的 timm 中 vit 实现：
+
+```
+self.cls_token = nn.Parameter(torch.zeors(1, 1, embed_dim)) # 它是一个学来的参数
+self.pos_embed = nn.Parameter(torch.zeros(1, num_patches+self.num_tokens, embed_dim)) # (1, 196+1, 768), 也是学来的参数，为了让 transformer 对位置有区分。否则输入的 patch 互换，结果是不变的，显然不行
+
+# forward_features
+x = self.patch_embed(x)
+cls_token = self.cls_token.expand(x.shape[0], -1, -1) 
+x = torch.cat((cls_token, x), dim=1)
+x = x + self.pos_embed # 为啥是加呢？而不是乘积啥的？
+x = self.pos_drop(x) # 这里及以上都是对图片做处理
+
+x = self.blocks(x)
+```
+
 ## 问题
 1. 题目中的 transformers for image recognition at scale. 这个 at scale 代表什么？是说问题规模，还是说较多数量的任务
 2. 有其他效果较好的 CNN+ViT 的论文吗？
