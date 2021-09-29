@@ -170,6 +170,9 @@ And the bit goes down: Revisiting the quantization of neural networks. (ICLR 202
 [笔记](./courses/ucberkely-cs294-ai-sys/)
 
 
+### [CS179: GPU Programming](http://courses.cms.caltech.edu/cs179/)
+[Week 4 Lec 10: cuBLAS Intro](http://courses.cms.caltech.edu/cs179/2021_lectures/cs179_2021_lec10.pdf). [My Notes](./courses/cs179/cuBLAS.md)
+
 里面提到的一些经典论文，找到人讨论效果更佳
 
 
@@ -345,6 +348,8 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 [https://arxiv.org/abs/1710.03740](https://arxiv.org/abs/1710.03740) (2017 ICLR)
 
 ### CUDA
+cuBLAS:
+
 
 ## Visualizing Neural Networks
 [Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)
