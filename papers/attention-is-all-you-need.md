@@ -89,15 +89,12 @@ Q K V 的矩阵乘里，Q, K, V 分别是什么？
 一般输出是 
 Mlp: 
 
-
 x = dropout(activation(fc1(x))) 
-
 x = dropout(fc2(x))
-
 
 除了输入和输出，中间有一个隐藏层： hidden_layer
 
-
+```
         out_features = out_features or in_features
         hidden_features = hidden_features or in_features
         self.fc1 = nn.Linear(in_features, hidden_features)
@@ -105,9 +102,29 @@ x = dropout(fc2(x))
         self.fc2 = nn.Linear(hidden_features, out_features)
         self.drop = nn.Dropout(drop)
 
+```
 与论文里的表示方法有出入的地方：
 
 实际上多头，直接就在 qkv() 这个函数(Linear)里计算了，算出来的是q,k,v 三个值，这三个值都是根据输入算出来的
+
+## 内存占用
+### 1. 模型数据
+优化器状态： Adam 里有fp32的动量、方差、参数和梯度。
+
+参数： fp16
+
+梯度： fp16
+
+所以总体而言，一个参数需要 `4*4+2*2 = 20` B
+
+而 Transformer 里参数主要取决于 hidden dimension (hd) 和 Transformer layer 的层数 (nl)。
+
+参数主要来自4个线性层，每个的大小：(hd, 3hd), (hd, hd), (hd, 4hd), (4hd, hd).所以总共参数大约有： 3hd^2+hd^2+4hd^2+4hd^2。可以看到 Transformer 里最大的 OP 是 (hd, 4hd) 的线性层，它所需的参数和梯度总共是 `hd*4hd*(2+2)`
+
+### 2. 激活值
+
+每个 Transformer 的输入大小是：`bsz*seq*hd`, 然后可以逐层计算激活值大小
+
 ### 问题：
 
 1. 其中的 proj 操作就是一个 结束时候的 Linear + Dropout 操作。
