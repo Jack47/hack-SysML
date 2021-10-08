@@ -29,3 +29,8 @@ float 计算有好几种方式：
 2. xxx_rz(): round-towards-zero
 3. xxx_ru(): round-up mode
 3. xxx_rd(): round-down mode
+
+## 限制
+[CUDA Version Features and specifications](https://en.wikipedia.org/wiki/CUDA#Version_features_and_specifications)
+
+threads per block is maximum 1024: [Kernel invocation syntax](http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#execution-configuration)

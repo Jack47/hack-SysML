@@ -164,6 +164,9 @@ And the bit goes down: Revisiting the quantization of neural networks. (ICLR 202
 ### Parameter Server
 [Scaling Distributed Machine Learning with the Parameter Server](https://www.cs.cmu.edu/~muli/file/parameter_server_osdi14.pdf)(2013?)
 
+## Network Operators
+[Dropout vs Droppath](operators/dropout.md)
+[Conv](operators/conv.md)
 ## Course：
 [CS294-AI-Sys](https://ucbrise.github.io/cs294-ai-sys-sp19/)(UC Berkely)
 
@@ -350,7 +353,7 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 ### CUDA
 cuBLAS:
 
-[CUDA API]() [My Notes]()
+[CUDA API]() [My Notes](./hardware/GPU/CUDA-API.md)
 
 ## Visualizing Neural Networks
 [Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)
