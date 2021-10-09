@@ -34,3 +34,15 @@ float 计算有好几种方式：
 [CUDA Version Features and specifications](https://en.wikipedia.org/wiki/CUDA#Version_features_and_specifications)
 
 threads per block is maximum 1024: [Kernel invocation syntax](http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#execution-configuration)
+
+## CMDs
+`nvidia-smi dmon` is used to monitor one or more GPUs plugged into the system.
+
+```
+-i <device1,device2, .., deviceN>
+
+nvidia-smi dmon -s <metric_group>
+
+t - PCIe Rx and Tx throughput
+```
+
