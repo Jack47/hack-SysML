@@ -10,3 +10,10 @@
 ```
 
 ```
+
+### torch.cuda.memory_stats(devices=None)
+
+输出举例：
+```
+
+```
