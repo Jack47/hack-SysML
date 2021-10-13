@@ -100,6 +100,19 @@ t - PCIe Rx and Tx throughput
 
 ## debug 工具
 ### cuda-memcheck 工具
+单独执行的结果并不是很准确，在 cuda-gdb 里开启比较好：
+1. (cuda-gdb) set cuda memcheck on
+2. cuda-gdb --args python ./train.py
+
+### Enable GPU core dumps
+`CUDA_ENABLE_COREDUMP_ON_EXCEPTION`
+
+`CUDA_ENABLE_LIGHTWEIGHT_COREDUMP`
+
+### Tips
+1. 在 device code 里使用 printf 后，记得添加 synchronize 来让这片输出缓冲区能打印出来
+2. 使用 `CUDA_LAUNCH_BLOCKING=1` 来让 kernel 是顺序发射的
+
 
 ## 问题
 1. 
