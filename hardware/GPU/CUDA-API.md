@@ -94,7 +94,12 @@ t - PCIe Rx and Tx throughput
 2. 尽量让 blocks 数量和 threads-per-block 相等或差距不大？
 
 ## 常见 CUDA 相关报错及解决办法
-1. "too many resources for launch"
+1. "too many resources for launch": 很有可能是 Block 里threads 使用的寄存器超出限制了（比如 32K 32bit register），hitting a registers-per-block limit. 此时方法是减少 Block 里 thread 的数量
+2. "misaligned address": 也是类似3的问题，是给的指针有问题，没有对齐。有可能把类型弄错了
+3. "an illegal memory access was encountered": 可能给的指针并不在 cuda的memory里，跟 C++ 里遇到类似错误差不多
+
+## debug 工具
+### cuda-memcheck 工具
 
 ## 问题
 1. 
