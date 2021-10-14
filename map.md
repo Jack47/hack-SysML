@@ -357,7 +357,9 @@ cuBLAS:
 
 [pytorch cuda api](./hardware/GPU/pytorch-cuda.md)
 
-[CUDA API]() [My Notes](./hardware/GPU/CUDA-API.md)
+CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
+
+[CUB: Provides state of the art, reusable software components for every layer of the CUDA programming model](./hardware/GPU/cub.md)
 
 ## Visualizing Neural Networks
 [Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)
