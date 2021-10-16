@@ -65,6 +65,8 @@ Finally, we present a thorough quantitative evaluation with a variety of DNNs (c
 
 [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167)(2015): 用了 BN 后学习率可以调大，初始化过程更鲁棒。也有 regularization 作用，可以一定程度代替 drop out。 faster training and high performance 
 
+Layer Normalization (2016.7) : [My Notes ](./papers/layer-normalization) : 想在 RNN 里引入类似 BN 的方法，来让训练速度提升，收敛的更快
+
 [Norm matters: efficient and accurate normalization schemes in deep networks](https://arxiv.org/pdf/1803.01814.pdf)(2019 ): suggest several alternatives to the widely used L2 batch-norm, using normalization in L1 and L∞ space
 
 #### Group Normalization
