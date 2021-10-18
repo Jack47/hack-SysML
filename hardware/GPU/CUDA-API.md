@@ -114,6 +114,14 @@ t - PCIe Rx and Tx throughput
 2. 使用 `CUDA_LAUNCH_BLOCKING=1` 来让 kernel 是顺序发射的
 3. 使用 nvcc -g -G 来和 cuda-gdb 配合时，可能出现 too many resources requested for launch 的问题。可以用 -maxrregcount 开关
 
+### cudaDeviceSynchronize(stream)
+1. cudaDeviceSynchronize(device) 用来同步某个设备：会等待设备上所有的 stream 里的 host 线程都结束
+2. cudaStreamSynchronize(stream) 用来同步某个特定 stream：会等待所有给定 stream 里当前的所有线程都结束 
+
+一般框架里有两类执行流：
+
+1. 计算:同一个计算流里，顺序发射的
+2. 搬运数据
 ### maxrregcount
 对于 too many resources requested for launch,可以有两种解决办法：
 
@@ -127,7 +135,7 @@ CUDA 2.0 之后开始支持在 kernel 函数(\__global\__) 里直接调用 [`pri
 
 
 #### 以下情况下，才会 flush 到输出：
-1. CUDA\_LAUNCH\_BLOCKING=1
+1. CUDA\_LAUNCH\_BLOCKING=1 // 会关闭 kernel 异步发射的能力，这样发射后会阻塞，执行完才继续。这样能让 cuda 在真正出错的地方报错
 2. 某种方式的同步(等 stream 里的所有kernel 执行完): cudaDeviceSynchronize() 或者pytorch里：torch.cuda.synchronize(): 等待所有 streams 里的 kernel 运行完
 3. 通过 cudaMemorycpy* 等来执行阻塞的拷贝
 
@@ -136,4 +144,4 @@ buffer 里的内容并不会在程序退出时自动 flush，用户必须显示�
 printf 内部是使用一个共享的数据结构，所以执行 printf 可能会改变线程的执行顺序。由于调用  printf 的线程可能比其他没执行 printf 的线程速度慢，所以不能靠 printf 来推测线程执行的早晚
 
 ## 问题
-1. 
+1. kernel 发射都是
