@@ -113,6 +113,20 @@ t - PCIe Rx and Tx throughput
 1. 在 device code 里使用 printf 后，记得添加 synchronize 来让这片输出缓冲区能打印出来
 2. 使用 `CUDA_LAUNCH_BLOCKING=1` 来让 kernel 是顺序发射的
 
+### printf
+CUDA 2.0 之后开始支持在 kernel 函数(\__global\__) 里直接调用 [`printf`](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#formatted-output)。指 `-arch sm_20`
+
+其中提到： kernel 里的 printf 函数是在device 侧执行，所以：per-thread, in the context of the calling thread. 而且会占用线程的数据。
+
+
+#### 以下情况下，才会 flush 到输出：
+1. CUDA\_LAUNCH\_BLOCKING=1
+2. 某种方式的同步(等 stream 里的所有kernel 执行完): cudaDeviceSynchronize() 或者pytorch里：torch.cuda.synchronize(): 等待所有 streams 里的 kernel 运行完
+3. 通过 cudaMemorycpy* 等来执行阻塞的拷贝
+
+buffer 里的内容并不会在程序退出时自动 flush，用户必须显示调用 cuCtxDestroy 或 cudaDeviceReset.
+
+printf 内部是使用一个共享的数据结构，所以执行 printf 可能会改变线程的执行顺序。由于调用  printf 的线程可能比其他没执行 printf 的线程速度慢，所以不能靠 printf 来推测线程执行的早晚
 
 ## 问题
 1. 
