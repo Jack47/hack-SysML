@@ -112,6 +112,13 @@ t - PCIe Rx and Tx throughput
 ### Tips
 1. 在 device code 里使用 printf 后，记得添加 synchronize 来让这片输出缓冲区能打印出来
 2. 使用 `CUDA_LAUNCH_BLOCKING=1` 来让 kernel 是顺序发射的
+3. 使用 nvcc -g -G 来和 cuda-gdb 配合时，可能出现 too many resources requested for launch 的问题。可以用 -maxrregcount 开关
+
+### maxrregcount
+对于 too many resources requested for launch,可以有两种解决办法：
+
+1. maxrregcount 来限制使用的寄存器数量，比如设置为40
+2. 在核函数申明时，使用 `__launch_bounds__` 来限制 kernel 的 `MAX_THREADS_PER_BLOCK`(自己用 k<<,threadsPerBlock>>() 写死也行), `MIN_BLOCKS_PER_MP`
 
 ### printf
 CUDA 2.0 之后开始支持在 kernel 函数(\__global\__) 里直接调用 [`printf`](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#formatted-output)。指 `-arch sm_20`
