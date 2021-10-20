@@ -104,6 +104,46 @@ t - PCIe Rx and Tx throughput
 1. (cuda-gdb) set cuda memcheck on
 2. cuda-gdb --args python ./train.py
 
+#### Stack Backtraces
+如果没用 cuda-memcheck，那么无法准确显示出出错的位置和堆栈信息。而使用了 cuda-memcheck，会产生堆栈信息，有两部分：
+
+1. saved host backtrace that leads upto the CUDA driver call site
+2. device backtrace at the time of the error
+
+为了拿到对人友好的函数名字，需要在编译时使用 -g 和 -G 分别带上 Host 代码和 Device 代码的调试信息
+
+具体可见[cuda-memcheck Stack Backtraces](https://docs.nvidia.com/cuda/cuda-memcheck/#stack-backtraces)
+
+```
+========= CUDA-MEMCHECK
+========= Invalid __global__ write of size 8
+=========     at 0x00003b10 in ampere_fp16_s16816gemm_fp16_128x128_ldg8_f2f_stages_32x5_tn
+=========     by thread (31,0,0) in block (25,0,8)
+=========     Address 0x7fb3e6f45db8 is out of bounds
+=========     Device Frame:ampere_fp16_s16816gemm_fp16_128x128_ldg8_f2f_stages_32x5_tn (ampere_fp16_s16816gemm_fp16_128x128_ldg8_f2f_stages_32x5_tn : 0x3b10)
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame:/usr/lib64/libcuda.so.1 (cuLaunchKernel + 0x2b8) [0x222dc8]
+=========     Host Frame:/mnt/cache/share/cuda-11.2/lib64/libcublasLt.so.11 [0x124c04b]
+=========     Host Frame:/mnt/cache/share/cuda-11.2/lib64/libcublasLt.so.11 [0x1298b00]
+=========     Host Frame:/mnt/cache/share/cuda-11.2/lib64/libcublasLt.so.11 [0x11f4a0c]
+=========     Host Frame:/mnt/cache/share/cuda-11.2/lib64/libcublasLt.so.11 [0x11f4a2e]
+=========     Host Frame:/mnt/cache/share/cuda-11.2/lib64/libcublasLt.so.11 [0x5df1d7]
+=========     Host Frame:/mnt/cache/share/cuda-11.2/lib64/libcublasLt.so.11 [0x66cf2f]
+=========     Host Frame:/mnt/cache/share/cuda-11.2/lib64/libcublasLt.so.11 [0x52c29a]
+=========     Host Frame:/mnt/cache/share/cuda-11.2/lib64/libcublasLt.so.11 (cublasLtHSHMatmul + 0x263) [0x55e153]
+=========     Host Frame:/mnt/cache/share/cuda-11.2/lib64/libcublas.so.11 [0x9efe82]
+=========     Host Frame:/mnt/cache/share/cuda-11.2/lib64/libcublas.so.11 [0x9d471f]
+=========     Host Frame:/mnt/cache/share/cuda-11.2/lib64/libcublas.so.11 (cublasGemmStridedBatchedEx + 0x99c) [0x9def9c]
+=========     Host Frame:/mnt/cache//chenshengdong/torch_extensions/lightseq_layers/lightseq_layers.so (_Z27cublas_strided_batched_gemmP13cublasContextiiiPKfS2_PK6__halfS5_PS3_17cublasOperation_tS7_iiii16cublasGemmAlgo_t + 0xea) [0x22c4a]
+=========     Host Frame:/mnt/cache//chenshengdong/torch_extensions/lightseq_layers/lightseq_layers.so (_ZN23TransformerEncoderLayerI6__halfE13attn_layer_bwEPKS0_S3_S3_PS0_S4_ + 0x35d) [0x46cdd]
+=========     Host Frame:/mnt/cache//chenshengdong/torch_extensions/lightseq_layers/lightseq_layers.so (_Z28transformer_encoder_layer_bwI6__halfESt6vectorIN2at6TensorESaIS3_EEiRKS3_S7_S7_S7_ + 0x234) [0x73ee4]
+=========     Host Frame:/mnt/cache//chenshengdong/torch_extensions/lightseq_layers/lightseq_layers.so [0x763ac]
+=========     Host Frame:/mnt/cache//chenshengdong/torch_extensions/lightseq_layers/lightseq_layers.so [0x67569]
+=========     Host Frame:python (_PyCFunction_FastCallDict + 0x154) [0x111c54]
+=========     Host Frame:python [0x199abc]
+```
+cuda-gdb 里集成了这个功能
+
 ### Enable GPU core dumps
 `CUDA_ENABLE_COREDUMP_ON_EXCEPTION`
 
