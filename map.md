@@ -252,6 +252,8 @@ Runtime Parallel Scheduing / Networks
 [Deep Learning](https://www.deeplearningbook.org/): Ian Goodfellow and Yoshua Bengio and Aron Courville
 > intended to help students and practitioners enter the field of machine learning in general and deep learning in particular. The online version of the book is now complete and will remain available online for free.
 
+#### Backpropation
+[How the backpropagation algorithms works](./books/neural-networks-and-deep-learning/backpropagation.md)
 ## OpenSource Frameworks And Libs
 
 ### TIMM
