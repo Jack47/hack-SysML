@@ -1,3 +1,12 @@
+## torch.allclose(input, other, rtol=1e-05, atol=1e-08, equal_nan=False) bool
+用于逐个元素检查在容忍范围内，两个数组是否相等
+
+会检查 input 和 other 是否满足：｜input-other | <= atol + rtol * |other|
+
+atol: absolute tolerance. Default: 1e-08
+
+rtol: relative tolerance. Default: 1e-05
+
 ## Construct a Sequential Model
 ```
 from torch import nn
@@ -28,9 +37,15 @@ modules返回
 
 ```
 
-torch.tensor.expand():  Returns a new view of the self tensor with singleton dimensions expanded to a larger size. Passing -1 as the size for a dimension means not chaning the size of that dimension. It doesn't allocate new memory.
+### torch.tensor.expand()
+Returns a new view of the self tensor with singleton dimensions expanded to a larger size. Passing -1 as the size for a dimension means not chaning the size of that dimension. It doesn't allocate new memory.
 
-nn.Identity: A placeholder identity operator that is argument-insensitive. m = nn.Identity(54). output = m(input), 此时 output 就是 input
+### nn.Identity
+A placeholder identity operator that is argument-insensitive. m = nn.Identity(54). output = m(input), 此时 output 就是 input
 
-torch.cat(tensors, dim=0, ) : 在指定的维度上，对众多 tensors 进行拼接，是 torch.split() 的反向操作
+### torch.cat(tensors, dim=0, ) 
+
+在指定的维度上，对众多 tensors 进行拼接，是 torch.split() 的反向操作
+
+
 

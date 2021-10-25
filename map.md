@@ -279,6 +279,7 @@ Pytorch Image Models
 ### OneFlow
 
 ### [Pytorch]()
+ [Functions/APIs in PyTorch ](./frameworks/pytorch/functions.md)
 #### JIT
 
 ![](https://github.com/pytorch/tvm/blob/master/pt_execution.png?raw=true)

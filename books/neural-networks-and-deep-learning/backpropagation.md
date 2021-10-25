@@ -33,3 +33,22 @@ elementwise product: python 里的 矩阵 x*y 就是这种乘法。而 x@y 是�
 
 
 
+
+## PyTorch 里 backward
+
+```
+class MyOp(torch.autograd.Function):
+    @staticmethod
+    def forward(ctx, input):
+        ctx.saved_for_backward(input)
+        return 5*input**3 - 3*input
+
+    @staticmethod
+    def backward(ctx, grad_output):
+        input, = ctx.saved_tensors
+        return grad_output*15*input**2-3
+```
+从上面可见，backward(ctx, grad_output) 里，输入的是损失对于输出的梯度，而 `grad_output*f'(x)` 就是当前层的梯度：损失对于当前输入层的梯度。所以这里提到的梯度，就是上面的 feil
+
+而其中 backward 里的 grad_output = (w^l)^T*fei(l+1)
+
