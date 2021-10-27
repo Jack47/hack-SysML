@@ -110,7 +110,12 @@ t - PCIe Rx and Tx throughput
 1. saved host backtrace that leads upto the CUDA driver call site
 2. device backtrace at the time of the error
 
-为了拿到对人友好的函数名字，需要在编译时使用 -g 和 -G 分别带上 Host 代码和 Device 代码的调试信息
+为了拿到对人友好的函数名字，需要在编译时使用 -g 和 -G 分别带上 Host 代码和 Device 代码的调试信息。这俩都是要加到 nvcc 的命令行里的
+
+还可以使用 `-gencode` 选项，比如a100架构：
+
+`-gencode arch=compute_80,code=sm_80`
+
 
 具体可见[cuda-memcheck Stack Backtraces](https://docs.nvidia.com/cuda/cuda-memcheck/#stack-backtraces)
 
