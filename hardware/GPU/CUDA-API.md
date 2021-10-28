@@ -99,10 +99,41 @@ t - PCIe Rx and Tx throughput
 3. "an illegal memory access was encountered": 可能给的指针并不在 cuda的memory里，跟 C++ 里遇到类似错误差不多
 
 ## debug 工具
+### cuda-gdb
+常用命令：
+```
+info cuda threads
+info cuda kernels
+print blockIdx
+print gridDim
+next
+backtrace
+print array[0]@12 # check 12 elements
+cuda thread 170 # switch focus to thread 170
+```
+
+Kernel focus: 某一刻只会关注其中的一个：
+```
+(cuda-gdb) cuda device sm warp lane # display HW coords
+(cuda-gdb) cuda kernel block thread # display SW coords
+(cuda-gdb) cuda device 0 sm 1 warp 2 lane 3 # switch focus
+```
 ### cuda-memcheck 工具
+A suite of tools:
+
+1. Memcheck
+2. racecheck
+3. initcheck
+4. synccheck
+
+对于 "unspecified launch failure" 非常有用：比如 out-of-bound access, memory leaks
+
 单独执行的结果并不是很准确，在 cuda-gdb 里开启比较好：
 1. (cuda-gdb) set cuda memcheck on
 2. cuda-gdb --args python ./train.py
+
+#### cuda-memcheck 还可以检查 race conditions:
+cuda-memcheck -tool racecheck myapp.x
 
 #### Stack Backtraces
 如果没用 cuda-memcheck，那么无法准确显示出出错的位置和堆栈信息。而使用了 cuda-memcheck，会产生堆栈信息，有两部分：
@@ -116,6 +147,13 @@ t - PCIe Rx and Tx throughput
 
 `-gencode arch=compute_80,code=sm_80`
 
+Compile params:
+```
+-G : generate debug info for CUDA app
+-lineinfo: generate line number information
+-rdynamic: the host compiler retains function symbols
+-Xcompiler: specify flags to the host compiler
+```
 
 具体可见[cuda-memcheck Stack Backtraces](https://docs.nvidia.com/cuda/cuda-memcheck/#stack-backtraces)
 
@@ -150,7 +188,7 @@ t - PCIe Rx and Tx throughput
 cuda-gdb 里集成了这个功能
 
 ### Enable GPU core dumps
-`CUDA_ENABLE_COREDUMP_ON_EXCEPTION`
+`export CUDA_ENABLE_COREDUMP_ON_EXCEPTION=1`
 
 `CUDA_ENABLE_LIGHTWEIGHT_COREDUMP`
 
