@@ -1,5 +1,10 @@
 其中 pytorch 层面的 encoder layer，会申请总体大小的 prameter，然后会绑定给 layer，跟他共享内存。这样是一个大片的内存里，包含了很多个小 layer 的 parameter
 
+## 主要的几方面优化
+1. 显存分配：权重、中间值
+2. 算子融合：
+3. 显存高效的混合精度优化器
+
 ## 疑问
 1. [pytorch x.div(y) ](https://pytorch.org/docs/stable/generated/torch.div.html#torch.div) : 并没有详细说明除法里采用何种近似策略？用的 rn，看 ls 里 dropout half 里的实现
 2. half 的实现里，输入/出的 half, 却用 reinterpret_cast<float4*>(out) ,可以这样写？看论文意思是计算过程强制转为 float32 来计算
