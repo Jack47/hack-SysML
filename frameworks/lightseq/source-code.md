@@ -7,7 +7,7 @@
 
 ## 疑问
 1. [pytorch x.div(y) ](https://pytorch.org/docs/stable/generated/torch.div.html#torch.div) : 并没有详细说明除法里采用何种近似策略？用的 rn，看 ls 里 dropout half 里的实现
-2. half 的实现里，输入/出的 half, 却用 reinterpret_cast<float4*>(out) ,可以这样写？看论文意思是计算过程强制转为 float32 来计算
+2. half 的实现里，输入/出的 half, 却用 reinterpret_cast<float4*>(out) ,可以这样写？看论文意思是计算过程强制转为 float32 来计算。目测这个转化是说每次从 out 里读取的时候，读出来的是 half 2B，但是会强制转化成 4B 的 float
 3. x.div(keep_prop)*mask 这步符合结合律吗？x\*mask/keep_prop	=> mask 是 int，所以不满足。因为 0/0.7 之后就不是0了
 4. x*m[0] 和 \__hmul2(X, m2) 有啥差别？什么时候用 \*，什么时候用 mul ?
 5. 对于精度转换，会自动做吗？比如 floatx * intm，如果自动做，那提供精度转换函数的意义在哪里？
