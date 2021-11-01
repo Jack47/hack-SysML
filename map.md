@@ -359,6 +359,8 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 ## Mixed Precision Training
 [https://arxiv.org/abs/1710.03740](https://arxiv.org/abs/1710.03740) (2017 ICLR)
 
+[APEX: NVIDIA mixed-precision training](./hardware/GPU/apex.md)
+
 ### CUDA
 cuBLAS: [My Notes](./hardware/GPU/cublas.md)
 
