@@ -119,6 +119,7 @@ Binaryconnect: Training deep neural networks with binary weights during propagat
 
 [ZeRO Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning]()(2021.4.16), [My Notes](./memory-efficiency/ZeRO-Infinity.md) : 在 ZeRO 基础上，把显存交换到 CPU、NVMe 上。ZeRO 系列的好处是不需要改用户的代码。ZeRO 系列主要解决内存问题（Memory wall)
 
+PatrickStar: Parallel Training of Pre-trained Models via Chunk-based Memory Management [My Notes](./memory-efficiency/patrickstar.md)
 ### Compression
 
 Deep compression: Compressing deep nerual networks with pruning, trained quantization and huffman coding. (ICLR, 2016 Song Han)
