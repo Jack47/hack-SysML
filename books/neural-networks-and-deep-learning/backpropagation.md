@@ -33,6 +33,10 @@ elementwise product: python 里的 矩阵 x*y 就是这种乘法。而 x@y 是�
 
 
 
+核心还是计算导数，然后推导出 l+1 与 l 之间的关系，依靠输入输出关系，求导，然后就有了输出和输入即下一级导数之间的关系
+
+pytorch 会帮我们去计算两个数的乘积：grad_out = delta * theta'
+
 
 ## PyTorch 里 backward
 
@@ -52,3 +56,10 @@ class MyOp(torch.autograd.Function):
 
 而其中 backward 里的 grad_output = (w^l)^T*fei(l+1)
 
+
+## 问题
+1. pytorch里实现 backward(input, grad_out, output), 这几个参数各自是书里的哪部分？backward 其实就是求出对于 weight 和 bias 的权重？
+2. gamma1*X，这个步骤的 backward 是什么？是 X ？
+
+## TODO
+把书里的部分图片搞到这里来
