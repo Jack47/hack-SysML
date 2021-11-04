@@ -27,3 +27,7 @@
 CHECK_GPU_ERROR(cudaStreamSynchronize(_stream));
 
 疑问：默认不设置上述语句，此时难道是多个kernel 同时执行的？
+
+## FAQ
+1. 打印 pytorch 里 tensor 时出现：`CUDA error: invalid configuration argument`: 是由于 tensor 元素个数太多，print 最终会调用 cuda ，使用预先分配给 print 的显存空间
+2. 执行某个算子时提示：`RuntimeError: expected scalar type Half but found Float`：这个错误提示反了，最终发现是 需要调用 layer.to(torch.device("cuda:0"), dtype=torch.half) 来设置模型使用 fp16 精度
