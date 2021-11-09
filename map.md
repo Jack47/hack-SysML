@@ -281,6 +281,9 @@ Pytorch Image Models
 
 ### [Pytorch]()
  [Functions/APIs in PyTorch ](./frameworks/pytorch/functions.md)
+ 
+ [Reading Source Code Snippets](./frameworks/pytorch/source-code.md)
+ 
 #### JIT
 
 ![](https://github.com/pytorch/tvm/blob/master/pt_execution.png?raw=true)

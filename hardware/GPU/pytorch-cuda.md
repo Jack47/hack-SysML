@@ -35,6 +35,12 @@ tuple: ('x', y, 1)
 list.append(list1)
 list.expand(tuple)
 
+### torch.sum(tensor, dim)
+在指定的维度上进行求和，比如 torch.sum(t) （所有维度上）; torch.sum(t, (1, 2)) (求和到第0维)
+
+### unsqueeze
+把 tensor 放到指定的那个维度上
+
 ## FAQ
 1. 打印 pytorch 里 tensor 时出现：`CUDA error: invalid configuration argument`: 是由于 tensor 元素个数太多，print 最终会调用 cuda ，使用预先分配给 print 的显存空间
 2. 执行某个算子时提示：`RuntimeError: expected scalar type Half but found Float`：这个错误提示反了，最终发现是 需要调用 layer.to(torch.device("cuda:0"), dtype=torch.half) 来设置模型使用 fp16 精度
