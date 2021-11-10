@@ -361,7 +361,7 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 [Persistent Threads Block](https://www.classes.cs.uchicago.edu/archive/2016/winter/32001-1/papers/AStudyofPersistentThreadsStyleGPUProgrammingforGPGPUWorkloads.pdf)
 
 ## Mixed Precision Training
-[https://arxiv.org/abs/1710.03740](https://arxiv.org/abs/1710.03740) (2017 ICLR)
+[https://arxiv.org/abs/1710.03740](https://arxiv.org/abs/1710.03740) (2017 ICLR) [My Notes](./papers/mixed-precision-training.md)
 
 [APEX: NVIDIA mixed-precision training](./hardware/GPU/apex.md)
 

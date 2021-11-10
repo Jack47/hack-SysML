@@ -52,4 +52,4 @@ LightSeq 支持了所有 Transformer 训练里涉及的阶段：
 2. 论文里提到的 trainer 是什么？是优化器
 3. 3.1.1 softmax 里提到对常用输入大小做了kernels 的优化，这个在代码里哪里体现？难道就是那几个针对 softmax to_len 长度写的分支语句？
 4. 3.1.2 里 Embedding Layer 在大部分 DL 任务里是为了获得一句话或一张图片在 distributed representation 。这个是什么意思？
-5. 3.2 里 Mixed precision 优化器部分咋优化的？
+5. 3.2 里 Mixed precision 优化器部分咋优化的？看了下混合精度训练的论文，大概搞明白了。一般是在优化器里存一份 fp32的 weights 的拷贝。每次梯度都是作用到 fp32 的 weights上，而 fwd/bwd 使用的是这个 weights 的 fp16。这种是比较通用的方法，在所有类型的任务上都能工作。如果你们实现发现对精度没影响，那说明上述过程在不同类型的任务上可以优化
