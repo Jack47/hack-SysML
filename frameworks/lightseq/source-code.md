@@ -13,3 +13,4 @@
 5. 对于精度转换，会自动做吗？比如 floatx * intm，如果自动做，那提供精度转换函数的意义在哪里？
 6. 对于 ls\_dropout\_kernel 的实现，是每四个元素在一个kernel 里处理。其中只有 cur_rand4 是四个元素一批的。这种快还是每个 kernel 里处理一个元素快呢
 7.  mixed precision : half 有 half2 当作一个batch 一起处理的，所以速度快（几乎一倍？）; 而且可以一次处理4、8个数据。比如 uint64* m8. m8[0] = mask8[i];
+8. 为什么在ut里，可以用 `base_out = base_out * test_gradout; base_out = base_out.sum()` 来作为 ls_fwd(grad_out) 来比较bwd ？

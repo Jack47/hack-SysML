@@ -2,7 +2,8 @@
 ## dropout 实现
 ```
 mask = (torch.rand(X.shape) > dropout).float() # 1 or 0, 对于随机出来的数字，大于  dropout 概率的才保留，否则乘积后为0
-return mask*X / (1.0-dropout)
+keep_prob = 1.0-dropout_prob
+return mask*X / keep_prob
 ```
 假设总共有 n 个 neurons, p = 1-dropout 是保留的比例。那么原本期望是 x，用了 dropout 之后，期望是 `p*x`，所以为了保证期望不变，需要 mask*X / p
 
@@ -12,7 +13,7 @@ return mask*X / (1.0-dropout)
 ```
 backward(input, grad_out, output)
  mask = ctx.saved
- return grad_out*mask # 让梯度通过不为0的 neuron 传递回去
+ return grad_out*mask/keep_prob # 让梯度通过不为0的 neuron 传递回去
 ```
 
 ## droppath 实现
