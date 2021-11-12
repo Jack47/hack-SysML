@@ -197,6 +197,13 @@ cuda-gdb 里集成了这个功能
 2. 使用 `CUDA_LAUNCH_BLOCKING=1` 来让 kernel 是顺序发射的
 3. 使用 nvcc -g -G 来和 cuda-gdb 配合时，可能出现 too many resources requested for launch 的问题。可以用 -maxrregcount 开关
 
+### Block 内部共享变量
+`__shared__` Block 内部所有线程共享的空间，使用时要注意避免 race conditions。比如 A 和 B 同时 load 数据，而 A 要读取 B load 的数据，此时可能 B 还没有 load 完。
+
+`__syncthreads()` 一般用到 __shared__ 显存后，都需要用一个 barrier 来同步所有线程。比如上述场景，我们可以在 load 之后加入 barrier，这样所有人都 load 完，才接着去做读取的操作: 只有当 block 内部的线程都执行完 `__syncthreads()` 之后，
+
+注意分叉的代码里调用 __syncthreads() 可能会出现死锁
+
 ### cudaDeviceSynchronize(stream)
 1. cudaDeviceSynchronize(device) 用来同步某个设备：会等待设备上所有的 stream 里的 host 线程都结束
 2. cudaStreamSynchronize(stream) 用来同步某个特定 stream：会等待所有给定 stream 里当前的所有线程都结束 

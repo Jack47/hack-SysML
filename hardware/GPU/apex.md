@@ -31,6 +31,10 @@ Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
 ```
 从上面看到 reducing to 4096, 2048 出现了好几次，所以肯定是减少到2048,又增加到了 4096。意味着 gradient overflow 并没有连续出现
 
+发现 loss 是 8.978，并不大，但关键是梯度溢出了(Nan or Infinite)，导致 loss scale 。此时为何 loss scale 要缩小？可能是一般梯度比较小，loss scale 比较大，相当于右移了，现在要左移
+
+### 如果多卡训练，其中一个出现 overflow 会怎样？整个程序挂掉还是？
+
 ### 2. 如果多卡训练，其中一个出现 overflow 会怎样？整个程序挂掉还是？
 如果溢出，就会把梯度设置为 0.
 
