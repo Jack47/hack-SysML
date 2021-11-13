@@ -372,9 +372,12 @@ cuBLAS: [My Notes](./hardware/GPU/cublas.md)
 
 CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
 
+[Cooperative Groups](./hardware/GPU/cooperative_groups.md)
+
 [CUB: Provides state of the art, reusable software components for every layer of the CUDA programming model](./hardware/GPU/cub.md)
 
 [SoftMax 的高效 CUDA 实现](./hardware/GPU/efficient-softmax.md)
+
 ## Visualizing Neural Networks
 [Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)
 
