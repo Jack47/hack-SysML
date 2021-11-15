@@ -378,6 +378,7 @@ CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
 
 [SoftMax 的高效 CUDA 实现](./hardware/GPU/efficient-softmax.md)
 
+[CUDA 里的全局 threadId 如何计算？](./hardware/GPU/indexes-in-cuda.md)
 ## Visualizing Neural Networks
 [Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)
 
