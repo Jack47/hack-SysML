@@ -190,6 +190,8 @@ And the bit goes down: Revisiting the quantization of neural networks. (ICLR 202
 >  This course is a deep dive into the details of deep learning architectures with a focus on learning end-to-end models for these tasks, particularly image classification. During the 10-week course, students will learn to implement and train their own neural networks and gain a detailed understanding of cutting-edge research in computer vision. Additionally, the final assignment will give them the opportunity to train and apply multi-million parameter networks on real-world vision problems of their choice. Through multiple hands-on assignments and the final course project, students will acquire the toolset for setting up deep learning tasks and practical engineering tricks for training and fine-tuning deep neural networks.
 > 
 
+(Vector, Matrix, and Tensor Derivatives(Erik Learned-Miller))[http://cs231n.stanford.edu/vecDerivs.pdf] [My Notes](./courses/cs231n/vector-derivatives.md)
+
 ### [CSE 599W: Systems for ML](http://dlsys.cs.washington.edu/schedule)
 > System aspect of deep learning: faster training, efficient serving, lower
 memory consumption
@@ -255,6 +257,7 @@ Runtime Parallel Scheduing / Networks
 
 #### Backpropation
 [How the backpropagation algorithms works](./books/neural-networks-and-deep-learning/backpropagation.md)
+
 ## OpenSource Frameworks And Libs
 
 ### TIMM

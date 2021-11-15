@@ -5,6 +5,7 @@
 2. 算子融合：
 3. 显存高效的混合精度优化器
 
+其中对 [ls_dropout_bias_bwd_kernel 的源码解读分析](./ls_dropout_bias_bwd_kernel.md)
 ## 疑问
 1. [pytorch x.div(y) ](https://pytorch.org/docs/stable/generated/torch.div.html#torch.div) : 并没有详细说明除法里采用何种近似策略？用的 rn，看 ls 里 dropout half 里的实现
 2. half 的实现里，输入/出的 half, 却用 reinterpret_cast<float4*>(out) ,可以这样写？看论文意思是计算过程强制转为 float32 来计算。目测这个转化是说每次从 out 里读取的时候，读出来的是 half 2B，但是会强制转化成 4B 的 float
