@@ -1,3 +1,5 @@
+![](./imgs/ls_dropout_res.md)
+
 ```
 // row_size = bs*seq_len
 // dim = hidden size
