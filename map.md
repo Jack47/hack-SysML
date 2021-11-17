@@ -368,6 +368,7 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 [APEX: NVIDIA mixed-precision training](./hardware/GPU/apex.md)
 
+[What Every Programmer Should Know About Floating-Point Arithmetic](https://floating-point-gui.de/) [My Notes](./hardware/GPU/what-every-programmer-should-know-about-floating-point.md)
 ### CUDA
 cuBLAS: [My Notes](./hardware/GPU/cublas.md)
 
