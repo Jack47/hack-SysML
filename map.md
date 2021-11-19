@@ -1,7 +1,81 @@
-## Papers
+<!-- vscode-markdown-toc -->
+* 1. [Papers](#Papers)
+	* 1.1. [Convolution Neural Networks](#ConvolutionNeuralNetworks)
+	* 1.2. [Sparsity](#Sparsity)
+	* 1.3. [Transformers](#Transformers)
+	* 1.4. [Attribute Recognition](#AttributeRecognition)
+	* 1.5. [Classification](#Classification)
+	* 1.6. [Object Detection](#ObjectDetection)
+	* 1.7. [Knowledge Distillation](#KnowledgeDistillation)
+	* 1.8. [Network Communication](#NetworkCommunication)
+		* 1.8.1. [Gradient Compression](#GradientCompression)
+	* 1.9. [OPs in Network](#OPsinNetwork)
+		* 1.9.1. [Batch Normalization](#BatchNormalization)
+		* 1.9.2. [Group Normalization](#GroupNormalization)
+	* 1.10. [Compute Efficiency](#ComputeEfficiency)
+	* 1.11. [Memory Efficiency](#MemoryEfficiency)
+	* 1.12. [Compression](#Compression)
+	* 1.13. [Parallelism](#Parallelism)
+		* 1.13.1. [Data Parallel](#DataParallel)
+		* 1.13.2. [Pipeline Parallelism](#PipelineParallelism)
+		* 1.13.3. [Parallelization Strategies](#ParallelizationStrategies)
+	* 1.14. [Quantization](#Quantization)
+	* 1.15. [Network](#Network)
+	* 1.16. [Resource Management](#ResourceManagement)
+	* 1.17. [Parameter Server](#ParameterServer)
+* 2. [Network Operators](#NetworkOperators)
+* 3. [Course：](#Course)
+	* 3.1. [[CS179: GPU Programming](http://courses.cms.caltech.edu/cs179/)](#CS179:GPUProgramminghttp:courses.cms.caltech.educs179)
+	* 3.2. [ [CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/)](#CS231n:ConvolutionalNeuralNetworksforVisualRecognitionhttp:cs231n.stanford.edu)
+	* 3.3. [[CSE 599W: Systems for ML](http://dlsys.cs.washington.edu/schedule)](#CSE599W:SystemsforMLhttp:dlsys.cs.washington.eduschedule)
+		* 3.3.1. [[Introduction to Deep Learning](http://dlsys.cs.washington.edu/pdf/lecture1.pdf)](#IntroductiontoDeepLearninghttp:dlsys.cs.washington.edupdflecture1.pdf)
+		* 3.3.2. [[Lecture 1：Distributed Training and Communication Protocols](http://dlsys.cs.washington.edu/pdf/lecture11.pdf)](#Lecture1DistributedTrainingandCommunicationProtocolshttp:dlsys.cs.washington.edupdflecture11.pdf)
+		* 3.3.3. [[Lecture 3: Overview of Deep Learning System](http://dlsys.cs.washington.edu/pdf/lecture3.pdf)](#Lecture3:OverviewofDeepLearningSystemhttp:dlsys.cs.washington.edupdflecture3.pdf)
+		* 3.3.4. [[Lecture 5: GPU Programming](http://dlsys.cs.washington.edu/pdf/lecture5.pdf)](#Lecture5:GPUProgramminghttp:dlsys.cs.washington.edupdflecture5.pdf)
+	* 3.4. [https://ucbrise.github.io/cs294-ai-sys-sp19/](#https:ucbrise.github.iocs294-ai-sys-sp19)
+* 4. [Books：](#Books)
+	* 4.1. [Deep Learning](#DeepLearning)
+		* 4.1.1. [Backpropation](#Backpropation)
+* 5. [OpenSource Frameworks And Libs](#OpenSourceFrameworksAndLibs)
+	* 5.1. [TIMM](#TIMM)
+	* 5.2. [[Tensor Comprehensions]() 2018.2.13 Facebook AI Research Technical Report](#TensorComprehensions2018.2.13FacebookAIResearchTechnicalReport)
+	* 5.3. [TensorFlow RunTime (TFRT)](#TensorFlowRunTimeTFRT)
+	* 5.4. [OneFlow](#OneFlow)
+	* 5.5. [[Pytorch]()](#Pytorch)
+		* 5.5.1. [JIT](#JIT)
+	* 5.6. [[Tensorflow]()](#Tensorflow)
+	* 5.7. [[Acme: A Research Framework for Distributed Reinforcement Learning](https://arxiv.org/pdf/2006.00979.pdf)(arXiv: June 1 2020)](#Acme:AResearchFrameworkforDistributedReinforcementLearninghttps:arxiv.orgpdf2006.00979.pdfarXiv:June12020)
+	* 5.8. [[Launchpad]()](#Launchpad)
+	* 5.9. [Reverb(2020)](#Reverb2020)
+	* 5.10. [[Weld](https://www.weld.rs/)(Standford)](#Weldhttps:www.weld.rsStandford)
+	* 5.11. [Table Data Storage](#TableDataStorage)
+* 6. [Characterizing ML Training Workloads](#CharacterizingMLTrainingWorkloads)
+* 7. [Data Preprocessing](#DataPreprocessing)
+* 8. [Videos](#Videos)
+* 9. [Hardware](#Hardware)
+* 10. [ML Compilers](#MLCompilers)
+	* 10.1. [Rammer](#Rammer)
+	* 10.2. [IREE(Intermediate Representation Execution Environment)](#IREEIntermediateRepresentationExecutionEnvironment)
+* 11. [Profiling](#Profiling)
+	* 11.1. [Memory Profiling](#MemoryProfiling)
+	* 11.2. [Communication Profiling](#CommunicationProfiling)
+* 12. [Parallel Programming](#ParallelProgramming)
+* 13. [Mixed Precision Training](#MixedPrecisionTraining)
+	* 13.1. [CUDA](#CUDA)
+* 14. [Visualizing Neural Networks](#VisualizingNeuralNetworks)
+* 15. [Cluster Scheduler](#ClusterScheduler)
+* 16. [Misc](#Misc)
+
+<!-- vscode-markdown-toc-config
+	numbering=true
+	autoSave=true
+	/vscode-markdown-toc-config -->
+<!-- /vscode-markdown-toc -->
+
+##  1. <a name='Papers'></a>Papers
 ML Papers:
 
-### Convolution Neural Networks
+###  1.1. <a name='ConvolutionNeuralNetworks'></a>Convolution Neural Networks
 [Gradient-Based Learning Applied to Document Recognition]()(1996?) : [Notes](./papers/LeNet.md), 在 OCR 领域里，用不需要像之前的方法一样，需要很多人工介入/设计/处理。对字母的大小，变体等有鲁棒性。更多依赖于从数据里自动学习，而非手工针对任务做的启发式设计。这样一个统一结构的模型可以代替过去好几个独自设计的模块
 
 [ImageNet Classification with Deep Convolutional Neural Networks](http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf)(2010) ：用 deep convolutional neural network 在 2010 年的 ImageNet LSVRC 比赛上分类 1200百万高清(当时的)图片。使用的网络有6000万参数和65万神经元，引入了 dropout 来防止过拟合。 [Notes](./papers/ImageNet.md)
@@ -10,34 +84,34 @@ ML Papers:
 
 [Rich feature hierarchies for accurate object detection]() (2014) [Notes](./papers/object-detection/R-CNN.md)
 
-### Sparsity
+###  1.2. <a name='Sparsity'></a>Sparsity
 [Accelerating Sparse Approximate Matrix Multiplication on GPUs](), [Notes](./papers/sparsity/Accelerating-Sparse-Approximate-Matrix-Multiplication-on-GPUs.md)
 
-### Transformers
+###  1.3. <a name='Transformers'></a>Transformers
 [Attention is All you need](https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf) (Google Brain 2017) [My Notes](./papers/transformer/attention-is-all-you-need.md)
 
 ViT: Vision Transformer: [An Image is worth 16x16 Words: Transformers for Image Recognition at Scale]() (2021.6.3) [My Notes](./papers/transformer/vit-an-image-is-worth-16x16-words.md)
 
 lightseq: Accelerated Training for Transformer-based Models on GPUs(2021.10): 从工程角度出发实现 transformer 的训练和推理加速。[My Notes](./papers/transformer/lightseq.md) [源码阅读分析](./frameworks/lightseq/source-code.md)
 
-### Attribute Recognition
+###  1.4. <a name='AttributeRecognition'></a>Attribute Recognition
 [Hierarchical Feature Embedding for Attribute Recognition]() (2020.5.23) [My Notes](./papers/attribute-recognition/hierarchical-feature-embedding-for-attribute-recognition.md)
 
-### Classification
+###  1.5. <a name='Classification'></a>Classification
 
 
 
-### Object Detection
+###  1.6. <a name='ObjectDetection'></a>Object Detection
 
 [Fast R-CNN](): (2015) 提出用一个统一的网络来训练 R-CNN，而不是之前的三个阶段，不同的网络. [My Notes](./papers/object-detection/Fast-R-CNN.md)
 [Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks](https://arxiv.org/pdf/1506.01497.pdf) (2016)：提出了 Region Proposal Network (RPN)，和检测网络共享图片卷积特征，因此 region proposal 的代价非常小。 [My Notes](./papers/object-detection/Faster-R-CNN.md)
 
 [YOLO]() : (2016): [My Notes](./papers/object-detection/YOLO.md)
 
-### Knowledge Distillation
+###  1.7. <a name='KnowledgeDistillation'></a>Knowledge Distillation
 [Contrastive Representation Distillation](https://arxiv.org/pdf/1910.10699.pdf) (2020) [My Notes](./papers/knownledge-distillation/contrastive)
 
-### Network Communication
+###  1.8. <a name='NetworkCommunication'></a>Network Communication
 [Flare: Flexible In-Network Allreduce](https://arxiv.org/pdf/2106.15565.pdf) 2021-6-29:  SwitchML 不灵活，他们设计了一个交换机：by using as a building block PsPIN, a RISC-V architecture implementing the sPIN programming model. 
 
 In-Network Aggregation，[slides](https://www.usenix.org/system/files/nsdi21_slides_sapio.pdf), [Video](https://www.usenix.org/conference/nsdi21/presentation/sapio) [笔记](/network-communication/SwitchML.md) 18 年的
@@ -52,7 +126,7 @@ paper: [Scaling Distributed Machine Learning with In-Network Aggregation](https:
 
 [PMI](./network-communication/PMI.md): 并行编程中的Process Management System
 
-#### Gradient Compression
+####  1.8.1. <a name='GradientCompression'></a>Gradient Compression
 
 [GRACE: A Compressed Communication Framework for Distributed Machine Learning](https://sands.kaust.edu.sa/papers/grace.icdcs21.pdf) (2021) : s. We instantiate GRACE on TensorFlow and PyTorch, and implement 16 such methods.
 Finally, we present a thorough quantitative evaluation with a variety of DNNs (convolutional and recurrent), datasets and system configurations. We show that the DNN architecture affects the relative performance among methods. Interestingly, depending on the underlying communication library and computational cost of compression / decompression, we demonstrate that some methods may be impractical. GRACE and the entire benchmarking suite are available as open-source.
@@ -61,9 +135,9 @@ Finally, we present a thorough quantitative evaluation with a variety of DNNs (c
 
 [Code: GRACE: A Compressed Communication Framework for Distributed Machine Learning](https://github.com/sands-lab/grace):  is an unified framework for all sorts of compressed distributed training algorithms
 
-### OPs in Network
+###  1.9. <a name='OPsinNetwork'></a>OPs in Network
 
-#### Batch Normalization
+####  1.9.1. <a name='BatchNormalization'></a>Batch Normalization
 
 [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167)(2015): 用了 BN 后学习率可以调大，初始化过程更鲁棒。也有 regularization 作用，可以一定程度代替 drop out。 faster training and high performance. [My Notes](./papers/batch-normalization.md)
 
@@ -71,18 +145,18 @@ Layer Normalization (2016.7) : [My Notes ](./papers/layer-normalization.md) : �
 
 [Norm matters: efficient and accurate normalization schemes in deep networks](https://arxiv.org/pdf/1803.01814.pdf)(2019 ): suggest several alternatives to the widely used L2 batch-norm, using normalization in L1 and L∞ space
 
-#### Group Normalization
+####  1.9.2. <a name='GroupNormalization'></a>Group Normalization
 
 Sys Papers:
 
-### Compute Efficiency
+###  1.10. <a name='ComputeEfficiency'></a>Compute Efficiency
 [AdderNet: Do We Really Need Multiplications in Deep Learning](https://arxiv.org/abs/1912.13200v2)
 
 [Rammer]() [My Notes](./papers/Rammer-Enabling-Holistic-DL-Optimizations-with-rTasks.md)
 
 [1 Bit Adam]() () [My Notes](./network-communication/1-bit-Adam.md): 实现了 GPU 上的 error compensated Adam preconditioned momentum SGD。减少了 GPU 和 CPU间通信，还加速了优化器的计算
 
-### Memory Efficiency
+###  1.11. <a name='MemoryEfficiency'></a>Memory Efficiency
 
 [MONeT: Memory optimization for deep networks](https://openreview.net/pdf?id=bnY0jm4l59)(ICLR 2021) : 发在了 Learning Representation 上，说明不是系统的改进，是算法的改进
 1. MONeT: Memory Optimization for Deep Networks：https://github.com/utsaslab/MONeT
@@ -120,17 +194,17 @@ Binaryconnect: Training deep neural networks with binary weights during propagat
 [ZeRO Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning]()(2021.4.16), [My Notes](./memory-efficiency/ZeRO-Infinity.md) : 在 ZeRO 基础上，把显存交换到 CPU、NVMe 上。ZeRO 系列的好处是不需要改用户的代码。ZeRO 系列主要解决内存问题（Memory wall)
 
 PatrickStar: Parallel Training of Pre-trained Models via Chunk-based Memory Management [My Notes](./memory-efficiency/patrickstar.md)
-### Compression
+###  1.12. <a name='Compression'></a>Compression
 
 Deep compression: Compressing deep nerual networks with pruning, trained quantization and huffman coding. (ICLR, 2016 Song Han)
 
 Deep gradient compression: Reducing the communication bandwidth for distributed training. (ICLR, 2018 Songhan)
 
-### Parallelism
+###  1.13. <a name='Parallelism'></a>Parallelism
 
 [Efficient Large-Scale Language Model Training on GPU Clusters](https://arxiv.org/pdf/2104.04473.pdf) (2021.4): 主要介绍了继 Megatron-LM 之后，如何结合多种并行方式，让特定 batchsize 的大transformer 模型，高通吐地运行起来。[阅读笔记](papers/efficient-large-scale-language-model-training.md)
 
-#### Data Parallel
+####  1.13.1. <a name='DataParallel'></a>Data Parallel
 [PyTorch Distributed: Experiences on Accelerating Data Parallel Training](https://arxiv.org/pdf/2006.15704.pdf)(2020.6.28) [My notes](./papers/PyTorch Distributed-Data Parallel Training.md)
 
 [Automatic Cross-Replica Sharding of Weight Update in Data-Parallel Training](https://arxiv.org/abs/2004.13336)(2020-4-28) : 提出了 weights 的自动切分方法，通过高效的通信原语来同步，使用静态分析计算图的方法，应用于 ADAM 或 SGD
@@ -139,7 +213,7 @@ Deep gradient compression: Reducing the communication bandwidth for distributed 
 
 
 
-#### Pipeline Parallelism
+####  1.13.2. <a name='PipelineParallelism'></a>Pipeline Parallelism
 [PipeDream: Generalized Pipeline Parallelism for DNN Training](https://cs.stanford.edu/~matei/papers/2019/sosp_pipedream.pdf)(SOSP'19)
 
 [GPipe: Efficient training of giant neural networks using pipeline parallelism]()(NIPS 2019)
@@ -150,55 +224,55 @@ Deep gradient compression: Reducing the communication bandwidth for distributed 
 
 [torochpipe](https://github.com/kakaobrain/torchgpipe)
 
-#### Parallelization Strategies
+####  1.13.3. <a name='ParallelizationStrategies'></a>Parallelization Strategies
 [Beyond Data and Model Parallelism for Deep Neural Networks](https://arxiv.org/pdf/1807.05358.pdf)
 > Defined a more comprehensive search space of parallelization strategies for DNNs called SOAP, which includes strategies to parallelize a DNN in the Sample, Operation, Attribute, and Parameter dimesions. Proposed FlexFlow, a deep learning framework that uses guided randomized search of the SOAP spaceto find a fast parallelization strategy for a specific parallel machine. To accelerate this search, FlexFlow introduces a novel execution simulator that can accurately predict a parallelizaiton strategy's performance.
 
-### Quantization 
+###  1.14. <a name='Quantization'></a>Quantization 
 
 And the bit goes down: Revisiting the quantization of neural networks. (ICLR 2020)
 
 
-### Network
+###  1.15. <a name='Network'></a>Network
 [GradientFlow: Optimizing Network Performance for Distributed DNN Training on GPU Clusters](https://arxiv.org/pdf/1902.06855.pdf)(cs.DC 2019)
 
 > Proposed a communication backend named GradientFlow for distributed DNN training. First we integrate ring-based all-reduce, mixed-precision training, and computation/communication overlap. Second, we propose lazy allreduce to improve network throughput by fusing multiple communication operations into a singe one, and design coarse-grained sparse communication to reduce network traffic by transmitting important gradient chunks.
 
-### Resource Management
+###  1.16. <a name='ResourceManagement'></a>Resource Management
 
 [Optimus on top of K8s](https://i.cs.hku.hk/~cwu/papers/yhpeng-eurosys18.pdf)
 
-### Parameter Server
+###  1.17. <a name='ParameterServer'></a>Parameter Server
 [Scaling Distributed Machine Learning with the Parameter Server](https://www.cs.cmu.edu/~muli/file/parameter_server_osdi14.pdf)(2013?)
 
-## Network Operators
+##  2. <a name='NetworkOperators'></a>Network Operators
 [Dropout vs Droppath](operators/dropout.md)
 [Conv](operators/conv.md)
-## Course：
+##  3. <a name='Course'></a>Course：
 [CS294-AI-Sys](https://ucbrise.github.io/cs294-ai-sys-sp19/)(UC Berkely)
 
 [笔记](./courses/ucberkely-cs294-ai-sys/)
 
 
-### [CS179: GPU Programming](http://courses.cms.caltech.edu/cs179/)
+###  3.1. <a name='CS179:GPUProgramminghttp:courses.cms.caltech.educs179'></a>[CS179: GPU Programming](http://courses.cms.caltech.edu/cs179/)
 [Week 4 Lec 10: cuBLAS Intro](http://courses.cms.caltech.edu/cs179/2021_lectures/cs179_2021_lec10.pdf). [My Notes](./courses/cs179/cuBLAS.md)
 
 里面提到的一些经典论文，找到人讨论效果更佳
 
 
-###  [CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/)
+###  3.2. <a name='CS231n:ConvolutionalNeuralNetworksforVisualRecognitionhttp:cs231n.stanford.edu'></a> [CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/)
 >  This course is a deep dive into the details of deep learning architectures with a focus on learning end-to-end models for these tasks, particularly image classification. During the 10-week course, students will learn to implement and train their own neural networks and gain a detailed understanding of cutting-edge research in computer vision. Additionally, the final assignment will give them the opportunity to train and apply multi-million parameter networks on real-world vision problems of their choice. Through multiple hands-on assignments and the final course project, students will acquire the toolset for setting up deep learning tasks and practical engineering tricks for training and fine-tuning deep neural networks.
 > 
 
 (Vector, Matrix, and Tensor Derivatives(Erik Learned-Miller))[http://cs231n.stanford.edu/vecDerivs.pdf] [My Notes](./courses/cs231n/vector-derivatives.md)
 
-### [CSE 599W: Systems for ML](http://dlsys.cs.washington.edu/schedule)
+###  3.3. <a name='CSE599W:SystemsforMLhttp:dlsys.cs.washington.eduschedule'></a>[CSE 599W: Systems for ML](http://dlsys.cs.washington.edu/schedule)
 > System aspect of deep learning: faster training, efficient serving, lower
 memory consumption
 
 有不少结合TVM的部分，比如 Memory Optimization, Parallel Scheduing, 其中我感兴趣的部分：
 
-#### [Introduction to Deep Learning](http://dlsys.cs.washington.edu/pdf/lecture1.pdf)
+####  3.3.1. <a name='IntroductiontoDeepLearninghttp:dlsys.cs.washington.edupdflecture1.pdf'></a>[Introduction to Deep Learning](http://dlsys.cs.washington.edu/pdf/lecture1.pdf)
 ##### Evolution of ConvNets:
 
 LeNet(1998)
@@ -235,32 +309,32 @@ Impact:
 * Easy to tune learning rate . ?
 * Less sensitive initialization. ?
 
-#### [Lecture 1：Distributed Training and Communication Protocols](http://dlsys.cs.washington.edu/pdf/lecture11.pdf)
+####  3.3.2. <a name='Lecture1DistributedTrainingandCommunicationProtocolshttp:dlsys.cs.washington.edupdflecture11.pdf'></a>[Lecture 1：Distributed Training and Communication Protocols](http://dlsys.cs.washington.edu/pdf/lecture11.pdf)
 
-#### [Lecture 3: Overview of Deep Learning System](http://dlsys.cs.washington.edu/pdf/lecture3.pdf)
+####  3.3.3. <a name='Lecture3:OverviewofDeepLearningSystemhttp:dlsys.cs.washington.edupdflecture3.pdf'></a>[Lecture 3: Overview of Deep Learning System](http://dlsys.cs.washington.edu/pdf/lecture3.pdf)
 Computational Graph Optimization and Execution
 
 Runtime Parallel Scheduing / Networks
 
 
-#### [Lecture 5: GPU Programming](http://dlsys.cs.washington.edu/pdf/lecture5.pdf)
+####  3.3.4. <a name='Lecture5:GPUProgramminghttp:dlsys.cs.washington.edupdflecture5.pdf'></a>[Lecture 5: GPU Programming](http://dlsys.cs.washington.edu/pdf/lecture5.pdf)
 
-### https://ucbrise.github.io/cs294-ai-sys-sp19/
+###  3.4. <a name='https:ucbrise.github.iocs294-ai-sys-sp19'></a>https://ucbrise.github.io/cs294-ai-sys-sp19/
 [AI-Sys Spring 2019](https://ucbrise.github.io/cs294-ai-sys-sp19/)(UC Berkeley)
 
-## Books：
+##  4. <a name='Books'></a>Books：
 [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com/chap2.html)
 
-### Deep Learning
+###  4.1. <a name='DeepLearning'></a>Deep Learning
 [Deep Learning](https://www.deeplearningbook.org/): Ian Goodfellow and Yoshua Bengio and Aron Courville
 > intended to help students and practitioners enter the field of machine learning in general and deep learning in particular. The online version of the book is now complete and will remain available online for free.
 
-#### Backpropation
+####  4.1.1. <a name='Backpropation'></a>Backpropation
 [How the backpropagation algorithms works](./books/neural-networks-and-deep-learning/backpropagation.md)
 
-## OpenSource Frameworks And Libs
+##  5. <a name='OpenSourceFrameworksAndLibs'></a>OpenSource Frameworks And Libs
 
-### TIMM
+###  5.1. <a name='TIMM'></a>TIMM
 PyTorch Image Models (TIMM) is a library for state-of-the-art image classification. With this library you can:
 * Choose from 300+ pre-trained state-of-art image classification models.
 * Train models afresh on research datasets such as ImageNet using provided scripts
@@ -268,11 +342,11 @@ PyTorch Image Models (TIMM) is a library for state-of-the-art image classificati
 
 Pytorch Image Models
 
-### [Tensor Comprehensions]() 2018.2.13 Facebook AI Research Technical Report
+###  5.2. <a name='TensorComprehensions2018.2.13FacebookAIResearchTechnicalReport'></a>[Tensor Comprehensions]() 2018.2.13 Facebook AI Research Technical Report
 
 [My notes](./papers/frameworks/tensor-comprehensions.md)
 
-### TensorFlow RunTime (TFRT)
+###  5.3. <a name='TensorFlowRunTimeTFRT'></a>TensorFlow RunTime (TFRT)
 
 > aims to provide a unified, extensble infrastructure layer with best-in-class performance across a wide variety of domain specific hardware.
 
@@ -280,29 +354,29 @@ Pytorch Image Models
 
 目前还在比较早期阶段，还无法做到通用
 
-### OneFlow
+###  5.4. <a name='OneFlow'></a>OneFlow
 
-### [Pytorch]()
+###  5.5. <a name='Pytorch'></a>[Pytorch]()
  [Functions/APIs in PyTorch ](./frameworks/pytorch/functions.md)
  
  [Reading Source Code Snippets](./frameworks/pytorch/source-code.md)
  
-#### JIT
+####  5.5.1. <a name='JIT'></a>JIT
 
 ![](https://github.com/pytorch/tvm/blob/master/pt_execution.png?raw=true)
 
-### [Tensorflow]()
+###  5.6. <a name='Tensorflow'></a>[Tensorflow]()
 [Tensorflow: a system for large-scale machine learning]()(OSDI 2016)
 
 [Automatic differetiation in Pytorch]()(2017)
 
 [Mesh-tensorflow: Deep learning for supercomputers]()(NIPS 2018)
 
-### [Acme: A Research Framework for Distributed Reinforcement Learning](https://arxiv.org/pdf/2006.00979.pdf)(arXiv: June 1 2020)
+###  5.7. <a name='Acme:AResearchFrameworkforDistributedReinforcementLearninghttps:arxiv.orgpdf2006.00979.pdfarXiv:June12020'></a>[Acme: A Research Framework for Distributed Reinforcement Learning](https://arxiv.org/pdf/2006.00979.pdf)(arXiv: June 1 2020)
 > Agents are different scales of both complexity and computation -- including distributed versions.
 
 让 RL 从单机版原型可以无痛扩展到多机分布式。
-### [Launchpad]()
+###  5.8. <a name='Launchpad'></a>[Launchpad]()
 
 From Acme Paper:
 > Roughly speaking, Launchpad provides a mechanism for creating a distributed program as a graph cnosisting of nodes and edges. Nodes exactly correspond to the modules -- represented as class instances as described above -- whereas the edges represent a client/server channel allowing communication between two modules. The key innovation of Launchpad is that it handles the creating of these edges in such a way that from perspective of any module there is no ditinction between a local and remote communication, e.g. for an actor retrieving parameters from a learner in both instances this just looks like a method call.
@@ -311,12 +385,12 @@ From Acme Paper:
 
 ![](./imgs/acme-fig4-distrbuted-asynchronous-agent.png)
 
-### Reverb(2020)
+###  5.9. <a name='Reverb2020'></a>Reverb(2020)
 The dataset in RL can be backed by a low-level data storaeg system.
 > It enables efficient insertion and routing of items and a flexible sampling mechanism that allows:FIFO, LIFO, unifrom, and weighted sampling schemes.
 
 
-### [Weld](https://www.weld.rs/)(Standford)
+###  5.10. <a name='Weldhttps:www.weld.rsStandford'></a>[Weld](https://www.weld.rs/)(Standford)
 Fast rust parallel code generation for data analytics frameworks. Developed at Standford University.
 > Weld is a language and runtime for improving the performance of data-intensive applications. It optimizes across libraries and functions by expressing the core computations in libraries using a common intermediate repersentation, and optimizing across each framwork.
 > Modern analytics applications combine multiple functions from different libraries and frameworks to build complex workflows.
@@ -329,41 +403,41 @@ Paper: [Weld: Rethinking the Interface Between Data-Intensive Applications.](htt
 
 Related research papers: [PipeDream: General Pipeline Parallelism for DNN Training](https://cs.stanford.edu/~matei/papers/2019/sosp_pipedream.pdf) (SOSP'19)
 
-### Table Data Storage
+###  5.11. <a name='TableDataStorage'></a>Table Data Storage
 [Reverb is an efficient and easy-to-use data storage and trasport system designed for machine learning research](https://github.com/deepmind/reverb)(DeepMind, 2021-4-22)
 
 > Used an an experience replay system for distributed reinforcement learning algorithms
 
-## Characterizing ML Training Workloads
+##  6. <a name='CharacterizingMLTrainingWorkloads'></a>Characterizing ML Training Workloads
 [Characterizing Deep Learning Training Workloads on Alibaba-PAI](https://arxiv.org/pdf/1910.05930)(2019-10-14): 主要看看他们是用什么方法来profile的，是否有借鉴意义
 
-## Data Preprocessing
+##  7. <a name='DataPreprocessing'></a>Data Preprocessing
 [ImageNet-21K Pretraining for the Masses]() (2021.8.5) [My Notes](./papers/data/imagenet-21k-pretraining-for-the-masses.md)
 
-## Videos
+##  8. <a name='Videos'></a>Videos
 [Flexible systems are the next frontier of machine learning](https://www.youtube.com/watch?v=Jnunp-EymJQ&list=WL&index=14) Stanford 邀请 Jeff Dean 和 Chris Re 探讨最新的进展(2019) [My Notes](./videos/Flexible-systems-are-the-next-frontiner-of-machine-learning.md)
 
-## Hardware
+##  9. <a name='Hardware'></a>Hardware
 [NVLink](./hardware/GPU/nvlink.md) vs PCiE
-## ML Compilers
-### Rammer
+##  10. <a name='MLCompilers'></a>ML Compilers
+###  10.1. <a name='Rammer'></a>Rammer
 
-### IREE(Intermediate Representation Execution Environment)
+###  10.2. <a name='IREEIntermediateRepresentationExecutionEnvironment'></a>IREE(Intermediate Representation Execution Environment)
 > It's an MLIR-based end-to-end compiler and runtime that lowers ML modeles to a unified IR that scales up to meet the needs of the datacenter and down to satisfy the constraints and special considerations of mobile and edge deployments.
 目前支持 TensorFlow, JAX
 
-## Profiling
-### Memory Profiling
+##  11. <a name='Profiling'></a>Profiling
+###  11.1. <a name='MemoryProfiling'></a>Memory Profiling
 [Capuchin: Tensor-based GPU Memory Management for Deep Learning]()(2020 ASPLOS) , [My notes](./papers/capuchin.md)
 
-### Communication Profiling
+###  11.2. <a name='CommunicationProfiling'></a>Communication Profiling
 [Designing-a-profiling-and-visualization-tool-for-scalable-and-in-depth-analysis-of-high-performance-gpu-clusters]()(2019 HiPC), [My notes](./papers/designing-a-profiling-and-visualization-tool-for-scalable-and-in-depth-analysis-of-high-performance-gpu-clusters.md)
 
-## Parallel Programming
+##  12. <a name='ParallelProgramming'></a>Parallel Programming
 [Persistent threads style gpu programming for gpgpu workloads]() (2012 IEEE) [My Notes](papers/persistent-threads.md)
 [Persistent Threads Block](https://www.classes.cs.uchicago.edu/archive/2016/winter/32001-1/papers/AStudyofPersistentThreadsStyleGPUProgrammingforGPGPUWorkloads.pdf)
 
-## Mixed Precision Training
+##  13. <a name='MixedPrecisionTraining'></a>Mixed Precision Training
 [https://arxiv.org/abs/1710.03740](https://arxiv.org/abs/1710.03740) (2017 ICLR) [My Notes](./papers/mixed-precision-training.md)
 
 [APEX: NVIDIA mixed-precision training](./hardware/GPU/apex.md)
@@ -371,7 +445,7 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 [What Every Programmer Should Know About Floating-Point Arithmetic](https://floating-point-gui.de/) [My Notes](./hardware/GPU/what-every-programmer-should-know-about-floating-point.md)
 
 [fp16](./hardware/GPU/fp16.md)
-### CUDA
+###  13.1. <a name='CUDA'></a>CUDA
 cuBLAS: [My Notes](./hardware/GPU/cublas.md)
 
 [pytorch cuda api](./hardware/GPU/pytorch-cuda.md)
@@ -385,15 +459,15 @@ CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
 [SoftMax 的高效 CUDA 实现](./hardware/GPU/efficient-softmax.md)
 
 [CUDA 里的全局 threadId 如何计算？](./hardware/GPU/indexes-in-cuda.md)
-## Visualizing Neural Networks
+##  14. <a name='VisualizingNeuralNetworks'></a>Visualizing Neural Networks
 [Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)
 
-## Cluster Scheduler
+##  15. <a name='ClusterScheduler'></a>Cluster Scheduler
 [Pollux: Co-adaptive Cluster Scheduling for Goodput-Optimized-Deep-Learning]() [My notes](papers/scheduler/pollux.md)
 
 AntMan
 
-## Misc
+##  16. <a name='Misc'></a>Misc
 [The Modern Histry of Object Recognition -- Infographic](https://medium.com/@nikasa1889/the-modern-history-of-object-recognition-infographic-aea18517c318)
 
 [HPC-oriented Latency Numbers Every Programmer Should Know](https://gist.github.com/understeer/4d8ea07c18752989f6989deeb769b778)
