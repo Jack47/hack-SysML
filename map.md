@@ -109,7 +109,9 @@ lightseq: Accelerated Training for Transformer-based Models on GPUs(2021.10): �
 [YOLO]() : (2016): [My Notes](./papers/object-detection/YOLO.md)
 
 ###  1.7. <a name='KnowledgeDistillation'></a>Knowledge Distillation
-[Contrastive Representation Distillation](https://arxiv.org/pdf/1910.10699.pdf) (2020) [My Notes](./papers/knownledge-distillation/contrastive)
+[Contrastive Representation Distillation](https://arxiv.org/pdf/1910.10699.pdf) (2020) [My Notes](./papers/knownledge-distillation/contrastive-representation-distillation.md)
+
+Search to Distill: Pearls are Everywhere but not the Eyes(2020)  [My Notes](./papers/knownledge-distillation/search-to-distill.md)
 
 ###  1.8. <a name='NetworkCommunication'></a>Network Communication
 [Flare: Flexible In-Network Allreduce](https://arxiv.org/pdf/2106.15565.pdf) 2021-6-29:  SwitchML 不灵活，他们设计了一个交换机：by using as a building block PsPIN, a RISC-V architecture implementing the sPIN programming model. 
