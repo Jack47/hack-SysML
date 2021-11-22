@@ -249,6 +249,7 @@ And the bit goes down: Revisiting the quantization of neural networks. (ICLR 202
 
 ##  2. <a name='NetworkOperators'></a>Network Operators
 [Dropout vs Droppath](operators/dropout.md)
+
 [Conv](operators/conv.md)
 ##  3. <a name='Course'></a>Course：
 [CS294-AI-Sys](https://ucbrise.github.io/cs294-ai-sys-sp19/)(UC Berkely)
