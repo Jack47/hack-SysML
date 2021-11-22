@@ -1,4 +1,5 @@
-![](./imgs/ls_dropout_res.md)
+
+![](./imgs/ls_dropout_res.png)
 
 ```
 // row_size = bs*seq_len
