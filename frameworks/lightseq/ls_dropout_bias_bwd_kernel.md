@@ -1,6 +1,15 @@
 
 ![](./imgs/ls_dropout_res.png)
 
+## 总结：
+对于每个Block 而言，除了上述的信息，里面具体求和，分为这么几步：
+
+step 1: <8, row_size> 合并为 <8, 128>，合并 row\_size/4 (所有线程都执行)
+
+step 2: <8, 128> 合并为 <8, 32> ，合并4次(只需要1/4的线程执行)
+
+step 3: <8, 32> 通过 warp shuffle 操作，合并为 <8, 1> （只需要8个线程执行存储）
+
 ```
 // row_size = bs*seq_len
 // dim = hidden size
@@ -53,7 +62,7 @@ __global__ void ls_dropout_bias_bwd_kernel(
   int tid = threadIdx.y * blockDim.x + threadIdx.x; // 为啥不用 g.thread_rank()? 不行，这个是更细粒度的。block 内部的 id 无法直接获取，需要这样计算下
   int x = tid >> 7;  // [0-7] 不就是 threadIdx.x 么
   int y = tid & (127); // [0-127] 不就是 threadIx.y 
-  if (y < 32) {
+  if (y < 32) { // 只有1/4的线程执行
 #pragma unroll
     for (int i = 0; i < 4; i++) {
       sum += tile[x][y + i * 32];
@@ -62,12 +71,12 @@ __global__ void ls_dropout_bias_bwd_kernel(
   __syncthreads();
 
   // Step3: 把 [8][32] 个 通过 thread group 里提供的不需要共享内存的 shfl_down 来 reduce 到 [8][0] 个
-  for (int i = 1; i < 32; i <<= 1) sum += g.shfl_down(sum, i); // 把 [1-31] 都累加到 sum 上，此时 y == 0 就是32个数的和
+  for (int i = 1; i < 32; i <<= 1) sum += g.shfl_down(sum, i); // 把 [1-31] 都累加到 sum 上，此时 y == 0 就是32个数的和。而其他人拿到的是部分的和
 
   if (y == 0) tile[0][x] = sum; // 总共有8个，算是第一行吧
   __syncthreads();
 
-  if (threadIdx.x < 8) {
+  if (threadIdx.x < 8) { // 会有 128 个线程执行
     int pos = flat_2dim(blockIdx.x, threadIdx.x, 8);
     bias_grad[pos] = tile[0][threadIdx.x]; // 就是上面的 tile[0][x]
   }
