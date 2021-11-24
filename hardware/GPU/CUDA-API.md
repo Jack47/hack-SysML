@@ -73,6 +73,8 @@ t - PCIe Rx and Tx throughput
 ## Execution Configuration
 首先如果一个函数是 cuda 的 kernel 函数，那需要用 `__global__` 来标识出来。其次执行时配置定义了 grid 和 blocks 上的维度。通过插入 `<<<DimGrid, DimBlock, NumSharedMem, stream>>>` 来做。
 
+对于 shared 的数组，不能在 global or device 函数里动态申明(on the fly), 所以需要静态分配(__shared__ tile[8][128])，或者在kernel 调用时传入大小
+
 其中：
 
 1. DimGrid 是 dim3 类型，指定了 grid 的维度和各维度大小，而 DimGrid.x * DimGrid.y * DimGrid.z 会和发射的 blocks 数量相等。刚接触不适应的地方在于这里 DimGrid 不是说 Grid 的维度，而是里面 Block 的维度和数量
