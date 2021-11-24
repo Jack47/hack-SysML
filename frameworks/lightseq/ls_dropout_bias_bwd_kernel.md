@@ -75,5 +75,6 @@ __global__ void ls_dropout_bias_bwd_kernel(
 
 ```
 
+在 half 版本里，idx 还是和原来一样，只不过需要限制 idx  不要超过 total_size/2
 ## 问题
 1. `ls_dropout_bias_bwd_kernel<<<grid_dim, block_dim, 0, stream>>>` 里，shared bytes = 0,但实际上内部又申请了，这样也行？那 shared bytes 有啥作用？
