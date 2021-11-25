@@ -17,6 +17,8 @@
 
 V100 老黄说这是06年以来显卡的最大创新。添加了 **Tensor Core** 能对矩阵乘这种 DL 里的最常见操作进行加速，分离了 fp32和int32操作(两者可并行）。
 
+## cuda 显存
+不同op的 kernel间，交换数据，需要通过 global memory。而切换 op 时，会涉及 register 上数据(on and off chip data movement)的搬移
 
 ## cuda 运算 API 举例
 

@@ -39,7 +39,7 @@ __global__ void ls_dropout_bias_bwd_kernel(
   int stride = hidden_size * 128; // 为啥？可能因为有 128 个线程
   float local_sum = 0;
 
-  // Step1: 每个 block 里计算出[8][128] 个局部求和后的值，放到 block 内共享的空间里
+  // Step1: 每个 block 里计算出[8][128] 个局部求和后的值，放到 block 内共享的空间里。如果使用 half2，那么x轴方向只需要一半的线程进行计算
   int idx = flat_2dim(threadIdx.y, col_idx, hidden_size); // 每一行里处理 hidden_size 个
   // r 代表 block 内部 y 轴。那么 row_size 就是 y 轴最大长度，而 hidden_size 就是x 轴最大长度
   for (int r = threadIdx.y; r < row_size; r += 128) { 
@@ -56,11 +56,11 @@ __global__ void ls_dropout_bias_bwd_kernel(
   __syncthreads();
 
 
-  // Step2: 把 [8][128] 个 reduce 到 [8][32] 个，需要每隔4个求和
+  // Step2: 把 [8][128] 个 reduce 到 [8][32] 个，即y轴方向求和，需要每隔4个求和
   float sum = 0;
   // 当前 block 内部的 thread id : 0-8*128-1
   int tid = threadIdx.y * blockDim.x + threadIdx.x; // 为啥不用 g.thread_rank()? 不行，这个是更细粒度的。block 内部的 id 无法直接获取，需要这样计算下
-  int x = tid >> 7;  // [0-7] 不就是 threadIdx.x 么
+  int x = tid >> 7;  // [0-7] 不就是 threadIdx.x 么? 并不是，只是值域相等。可以拿 t1 举例： <1,0> -> <0, 1> 。所以效果是让x和y调换一下。这样就是在每个 warp 里求列的和
   int y = tid & (127); // [0-127] 不就是 threadIx.y 
   if (y < 32) { // 只有1/4的线程执行
 #pragma unroll
@@ -84,6 +84,11 @@ __global__ void ls_dropout_bias_bwd_kernel(
 
 ```
 
-在 half 版本里，idx 还是和原来一样，只不过需要限制 idx  不要超过 total_size/2
+上述代码里面有很多隐藏的玄机：
+
+1. tile 使用的时候，到了 step2,在 warp 内求和时，需要转换到给 tile 的 列求和。如果直接用 threadIdx.x 和  threadIdx.y，此时会在行里求和
+2. half2 的使用，会让行上需要的线程数量缩小，不影响列
+3. 在 half 版本里，idx 还是和原来一样，只不过需要限制 idx  不要超过 total_size/2
+
 ## 问题
 1. `ls_dropout_bias_bwd_kernel<<<grid_dim, block_dim, 0, stream>>>` 里，shared bytes = 0,但实际上内部又申请了，这样也行？那 shared bytes 有啥作用？
