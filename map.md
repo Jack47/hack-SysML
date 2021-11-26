@@ -234,6 +234,8 @@ Deep gradient compression: Reducing the communication bandwidth for distributed 
 
 And the bit goes down: Revisiting the quantization of neural networks. (ICLR 2020)
 
+MQBench: Towards Reproducible and Deployable Model Quantization Benchmark (NIPS 2021) [My Notes](./papers/quantization/MQBench.md)
+
 
 ###  1.15. <a name='Network'></a>Network
 [GradientFlow: Optimizing Network Performance for Distributed DNN Training on GPU Clusters](https://arxiv.org/pdf/1902.06855.pdf)(cs.DC 2019)
