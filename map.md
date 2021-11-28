@@ -94,6 +94,8 @@ ViT: Vision Transformer: [An Image is worth 16x16 Words: Transformers for Image 
 
 lightseq: Accelerated Training for Transformer-based Models on GPUs(2021.10): 从工程角度出发实现 transformer 的训练和推理加速。[My Notes](./papers/transformer/lightseq.md) [源码阅读分析](./frameworks/lightseq/source-code.md)
 
+Masked Autoencoders Are Scalable Vision Learners [My Notes](./papers/transformer/Masked-AutoEncoders-Are-Scalable Vision Learners.md)
+
 ###  1.4. <a name='AttributeRecognition'></a>Attribute Recognition
 [Hierarchical Feature Embedding for Attribute Recognition]() (2020.5.23) [My Notes](./papers/attribute-recognition/hierarchical-feature-embedding-for-attribute-recognition.md)
 
