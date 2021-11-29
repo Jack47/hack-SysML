@@ -337,6 +337,8 @@ Runtime Parallel Scheduing / Networks
 ####  4.1.1. <a name='Backpropation'></a>Backpropation
 [How the backpropagation algorithms works](./books/neural-networks-and-deep-learning/backpropagation.md)
 
+[Customize backward function in pytorch](./frameworks/pytorch/functions.md)
+
 ##  5. <a name='OpenSourceFrameworksAndLibs'></a>OpenSource Frameworks And Libs
 
 ###  5.1. <a name='TIMM'></a>TIMM

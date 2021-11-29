@@ -49,3 +49,10 @@ A placeholder identity operator that is argument-insensitive. m = nn.Identity(54
 
 
 
+
+## torch.Tensor.register_hook
+可以挂(唯一) **一个** hook，当这个 tensor 的梯度被计算时使用
+
+## torch.nn.Module.hooks
+
+Forward hooks, Backward hooks
