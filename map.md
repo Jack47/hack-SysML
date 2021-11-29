@@ -236,7 +236,9 @@ Deep gradient compression: Reducing the communication bandwidth for distributed 
 
 And the bit goes down: Revisiting the quantization of neural networks. (ICLR 2020)
 
-MQBench: Towards Reproducible and Deployable Model Quantization Benchmark (NIPS 2021) [My Notes](./papers/quantization/MQBench.md)
+MQBench: Towards Reproducible and Deployable Model Quantization Benchmark (NIPS 2021) 提出了一套验证量化算法在推理上可复现性和可部署性的Benchmark集合，指出了当前学术界和工业界之间的 Gap。[My Notes](./papers/quantization/MQBench.md)
+
+Google. Gemmlowp: building a quantization paradigm from first principles 里面提到了量化感知训练的方法
 
 
 ###  1.15. <a name='Network'></a>Network
