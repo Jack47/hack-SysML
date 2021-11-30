@@ -2,6 +2,9 @@
 
 ![](./imgs/gpu-grid-block-thread-arch.png)
 
+![](./imgs/gpu-hardware-model.png)
+
+
 如图左侧，GPU 被叫做 device，每个 kernel 运行在不同的 Grid 上，Grid 可以和卡对应起来，每个 grid 内部有很多 block，而每个 block 里有 threads。这里每个层级比如 block，都可以是一、二、三维的。
 
 如图右侧，Threads 有自己的寄存器，内存。而Block 内部(threads之间)有共享内存，而 Block 之间要通过 Global Memory 
