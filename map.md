@@ -458,6 +458,7 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 [fp16](./hardware/GPU/fp16.md)
 ###  13.1. <a name='CUDA'></a>CUDA
 CUTLASS: [My Notes](./hardware/GPU/cutlass.md)
+
 cuBLAS: [My Notes](./hardware/GPU/cublas.md)
 
 [pytorch cuda api](./hardware/GPU/pytorch-cuda.md)
@@ -471,6 +472,9 @@ CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
 [SoftMax 的高效 CUDA 实现](./hardware/GPU/efficient-softmax.md)
 
 [CUDA 里的全局 threadId 如何计算？](./hardware/GPU/indexes-in-cuda.md)
+
+[CUDA Graphs: 可以用来节省传统 stream 方式下 cudaLaunchKernel 的时间，适合小的静态 kernel](./hardware/GPU/cuda-graphs.md)
+
 ##  14. <a name='VisualizingNeuralNetworks'></a>Visualizing Neural Networks
 [Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)
 
