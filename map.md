@@ -457,6 +457,7 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 [fp16](./hardware/GPU/fp16.md)
 ###  13.1. <a name='CUDA'></a>CUDA
+CUTLASS: [My Notes](./hardware/GPU/cutlass.md)
 cuBLAS: [My Notes](./hardware/GPU/cublas.md)
 
 [pytorch cuda api](./hardware/GPU/pytorch-cuda.md)
