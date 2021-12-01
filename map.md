@@ -110,10 +110,19 @@ Masked Autoencoders Are Scalable Vision Learners [My Notes](./papers/transformer
 
 [YOLO]() : (2016): [My Notes](./papers/object-detection/YOLO.md)
 
+### Model Compression
+Model compression(2006)：ensemble 模式下的多个模型的知识，可以压缩到一个模型里
+
+蒸馏算是从上述模型压缩进一步发展而来的
+
 ###  1.7. <a name='KnowledgeDistillation'></a>Knowledge Distillation
 [Contrastive Representation Distillation](https://arxiv.org/pdf/1910.10699.pdf) (2020) [My Notes](./papers/knownledge-distillation/contrastive-representation-distillation.md)
 
-Search to Distill: Pearls are Everywhere but not the Eyes(2020)  [My Notes](./papers/knownledge-distillation/search-to-distill.md)
+Search to Distill: Pearls are Everywhere but not the Eyes(2020) 除了参数外，还考虑了网络结构的蒸馏，结果发现好的老师无法教出在各方面都很优秀的学生  [My Notes](./papers/knownledge-distillation/search-to-distill.md)
+
+A Gift from Knowledge Distillation: Fast optimization, Network Minimization and Transfer Learning (2017 韩国):  [My Notes](./papers/knowledge-distillation/a-gift-from-knowledge-distillation.md)
+
+Distilling the Knowledge in a Neural Network Geoffrey Hinto 和 Jeff Dean(2015): 第一次提出模型蒸馏的概念及方法, 可以通过蒸馏让小模型能力提升很高（是语音场景）。提出了一种新的 ensemble 方法 [My Notes](./papers/knowledge-distillation/distilling-the-knowledge-in-a-neural-network.md)
 
 ###  1.8. <a name='NetworkCommunication'></a>Network Communication
 [Flare: Flexible In-Network Allreduce](https://arxiv.org/pdf/2106.15565.pdf) 2021-6-29:  SwitchML 不灵活，他们设计了一个交换机：by using as a building block PsPIN, a RISC-V architecture implementing the sPIN programming model. 
