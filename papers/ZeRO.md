@@ -15,12 +15,15 @@ MP 优势：能减少激活值的大小
 
 优化模型状态显存：思路是尽量跟 DDP 一样有好的计算/通信开销比，同时又能兼顾 MP 这样能把所需显存通过多卡来分摊。
 
-ZeRO-DP(ZeRO powered DP) 有三个优化阶段：
+ZeRO-DP(ZeRO powered DP) 有三个优化阶段，下图里是具体 7.5B setting下的例子，优化器是 adam，所以 K=12，Nd是64，即64卡的 DDP。
 
-1. Optimizer States Partitioning (Pos): 4倍速度节省，和DP一样的通信开销
-2. 增加 Gradient Partitioning (Pos+g): 8倍速度节省，和DP同样的通信开销
-3. 增加 Parameter Partitioning (Pos+g+p)：内存减小与DP的粒度Nd成正比。保守估计通信开销增大50%
+![](./imgs/ZeRO-DP-7.5B.png)
 
+1. Optimizer States Partitioning (Pos): 在图里是4倍速度节省，和DP一样的通信开销(这里有疑问，DP里通信开销主要是all-reduce 梯度，明显图里优化器状态比梯度要大好多倍)
+2. 增加 Gradient Partitioning (Pos+g): 8倍速度节省(比1又多了2倍)，和DP同样的通信开销
+3. 增加 Parameter Partitioning (Pos+g+p)：内存减小与DP的粒度Nd就完全成正比了。保守估计通信开销增大50%
+
+从上图可以看出来，每个 stage 下节省的显存，跟被 sharding 的份数，即 Nd 成正比。而
 ## 一些数字
 Adam 里保存两类数据：
 1. time averaged momentum
@@ -35,6 +38,8 @@ parameters：2t
 gradients: 2t
 
 优化器里需要存储： Adam optimizer states：12 t . 其中包括了 fp32 的参数、其他优化器状态:动量(momentum)和方差(variance)
+
+所以结合上图，可以用来计算模型在各ZeRO stage 下的内存消耗。比如一个 1T参数量的模型，放到1024个卡上： (2+2+12)*1T/1024 = 16T = 16G
 
 ## 7 ZeRO-DP 里的通信分析
 
