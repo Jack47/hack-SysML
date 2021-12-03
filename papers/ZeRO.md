@@ -13,7 +13,8 @@ MP 优势：能减少激活值的大小
 
 弊端：scale 能力有限，因为要求的通信量较大，只能在本机内部用 NVLINK 才划算
 
-优化模型状态显存：思路是尽量跟 DDP 一样有好的计算/通信开销比，同时又能兼顾 MP 这样能把所需显存通过多卡来分摊。
+### 优化模型状态显存
+思路是尽量跟 DDP 一样有好的计算/通信开销比，同时又能兼顾 MP 这样能把所需显存通过多卡来分摊。
 
 ZeRO-DP(ZeRO powered DP) 有三个优化阶段，下图里是具体 7.5B setting下的例子，优化器是 adam，所以 K=12，Nd是64，即64卡的 DDP。
 
@@ -24,7 +25,9 @@ ZeRO-DP(ZeRO powered DP) 有三个优化阶段，下图里是具体 7.5B setting
 3. 增加 Parameter Partitioning (Pos+g+p)：内存减小与DP的粒度Nd就完全成正比了。保守估计通信开销增大50%
 
 从上图可以看出来，每个 stage 下节省的显存，跟被 sharding 的份数，即 Nd 成正比。而
+
 ## 一些数字
+
 Adam 里保存两类数据：
 1. time averaged momentum
 2. variance of the gradients to tcompute the updates.
@@ -40,6 +43,14 @@ gradients: 2t
 优化器里需要存储： Adam optimizer states：12 t . 其中包括了 fp32 的参数、其他优化器状态:动量(momentum)和方差(variance)
 
 所以结合上图，可以用来计算模型在各ZeRO stage 下的内存消耗。比如一个 1T参数量的模型，放到1024个卡上： (2+2+12)*1T/1024 = 16T = 16G
+
+### 优化其他的状态显存
+除了模型状态(Optimizer states, gradients, paramters)，还有激活值，零时缓存，无法使用的内存碎片。
+
+1. 激活值：checkpointing 技术有帮助，但是对大模型效率不高，所以我们通过分片来解决的。同时在恰当时刻 offload 到 CPU
+2. 临时缓存：定义了恰当大小，来获得显存和计算开销的平衡
+3. 碎片问题，可以通过管理tensor的生命周期来避免碎片
+
 
 ## 7 ZeRO-DP 里的通信分析
 
@@ -61,6 +72,8 @@ zeRO-DP 里使用 OS+P，没有额外的开销
 5. ScatterReduce 是啥操作？ 是两个步骤
 6. ZeRO 是不是除了节省内存外，还能提高训练效率？并不能
 7. 如何实现？比如每个并行进程只负责更新自己负责的那部分梯度，那么优化器状态也能分片么，还是说计算自己负责的这部分梯度前，需要把优化器分片再聚合到一起？
+8. 各个stage下通信开销怎么计算？
+9. ZeRO-R 里临时缓存和tensor生命周期的具体实现
 
 ## 其他
 
