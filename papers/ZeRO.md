@@ -51,7 +51,17 @@ gradients: 2t
 2. 临时缓存：定义了恰当大小，来获得显存和计算开销的平衡
 3. 碎片问题，可以通过管理tensor的生命周期来避免碎片
 
+### 实现和验证
 
+虽然 ZeRO 可以在 1K 个 V100 上跑 1T 的模型，但是这样耗时很久（一年以上），所以我们聚焦在可以高效训练的10倍以上的模型(-100B参数)，使用 Pos+g 和 ZeRO-R。
+
+![](./papers/zero_model_size-throughput.png)
+
+这篇论文出现的背景是之前有了 Megatron，是做 Model Parallel，其实就是 Tensor 拆分。所以里面一直在跟 Megatron 比较
+
+上图中，可以看到100B参数下(400 个V100)，每个卡上的 Tflops 最高，之后就开始下降了，达到了 38 Tflops 以上，而且与 Baseline-MP 相比加速了9倍多。里面 ZeRO Speed-up 是第二纵轴
+
+扩展性方面：从64-400个 GPU 上是超线性扩展的，即算力在 GPUs 翻倍后翻了超两倍。这是因为增加了 DP 粒度后，可以减少更多显存，这样 bs 更大，所以性能更好
 ## 7 ZeRO-DP 里的通信分析
 
 zeRO-DP 里使用 OS+P，没有额外的开销
