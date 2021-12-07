@@ -129,3 +129,5 @@ zeRO-DP 里使用 OS+P，没有额外的开销
 
 可以参考 ZeRO 系列其他文章，里面也有提到 ZeRO, 比如 [ZeRO-Infinity](./../memory-efficiecy/ZeRO-Infinity.md)
 
+
+参考视频：[4路DDP，ZeRO Stage3](https://www.microsoft.com/en-us/research/blog/zero-deepspeed-new-system-optimizations-enable-training-models-with-over-100-billion-parameters/)
