@@ -1,10 +1,10 @@
 ## 总结
 1. 在解决的是什么问题？传统的 DDP 下，虽然多卡，但是每个卡上的显存和单卡相比，占用一样，并没有减少显存使用。最大只能训练到1.4B(32G)参数的模型
-2. 为何成功，标志/准是什么？ 能支持更大的模型，效果很好，比如1k个节点上支持 1T 的参数训练
+2. 为何成功，标志/准是什么？ 能支持更大的模型，效果很好，比如1k个节点上支持 1T 的参数训练，关键是非常简单，不需要模型做修改
 3. 在前人基础上的关键创新是什么？去掉了DP 模式下的内存冗余，而且把内存里生命周期短的 activation 和gradient等可以进行挪动来避免内存碎片
 4. 关键结果有哪些？ 能训练**最大 13B** 的模型，比 T5 11B 还大 和 Megatron GPT 8.3B 还大，此时仅靠 ZeRO 就可做到，**不需要模型并行**
-5. 有哪些局限性？如何优化？
-6. 这个工作可能有什么深远的影响？
+5. 有哪些局限性？如何优化？ DDP 的粒度也不能无限大，否则 batch-size 太大了
+6. 这个工作可能有什么深远的影响？大模型训练的标配，能训下更大的模型、更大的 batchsize
 
 ## Introduction
 
@@ -93,13 +93,40 @@ checkpoint activation 机制能节省大约总共激活值的开方，代价是�
 与 DDP 的差异：
 
 1. DDP 需要每个卡 all-reduce 梯度
-2. 现在是负责的卡 reduce 梯度就行，对应参数更新后，等下次 forward 前发过去
+2. 现在是负责的卡 在 backward 阶段，当前层 backward 后，reduce 全局梯度就行，对应参数更新后，等下次 forward 前发过去
+
 ### 5.3 Pp: Parameter Partitioning
-每次 forward 需要用到参数而正好是自己没有的这一份，就通过 all-gather 来获得。
+每次 forward 需要用到参数而正好是自己没有的这一份，就通过 all-gather 来获得。等算完当前层，参数就可以丢掉了(但如果用了 checkpoint，那 recompute forward 时还会用到)。
+
+只会增加总共 1.5倍的通信开销
+
+## 6 Deep Dive into ZeRO-R
+
+### 6.1 Pa: Partitioned Activation Checkpointing
+算是 Stage3 之外，把激活值也切分，但这个是跟 activation checkpoint 技术一起使用的。4.2里提到 MP 下，激活值需要复制一份，导致 GPUs 间在 MP 下有冗余。ZeRO 做法是通过切分激活值来消除冗余，一次只实例化一个layer的激活值，时机是在backpropgation过程中要用到之前。此时在 **各GPU** 上使用 **all-gather** 来获得全量的当前层激活值。
+
+这个技术与 activation checkpoint 技术一起使用，存储的是切分后的 activation checkpoint，而非拷贝的全量。如果模型非常大，显存非常紧张，可以通过把这些分片的 activation checkpoint 放到 cpu 上来进一步节省时间。代价是需要在 CPU 和 GPU 间搬运数据。这个主要是为了解决 OOM，性能可能会有一些下降？
+
+### 6.2 CB: Constant Size Buffers
+在训练过程中，一些操作的计算效率高度取决于输入大小，更大的输入获得更高的效率。比如大的 all-reduce 操作比小的 all-reduce 操作能获得更高的效率。因此，NV 的 Apex 或者 Megatron 会把所有参数 **fuse** 到单个的buffer里，然后再 all-reduce。但这种方式下 fused buffer 大小取决于模型大小。为了解决超大模型下 fused buffer 超大问题，
+我们使用高效的固定大小的 fused buffer(感觉是个常见操作)
+
+### 6.3 MD: Memory Defragmentation 
+训练中出现显存碎片的原因是 activation checkpoint 和梯度计算过程导致的。当有 activation checkpointing，只有被选中的激活值才会被保留，而大部分激活值都会被丢掉，因为backward 时会重计算。这个会导致短命的显存（被丢弃的激活值）和长命的显存（被checkpoint的激活值）交替，会导致内存碎片。类似地，backward 过程中，参数的梯度是长生命周期的，
+而激活值梯度和其他用来计算参数梯度的 buffer 只是零时的，这种**长短不同生命周期的显存交替**会导致显存碎片
+
+有限的显存碎片在有充足的空闲显存情况下也不是问题，但是当显存紧张而且是大模型时，会导致两个问题：
+
+1. 即使有足够的空闲显存，但是因为缺乏连续的显存而导致 OOM
+2. 让显存分配器变得低效
+
+所以解法就是让不同生命周期的不要混到一起
+
+ZeRO 在执行过程中会进行显存碎片整理：给 activation checkpoint 和 梯度(这俩长生命周期)提前分配连续的块，当它们出现时就拷贝到这里。这样能提高效率
 
 ## 7 ZeRO-DP 里的通信分析
 
-zeRO-DP 里使用 OS+P，没有额外的开销
+zeRO-DP 里使用 OS+P，没有额外的通信开销
 一般 all-reduce 分为两步：
 1. reduce scatter: 分散到每个进程里做自己负责的那部分的 reduce 工作
 2. all-gather: 每个进程 gather 所有其他进程 reduce 好的数据
@@ -124,6 +151,7 @@ zeRO-DP 里使用 OS+P，没有额外的开销
 9. ZeRO-R 里临时缓存和tensor生命周期的具体实现
 10. Pos 下，每个人更新自己负责的部分，那也得先把梯度都要过来? 如果只是开启了 Pos，那不需要，这个是说每个优化器只负责根据梯度来更新自己负责的部分的参数
 11. 如何能提前scatter即将用到的参数？
+12. Pa 里 offload 机制是啥样的？
 
 ## 其他
 
