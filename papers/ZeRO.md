@@ -126,12 +126,23 @@ ZeRO 在执行过程中会进行显存碎片整理：给 activation checkpoint �
 
 ## 7 ZeRO-DP 里的通信分析
 
-zeRO-DP 里使用 OS+P，没有额外的通信开销
+zeRO-DP 里使用 OS+G，没有额外的通信开销，原因是它的通信量是2T，与 DDP 里的 all-reduce 梯度等价：
+
 一般 all-reduce 分为两步：
 1. reduce scatter: 分散到每个进程里做自己负责的那部分的 reduce 工作
 2. all-gather: 每个进程 gather 所有其他进程 reduce 好的数据
 
-而 zeRO-DP 里也是这样，reduce scatter 。这里没太看懂，为啥没有额外的开销，跟原来方法的不同在那里？为啥说上 OS+P，能节省8倍开销
+上述这里缺一个图
+
+所以上述总的通信量是 2T
+
+而 zeRO-DP 里 stage2 下，也是这样:
+
+1. scatter reduce 每个卡负责自己那部分 Gradient 的reduce 工作
+2. forward 时每一层的参数需要 all-gather，让每个人获得全量的更新后参数。用完后就扔掉
+
+### Pos+g+p
+
 
 ## 启发
 1. 它就是分析了下内容使用，通过需要时多卡间通信来换来数据，这样每个卡可以减少冗余。思路很朴素
