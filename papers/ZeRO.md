@@ -6,6 +6,9 @@
 5. 有哪些局限性？如何优化？ DDP 的粒度也不能无限大，否则 batch-size 太大了
 6. 这个工作可能有什么深远的影响？大模型训练的标配，能训下更大的模型、更大的 batchsize
 
+## TODO
+1. 看下 section 8
+
 ## Introduction
 
 MP 优势：能减少激活值的大小
