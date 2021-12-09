@@ -262,6 +262,11 @@ Google. Gemmlowp: building a quantization paradigm from first principles 里面�
 ###  1.17. <a name='ParameterServer'></a>Parameter Server
 [Scaling Distributed Machine Learning with the Parameter Server](https://www.cs.cmu.edu/~muli/file/parameter_server_osdi14.pdf)(2013?)
 
+### NLP
+
+Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Notes](,/papers/NLP/scale-efficiently_insights-from-pretraining-and-fine-tuning-transformers.md)
+
+
 ##  2. <a name='NetworkOperators'></a>Network Operators
 [Dropout vs Droppath](operators/dropout.md)
 
