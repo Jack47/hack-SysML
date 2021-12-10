@@ -75,3 +75,4 @@
 3. 量化感知训练和训练后量化的主要差异？我们主要用哪个？为啥论文里主要谈 QAT？
 4. 2.1 节：使用了 0.1 label smoothing in training to add regularization. 这是啥？
 5. 上述公式里 W, Zw, Zx 都是部署之前知道的。这三个参数分别代表什么呢？
+6. data-free quantization 是什么原理？
