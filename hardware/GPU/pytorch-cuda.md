@@ -41,6 +41,18 @@ list.expand(tuple)
 ### unsqueeze
 把 tensor 放到指定的那个维度上
 
+### 切分
+
+Tensor.chunk(chunks, dim=0) → List of Tensors
+
+比如把 q 按照第一维切分两份： q.chunk(2, dim=0)
+
+### 转换
+
+torch.permute(input, dims) → Tensor
+
+### torch
 ## FAQ
 1. 打印 pytorch 里 tensor 时出现：`CUDA error: invalid configuration argument`: 是由于 tensor 元素个数太多，print 最终会调用 cuda ，使用预先分配给 print 的显存空间
 2. 执行某个算子时提示：`RuntimeError: expected scalar type Half but found Float`：这个错误提示反了，最终发现是 需要调用 layer.to(torch.device("cuda:0"), dtype=torch.half) 来设置模型使用 fp16 精度
+3. 如何打印某Tensor的指定一列？比如第一列： t[:,:,:1]
