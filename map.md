@@ -266,6 +266,9 @@ Google. Gemmlowp: building a quantization paradigm from first principles 里面�
 
 Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Notes](,/papers/NLP/scale-efficiently_insights-from-pretraining-and-fine-tuning-transformers.md)
 
+### Recommenders 
+
+PERSIA: An Open, Hybrid System Scaling Deep Learning-based Recommenders up to 100 Trillion Parameters(2021) [Notes](./papers/recommender/persia.md)
 
 ##  2. <a name='NetworkOperators'></a>Network Operators
 [Dropout vs Droppath](operators/dropout.md)
