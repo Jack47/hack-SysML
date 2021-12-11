@@ -51,11 +51,15 @@ Tensor.chunk(chunks, dim=0) → List of Tensors
 
 torch.permute(input, dims) → Tensor
 
-### torch.baddbmm
-强制规定维度(3)和大小相同的矩阵乘操作
-
 ### torch.bmm
-与 torch.matmul 的区别：它不会 broadcast
+强制规定维度(3)和大小相同的矩阵乘操作，所以与 torch.matmul 的区别：它不会 broadcast。而且支持 TFloat 32
+
+### torch.baddbmm
+batch add matrix-matrix product 
+
+Tensor.baddbmm(input, batch1, batch2, *, beta=1, alpha=1)
+
+input: the tensor to be added
 
 ## FAQ
 1. 打印 pytorch 里 tensor 时出现：`CUDA error: invalid configuration argument`: 是由于 tensor 元素个数太多，print 最终会调用 cuda ，使用预先分配给 print 的显存空间
