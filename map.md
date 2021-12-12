@@ -182,9 +182,9 @@ Sys Papers:
 
 Gist: Efficient data encoding for deep neural network training 2018
 
-[ZeRO]() [My Notes](./papers/ZeRO.md)
+[ZeRO]()：大模型训练的标配，把 DDP 模式下冗余的显存都给分片了，需要时从别人那里要过来 [My Notes](./papers/ZeRO.md)
 
-[ZeRO-offload]() 2021.1.18 [My Notes](./papers/ZeRO-offload.md) : 基于 ZeRO-2，把 NLP中 Adam 优化器实现在了 CPU 上，这样能 offload 优化器的内存和计算
+[ZeRO-offload]() 2021.1.18 [My Notes](./papers/ZeRO-offload.md) : 基于 ZeRO-2，把 NLP中 Adam 优化器实现在了 CPU 上，这样能 offload 优化器的内存和计算，这个是大头
 
 [Capuchin: Tensor-based GPU Memory Management for Deep Learning]()(2020 ASPLOS) , [My notes](./papers/capuchin.md): 目标是为了节省内存，能训更大的 batchsize。内存管理到了 tensor 级别，而且是模型/计算图无关。在运行时 profile 出来是 swap 合适还是 recompute 合适。有 prefetch / evict 机制
 
@@ -204,9 +204,9 @@ Tensor-based gpu memory management for deep learning. (2020)
 
 Binaryconnect: Training deep neural networks with binary weights during propagations. (2015)
 
-[ZeRO Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning]()(2021.4.16), [My Notes](./memory-efficiency/ZeRO-Infinity.md) : 在 ZeRO 基础上，把显存交换到 CPU、NVMe 上。ZeRO 系列的好处是不需要改用户的代码。ZeRO 系列主要解决内存问题（Memory wall)
+[ZeRO Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning]()(2021.4.16), [My Notes](./memory-efficiency/ZeRO-Infinity.md) : 在 ZeRO 基础上，把显存交换扩展到了 NVMe 硬盘上。ZeRO 系列的好处是不需要改用户的代码。ZeRO 系列主要解决内存问题（Memory wall)
 
-PatrickStar: Parallel Training of Pre-trained Models via Chunk-based Memory Management [My Notes](./memory-efficiency/patrickstar.md)
+PatrickStar: Parallel Training of Pre-trained Models via Chunk-based Memory Management: 实现基于 Transformer 的 NLP 里预训练场景下，高效的 swap 实现机制，让模型训练更高效 [My Notes](./memory-efficiency/patrickstar.md)
 ###  1.12. <a name='Compression'></a>Compression
 
 Deep compression: Compressing deep nerual networks with pruning, trained quantization and huffman coding. (ICLR, 2016 Song Han)
