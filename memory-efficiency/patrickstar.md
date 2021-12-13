@@ -27,7 +27,7 @@ Patricstar 的方法：
 1. 使用 chunks，同样大小的连续块来组织 tensor 的数据
 2. chunks 在异构内存空间里的分布是根据 tensor 状态动态编排的。
 
-通过复用不会同时存在的 chunks，Patrick-Star 可以进一步降低模型的内存占用。
+通过 **复用不会同时存在的 chunks**，Patrick-Star 可以进一步降低模型的内存占用。
 
 首先是通过 warm-up 迭代来收集运行时的 GPU 显存信息，基于这些信息，使用高效的 chunk 换出策略和设备感知的 operator 放置策略来减少 CPU-GPU 间数据传输的大小
 
@@ -71,6 +71,18 @@ Activation checkpointing(recompute) 和 Offload，提到了 Capuchin，但是没
 
 ![](./imgs/patrickstart-design-overview.png)
 
+## 6 单个 GPU 上的设计
+PS rutong PyTorch 和 异构内存之间的中间件一样。系统包含两部分：
+
+1. 静态部分，训练前对模型做一次预处理，通过模型结构来构建出 tensor 和 chunk 之间的映射关系(仅限于上文提到的模型数据，不包括中间值、激活值等)
+2. 运行时部分，在训练时起作用。在训练过程中掌控了 PyTorch 的内存访问，通过把 tensor 重定向到 chunk-based 内存空间，使用 chunk manager 来管理异构的内存空间
+
+![](./imgs/patrickstar-architecture.png)
+
+### 6.1 预处理阶段
+
+### 6.2 训练阶段
+
 ## 启发
 1. 参数在forward 之后，就没用了（没用 checkpoint 机制），可以丢掉 
 2. 这个方法能用到 CV 里吗，激活值比较大？
@@ -80,6 +92,8 @@ Activation checkpointing(recompute) 和 Offload，提到了 Capuchin，但是没
 1. chunk based，会不会牵扯没必要 swap 的 tensor?
 2. 什么时机开始，提前换入？如果只是 Model pre fwd hook，感觉效率并不高？换出的东西倒是有各种策略
 3. non model 数据怎么处理？好像图里没管？
+4. 每次都要处理的话，会不会效率较低？而且在 Pytorch/Python 层面
+5. 运行时部分，如何掌管 PyTorch 对 tensor 的访问？
 
 ## TODO
 1. 看 DS 的短板: 图三
