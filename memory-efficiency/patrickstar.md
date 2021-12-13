@@ -78,9 +78,13 @@ Activation checkpointing(recompute) 和 Offload，提到了 Capuchin，但是没
 
 ## 问题
 1. chunk based，会不会牵扯没必要 swap 的 tensor?
-2. 什么时机开始，提前换入？
+2. 什么时机开始，提前换入？如果只是 Model pre fwd hook，感觉效率并不高？换出的东西倒是有各种策略
+3. non model 数据怎么处理？好像图里没管？
 
 ## TODO
 1. 看 DS 的短板: 图三
 2. 什么情况下 CPU-GPU 之间带宽利用率不高？ Tensor 比较小，然后移动粒度是 Tensor，这样比如某个 layer 里多个参数，就不是一个 batch 一起移动了，也没有预先载入(prefetch)的机制
 3. 从6开始看
+
+## 参考资料：
+1. Optimization of collective communication operations. 里面有 all-gather，all-reduce 的通信量大小。all-gather: 2(p-1)/p*2M，reduce-scatter: (p-1)/px2M。p is parallel degree，M is parameter。broad cast 方法的开销：4(p-1)/p x 2M
