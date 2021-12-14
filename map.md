@@ -84,6 +84,8 @@ ML Papers:
 
 [Rich feature hierarchies for accurate object detection]() (2014) [Notes](./papers/object-detection/R-CNN.md)
 
+Deformable Convolutional Networks (ICCV 2017) [Notes](./papers/deformable-convolutional-networks.md)
+
 ###  1.2. <a name='Sparsity'></a>Sparsity
 [Accelerating Sparse Approximate Matrix Multiplication on GPUs](), [Notes](./papers/sparsity/Accelerating-Sparse-Approximate-Matrix-Multiplication-on-GPUs.md)
 
