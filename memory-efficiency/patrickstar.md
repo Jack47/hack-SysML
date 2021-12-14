@@ -80,9 +80,27 @@ PS rutong PyTorch 和 异构内存之间的中间件一样。系统包含两部�
 ![](./imgs/patrickstar-architecture.png)
 
 ### 6.1 预处理阶段
+高效的 chunk-tensor 映射关系需要满足：
+
+1. 增加tensor 访问的局部性
+2. 减少峰值内存占用
+3. 对并行友好
+
+Chunks 把模型数据分为四类：
+
+1. param fp16 列表
+2. param fp32 列表 (后面这三个都是 OS)
+3. momentum 列表
+4. variance 列表
+
+总共14M 字节，所以比 ZeRO-offload 里的最小16M 模型数据要少
+
+Chunks 有相同的大小，所以不同 chunks 可以复用同一片内存，而且对并行训练中的集合通信友好(是大块、连续的？)
+
+PS 不会分配 fp16 grad 列表，可以复用 param fp16 列表。在6.2里会介绍，我们消除了计算梯度时对参数的依赖。
 
 ### 6.2 训练阶段
-
+1. 
 ## 启发
 1. 参数在forward 之后，就没用了（没用 checkpoint 机制），可以丢掉 
 2. 这个方法能用到 CV 里吗，激活值比较大？
