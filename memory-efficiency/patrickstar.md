@@ -100,7 +100,50 @@ Chunks 有相同的大小，所以不同 chunks 可以复用同一片内存，�
 PS 不会分配 fp16 grad 列表，可以复用 param fp16 列表。在6.2里会介绍，我们消除了计算梯度时对参数的依赖。
 
 ### 6.2 训练阶段
-1. 
+这里主要介绍如何正确换入换出：设计了几个 tensor 的状态：
+
+
+
+1. COMPUTE 意味着会在一些设备上计算：CPU 或 GPU
+2. HOLD\_ 系列是说不会立马涉及到计算，但是 payload 必须维护在内存里。在 FWD 和 BWD 之后会用到。为什么还有个单独的 HOLD？不是 HOLD\_FWD/BWD 就行么。噢是专门给 OS tensor用的
+
+一个 chunk 的可能位置取决于它所有 tensor 的状态。
+
+1. 当 chunk 里所有的 tensor 都是 FREE 状态，那么此chunk的空间就可以被其他 chunk 复用。什么情况下会出这种？activation？backward 过程中的 parameter？
+2. chunk 中任意一个 tensor 是 COMPUTE 状态，chunk 就需要放到所需的计算设备上
+3. 如果没有 tensor 是 COMPUTE 状态，而只少有一个是 HOLD 状态，可以把chunk 放到异构设备空间里。等待被再次使用的 checkpoint？
+
+参数被刚初始化后，会是 HOLD 状态。当某个 OP FWD 之前，PS 会通过 acess 函数知道，此时会换入到所需的计算设备里。
+
+当 FWD 完，会调用 release 算法，设置 chunk 的 training\_stage 为 FWD，状态为 HOLD\_AFTER\_FWD，这样 tensor 可以被换到其他设备上。为什么 chunk 自己也需要存储这个 training_stage，而非共用一个
+
+当 model 里所有算子计算完 FWD，所有 param fp16 tensor 都被设置为 HOLD 来保证 BWD 的正确执行。因为 activation checkpoint 的使用下，会在 BWD 时，从最近的 checkpoint 开始重计算。所以需要区分是 FWD 还是 BWD 之后的 HOLD 状态。对于 所有
+tensor 都是 HOLD_BWD 的 param fp16 chunk，是不是就可以释放了?
+
+下图是让 grad fp16 复用 param fp16 的示意图：
+
+![](./imgs/reusing-param-fp16-grad-fp16.png)
+
+在某个 OP的 BWD 时，输出有两个：激活值的梯度，当前算子参数的梯度。当 OP 在计算前，会 access param fp16 tensor，所以这些 tensor
+的状态又变为 COMPUTE。当 BWD 计算时，产出的 grad fp16 放在临时空间里。当计算结束，此时 param fp16 已经不需要了，此时就把 grad fp16
+的数据拷贝到对应的param fp16参数的 tensor里，然后把状态从 COMPUTE 改为 HOLD\_AFTER\_BWD。之所以能覆盖，是因为确实不需要，后面优化器更新时，
+里面有 param fp32，用它计算出参数，再更新到 param fp16 里去
+
+ADAM 计算前，OS tensor(param fp32, momentum, variance) 被设置为 COMPUTE 状态。看到这里缺 grad fp32，这个可以从上面 BWD 时产出的 grad fp16
+on the fly 的转过来，来节省空间。计算完，更新后的 param fp32 和使用过的 momentum,variance 等被设置为 HOLD 状态，param fp32 会被拷贝回对应的
+param fp16 chunk 的位置
+
+下图是 fp16 tensor 的转移图
+
+![](./imgs/param-fp16-state-transition-diagram.png)
+
+PS 的实现对于 PyTorch 用户是透明的，PS 使用 hook 机制劫持了 PyTorch tensor 的访问。在一个算子执行前，参数的数据或梯度 tensor指向PS里的chunk。当算子结束，
+tensor 的 payload 又指向假数据。这样 PS 不需要管理真正的 payload。
+
+这里设计挺精妙的，只做了 cpu/gpu 之间的 swap，而不像 DTR 那样需要管理实际的 tensor 存储空间，就偏底层了
+
+## 7. 扩展到多 GPU 
+
 ## 启发
 1. 参数在forward 之后，就没用了（没用 checkpoint 机制），可以丢掉 
 2. 这个方法能用到 CV 里吗，激活值比较大？
