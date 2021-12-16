@@ -190,7 +190,8 @@ Gist: Efficient data encoding for deep neural network training 2018
 
 [Capuchin: Tensor-based GPU Memory Management for Deep Learning]()(2020 ASPLOS) , [My notes](./papers/capuchin.md): 目标是为了节省内存，能训更大的 batchsize。内存管理到了 tensor 级别，而且是模型/计算图无关。在运行时 profile 出来是 swap 合适还是 recompute 合适。有 prefetch / evict 机制
 
-Dynamic tensor rematerializatio(2020): [My Notes](./memory-efficiency/dynamic-tensor-rematerialization.md): 实现了根据前一个 iteration，来自动选择 。 TODO：看下论文
+Dynamic tensor rematerializatio(2020): 是 Checkpoint 核心是发明的这个线上算法不需要提前知道模型信息，就能实时产出一个特别好的 checkpointing scheme。这种在线方法能处理静态和动态图。算是陈天奇提供的方法的checkpoint 方法的后续：动态做，更优。[My Notes](./memory-efficiency/dynamic-tensor-rematerialization.md), [Source Code Notes](./frameworks/pytorch/dynamic-tensor-rematerialization.md)
+
 
 Pushing deep learning beyond the gpu memory limit via smart swapping. (2020)
 
@@ -448,7 +449,39 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 [Flexible systems are the next frontier of machine learning](https://www.youtube.com/watch?v=Jnunp-EymJQ&list=WL&index=14) Stanford 邀请 Jeff Dean 和 Chris Re 探讨最新的进展(2019) [My Notes](./videos/Flexible-systems-are-the-next-frontiner-of-machine-learning.md)
 
 ##  9. <a name='Hardware'></a>Hardware
+
+### GPU
+
 [NVLink](./hardware/GPU/nvlink.md) vs PCiE
+
+[Mixed Precision Training](https://arxiv.org/abs/1710.03740) (2017 ICLR) [My Notes](./papers/mixed-precision-training.md)
+
+[APEX: NVIDIA mixed-precision training](./hardware/GPU/apex.md)
+
+[What Every Programmer Should Know About Floating-Point Arithmetic](https://floating-point-gui.de/) [My Notes](./hardware/GPU/what-every-programmer-should-know-about-floating-point.md)
+
+[fp16](./hardware/GPU/fp16.md)
+
+### CUDA
+CUTLASS: [My Notes](./hardware/GPU/cutlass.md)
+
+cuBLAS: [My Notes](./hardware/GPU/cublas.md)
+
+[pytorch cuda api](./hardware/GPU/pytorch-cuda.md)
+
+CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
+
+[Cooperative Groups](./hardware/GPU/cooperative_groups.md)
+
+[CUB: Provides state of the art, reusable software components for every layer of the CUDA programming model](./hardware/GPU/cub.md)
+
+[SoftMax 的高效 CUDA 实现](./hardware/GPU/efficient-softmax.md)
+
+[CUDA 里的全局 threadId 如何计算？](./hardware/GPU/indexes-in-cuda.md)
+
+[CUDA Graphs: 可以用来节省传统 stream 方式下 cudaLaunchKernel 的时间，适合小的静态 kernel](./hardware/GPU/cuda-graphs.md)
+
+Optimizing Convolutitonal Layers: NV 官网的优化卷积运算的指南。[Notes](./hardware/GPU/optimizing-conv-layers.md)
 ##  10. <a name='MLCompilers'></a>ML Compilers
 ###  10.1. <a name='Rammer'></a>Rammer
 
@@ -467,32 +500,7 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 [Persistent threads style gpu programming for gpgpu workloads]() (2012 IEEE) [My Notes](papers/persistent-threads.md)
 [Persistent Threads Block](https://www.classes.cs.uchicago.edu/archive/2016/winter/32001-1/papers/AStudyofPersistentThreadsStyleGPUProgrammingforGPGPUWorkloads.pdf)
 
-##  13. <a name='MixedPrecisionTraining'></a>Mixed Precision Training
-[https://arxiv.org/abs/1710.03740](https://arxiv.org/abs/1710.03740) (2017 ICLR) [My Notes](./papers/mixed-precision-training.md)
 
-[APEX: NVIDIA mixed-precision training](./hardware/GPU/apex.md)
-
-[What Every Programmer Should Know About Floating-Point Arithmetic](https://floating-point-gui.de/) [My Notes](./hardware/GPU/what-every-programmer-should-know-about-floating-point.md)
-
-[fp16](./hardware/GPU/fp16.md)
-###  13.1. <a name='CUDA'></a>CUDA
-CUTLASS: [My Notes](./hardware/GPU/cutlass.md)
-
-cuBLAS: [My Notes](./hardware/GPU/cublas.md)
-
-[pytorch cuda api](./hardware/GPU/pytorch-cuda.md)
-
-CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
-
-[Cooperative Groups](./hardware/GPU/cooperative_groups.md)
-
-[CUB: Provides state of the art, reusable software components for every layer of the CUDA programming model](./hardware/GPU/cub.md)
-
-[SoftMax 的高效 CUDA 实现](./hardware/GPU/efficient-softmax.md)
-
-[CUDA 里的全局 threadId 如何计算？](./hardware/GPU/indexes-in-cuda.md)
-
-[CUDA Graphs: 可以用来节省传统 stream 方式下 cudaLaunchKernel 的时间，适合小的静态 kernel](./hardware/GPU/cuda-graphs.md)
 
 ##  14. <a name='VisualizingNeuralNetworks'></a>Visualizing Neural Networks
 [Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)
