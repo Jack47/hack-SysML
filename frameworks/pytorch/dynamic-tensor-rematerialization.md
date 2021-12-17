@@ -1,7 +1,19 @@
 
-TODO: 论文并没怎么看，直接看的源码
 
-看实现：
+## 实现
+### E1. 集成到 PyTorch：
+
+为了避免修改 PyTorch 太多代码，实现是包装了 tensor 的实现。即，在 PyTorch 里添加了 tensor 的一个实现：CheckpointTensor，它在 PyTorch 已有实现上，添加了跟踪父节点操作和其他元数据（上次访问时间）和父操作耗时（这些都是第一次创建tensor时得到的耗时）。然后把 tensor 注册到 DTR 运行时。算子的耗时计算用了系统时间，为了保证计算正确，我们强制PyTorch进入同步执行模式（让 GPU 算子顺序执行）；发现 DTR在不改为同步执行模式下，也能大大减少显存预算，尽管这个会破坏 DTTR 记录算子的耗时。
+
+evictions 时，CheckpointTensor 可以释放底层的 tensor 显存；它保存了重计算父算子的闭包（如何做到？），这样当需要这个 tensor 时，就可以让运行时重计算。为了处理原始程序的释放操作，也会汇报 DTR 运行时 对引用计数的增加和减少。checkpoint() 函数可以让普通 tensor 变成 CheckpointTensor，decheckpoint 可以做反向操作（loss 和 output 最终需要这样做）
+
+我们修改后的 PyTorch 版本会把任何涉及 CheckpointTensor 的算子分发给特定的 CheckpointTensor 实现。这个机制就是 PyTorch 提供的，例如把 GPU 管理的 ttensor 分发给 CUDA的实现。CheckpointTensor 的重载版本实现会在调用已有实现的基础上，把结果包装到 CheckpointTensor 里。因为 PyTorch 里所有tensor 访问都是通过算子做的，所以更新原始信息如访问时间等只需要在 CheckpointTensor 的对应重载的算子里调用 DTR 的运行时即可。
+
+DTR 运行时是一个简单的单例，保存了一个所有 CheckpointTensor 的pool。同时负责维护启发算法所需要的类数据结构（当一个 CheckpointTensor被驱逐或者重计算时更新）。在每个 CT 操作之前，DTR运行时检查是否显存预算超了。如果是，就检查pool里的 CT，计算启发分数，然后把得分最少的驱逐掉，直到不能驱逐或者预算够了（当前的prototype实现容许分配一个tensor 后超预算。可以通过给 PyTorch的GPU内存管理里添加一个回掉，让分配请求时就调用 DTR 运行时。为了简单就没实现上述方法）。可以优化启发算法的开销，比如排好序。DTR 运行时也负责实现 json格式的事件(算子，引用计数)log 机制
+
+DTR prototype 支持 PyTorch 实现细节如 in-place 修改，aliasing, multiple operator outputs.DTR 通过引入copy-on-write修改层来支持in-place 修改: 天天通过把来源 tensor 拷贝之后，再修改拷贝，就可以让算子是纯函数。（类似地，batchnorm和dropout等非纯函数，可以把 PRNG 种子当作输入的一部分传入，把修改传递出去）。DTR 运行时会把这些 CT 的拷贝算子重载到修改算子上。为了支持结果是输入参数别名的算子，DTR 运行时把所有这种别名 CT 放到了单独的 alias pools 里。当一个 alias pool 里的元素被驱逐，所有在 alias pool里对应的元素都当作被驱逐。但是 alias 是再次需要时，单独重计算的。对于多个输出算子产出的 CT，DTR 允许他们被单独驱逐，但保证会一起重计算出来
+
+### E.2 运行时优化
 
 ## 概念
   // When we are inside a vmap, all tensors dispatch on this key.
