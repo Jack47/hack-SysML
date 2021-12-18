@@ -24,3 +24,8 @@ Deformable convolution layers 一般用在 CNN 的最后几层而非前面，因
 偏移是通过额外的卷积层来根据前面的feature map 学习到的。因此应用到输入feature上的变形是 local, dense and adaptive manner
 ## 问题
 1. 论文里提到的 local 是啥意思？dense 是？non-parametric 是说和其他人的方案比，不是需要提前预设的？
+
+参考资料：
+1. [Video: Deformable Convolutional Networks in ICCV17](https://www.youtube.com/watch?v=HRLMSrxw2To)
+2. [Review: DCN](https://towardsdatascience.com/review-dcn-deformable-convolutional-networks-2nd-runner-up-in-2017-coco-detection-object-14e488efce44)
+3. [Deformable Convolutions Demystified](https://towardsdatascience.com/deformable-convolutions-demystified-2a77498699e8)
