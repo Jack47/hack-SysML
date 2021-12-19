@@ -1,5 +1,11 @@
+## 用法
+在第一个输入那里，把 input 转化为 Checkpoint 类型的 tensor，它后续通过计算图出来的所有中间状态，都会是 CheckpointTensor 类型的，都会交给 CheckpointTensor 相关重载的函数去处理
 
-
+```
+x = torch.Tensor([1]).checkpoint()
+y = x
+z = y
+```
 ## 实现
 ### E1. 集成到 PyTorch：
 
