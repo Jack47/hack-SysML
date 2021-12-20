@@ -482,6 +482,9 @@ CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
 [CUDA Graphs: 可以用来节省传统 stream 方式下 cudaLaunchKernel 的时间，适合小的静态 kernel](./hardware/GPU/cuda-graphs.md)
 
 Optimizing Convolutitonal Layers: NV 官网的优化卷积运算的指南。[Notes](./hardware/GPU/optimizing-conv-layers.md)
+
+[Tensor Cores](./hardware/GPU/tensor-core.md)
+
 ##  10. <a name='MLCompilers'></a>ML Compilers
 ###  10.1. <a name='Rammer'></a>Rammer
 
