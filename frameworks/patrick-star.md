@@ -1,8 +1,19 @@
+## 用法
+
+```
+# 配置 patricstar，不填的话会用默认的
+config = {
+}
+
+model, optim = initialize_engine(
+    model_func=model_func, local_rank=get_rank(), config=config
+)
+```
 ## 从 issue 和文档看到的一些信息
 
 我们真的需要模型并行(MP)么？https://github.com/Tencent/PatrickStar/issues/13#issue-972345430
 
-CV 里，需要用 Adamw
+CV 里，需要用 Adamw。这个已经是支持的
 https://github.com/Tencent/PatrickStar/issues/228#issuecomment-969973622
 
 原来是通过 module 的 hook 来采样 cuda/cpu 的内存，这个不够准确，后来是起了一个线程，0.01 采样一次
