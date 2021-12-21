@@ -5,10 +5,12 @@
 config = {
 }
 
-model, optim = initialize_engine(
+model, fp16Adam_optimizer = initialize_engine(
     model_func=model_func, local_rank=get_rank(), config=config
 )
 ```
+上述返回的就是一个包裹之后的 model
+
 ## 从 issue 和文档看到的一些信息
 
 我们真的需要模型并行(MP)么？https://github.com/Tencent/PatrickStar/issues/13#issue-972345430
