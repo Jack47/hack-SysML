@@ -74,7 +74,7 @@ Activation checkpointing(recompute) 和 Offload，提到了 Capuchin，但是没
 ## 6 单个 GPU 上的设计
 PS rutong PyTorch 和 异构内存之间的中间件一样。系统包含两部分：
 
-1. 静态部分，训练前对模型做一次预处理，通过模型结构来构建出 tensor 和 chunk 之间的映射关系(仅限于上文提到的模型数据，不包括中间值、激活值等)
+1. 静态部分，训练前对模型做 **一个iteration的 fwd/bwd, optimizer.step来作为预处理**，通过模型结构来构建出 tensor 和 chunk 之间的映射关系(仅限于上文提到的模型数据，不包括中间值、激活值等)
 2. 运行时部分，在训练时起作用。在训练过程中掌控了 PyTorch 的内存访问，通过把 tensor 重定向到 chunk-based 内存空间，使用 chunk manager 来管理异构的内存空间
 
 ![](./imgs/patrickstar-architecture.png)

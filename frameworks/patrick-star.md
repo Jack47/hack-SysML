@@ -1,3 +1,10 @@
+## Client
+
+## PatrickStarEngine
+这个 engine 是做了一些自动按照配置生成 client，然后调用 modle_func 产出 model，再把这个 module 上挂上钩子的操作，最终生成的是 wrapped module 和 optimizer。当然也可以不用他这个 `init_engine` 函数，
+
+自己做上述事情也可以。
+
 ## 用法
 
 ```
@@ -47,3 +54,5 @@ margin_use_ratio
 
 ## 问题
 1. 如果 CV 里用，需要是 Adam，如果不是，需要自己实现优化器，及其上的更新
+2. 能否不用它提供的优化器？比如用 SGD
+3. memtracer.py 里，其中的 max gpu system mem (non-chunk) 如何统计？总的 GPU 显存使用 - `gpu_chunk_used_mem`
