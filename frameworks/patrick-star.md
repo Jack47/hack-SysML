@@ -5,6 +5,9 @@
 
 自己做上述事情也可以。
 
+## Warmup 
+第一个 iteration 会是用来warmup的，启动 RuntimeMemTracer
+
 ## 用法
 
 ```
