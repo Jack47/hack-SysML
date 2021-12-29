@@ -57,5 +57,7 @@ margin_use_ratio
 
 ## 问题
 1. 如果 CV 里用，需要是 Adam，如果不是，需要自己实现优化器，及其上的更新
-2. 能否不用它提供的优化器？比如用 SGD
-3. memtracer.py 里，其中的 max gpu system mem (non-chunk) 如何统计？总的 GPU 显存使用 - `gpu_chunk_used_mem`
+2. 能否不用它提供的优化器？比如用 SGD 
+3. memtracer.py 里，1. 其中的 max gpu system mem (non-chunk) 如何统计？总的 GPU 显存使用 - `gpu_chunk_used_mem` . 2. warmup 之后，如何计算当前和下一个 moment 里所需内存？好像就是当前步骤计算出来的。因为model states 跟输入大小无关
+4. 什么时候执行 Chunk 的 release？
+5. 
