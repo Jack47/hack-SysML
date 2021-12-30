@@ -462,6 +462,8 @@ APEX: NVIDIA mixed-precision training [My Notes](./hardware/GPU/apex.md). [Mixed
 
 [fp16](./hardware/GPU/fp16.md)
 
+Fractional GPUs: Software-based Compute and Memory Bandwidth Reservation for GPUs: [My Notes](./hardware/GPU/fractional-GPUs)
+
 ### CUDA
 CUTLASS: [My Notes](./hardware/GPU/cutlass.md)
 
