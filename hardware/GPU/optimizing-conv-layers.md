@@ -12,9 +12,12 @@ Tensor Core里，NHWC(即挨个像素进行存储)这种情况速度会更快，
 
 
 ## 输入输出通道(Channels In And Out)
-在 cuDNN v7.6.3 和之后，卷积维度会自动被对齐，来方便利用到 Tensor Core。更早期版本比较严格：在 NHWC 数据上使用 TC，需要 C 和 K 都对齐到 8(fp16) 或者 4(tf32)
+在 cuDNN v7.6.3(V100) 和之后，卷积维度会自动被对齐，来方便利用到 Tensor Core。更早期版本比较严格：在 NHWC 数据上使用 TC，需要 C 和 K 都对齐到 8(fp16) 或者 4(tf32)
 
 ## 量化效果(Quantization Effects)
+
+
+Tiling 是说输出矩阵被划分为给定的大小的块，然后这些块被分发到 multi-processor 上进行计算。比如 A100 GPU里如果有108个 SMs，那么每个SM并发处理一个 thread block；为了最大化并行， GEMM 操作里应该包含 108的倍数个小块。否则最后需要单独拿出几个 SM 来初一一波最后的无法被108整除的那几个小块数据。
 
 ## 卷积参数如何影响性能
 
