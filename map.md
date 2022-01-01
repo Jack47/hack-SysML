@@ -456,7 +456,7 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 [Mixed Precision Training](https://arxiv.org/abs/1710.03740) (2017 ICLR) [My Notes](./papers/mixed-precision-training.md)
 
-APEX: NVIDIA mixed-precision training [My Notes](./hardware/GPU/apex.md). [Mixed precision training]
+APEX: NVIDIA mixed-precision training [My Notes](./hardware/GPU/apex.md)
 
 [What Every Programmer Should Know About Floating-Point Arithmetic](https://floating-point-gui.de/) [My Notes](./hardware/GPU/what-every-programmer-should-know-about-floating-point.md)
 
