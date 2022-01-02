@@ -462,8 +462,13 @@ APEX: NVIDIA mixed-precision training [My Notes](./hardware/GPU/apex.md)
 
 [fp16](./hardware/GPU/fp16.md)
 
-Fractional GPUs: Software-based Compute and Memory Bandwidth Reservation for GPUs: [My Notes](./hardware/GPU/fractional-GPUs)
+Fractional GPUs: Software-based Compute and Memory Bandwidth Reservation for GPUs: 实现了比 NV 自己的 MPS 更好的划分GPU ，跑多个 程序的方式。 之前腾讯的Gaia Stack 里实现有一些限制，本质是限制了调用次数，比如 kernel 得发射很多，才比较有效，而且多个程序之间没有物理隔离。[开源了实现](https://github.com/sakjain92/Fractional-GPUs). [My Notes](./hardware/GPU/fractional-GPUs)
 
+
+
+Optimizing Convolutitonal Layers: NV 官网的优化卷积运算的指南。[Notes](./hardware/GPU/optimizing-conv-layers.md)
+
+[NV官网 GPU Performance Background](https://docs.nvidia.com/deeplearning/performance/dl-performance-gpu-background/index.html). [My Notes](./hardware/GPU/GPU-performance-background.md)
 ### CUDA
 CUTLASS: [My Notes](./hardware/GPU/cutlass.md)
 
@@ -483,7 +488,6 @@ CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
 
 [CUDA Graphs: 可以用来节省传统 stream 方式下 cudaLaunchKernel 的时间，适合小的静态 kernel](./hardware/GPU/cuda-graphs.md)
 
-Optimizing Convolutitonal Layers: NV 官网的优化卷积运算的指南。[Notes](./hardware/GPU/optimizing-conv-layers.md)
 
 [Tensor Cores](./hardware/GPU/tensor-core.md)
 
