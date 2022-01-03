@@ -489,7 +489,7 @@ CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
 [CUDA Graphs: 可以用来节省传统 stream 方式下 cudaLaunchKernel 的时间，适合小的静态 kernel](./hardware/GPU/cuda-graphs.md)
 
 
-[Tensor Cores](./hardware/GPU/tensor-core.md)
+[Tensor Cores](./hardware/GPU/tensor-core.md): 它是什么，如何用，如何确定使用到了 TensorCore，启用 TC 的前提条件
 
 ##  10. <a name='MLCompilers'></a>ML Compilers
 ###  10.1. <a name='Rammer'></a>Rammer

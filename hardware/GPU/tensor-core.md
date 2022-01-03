@@ -2,12 +2,13 @@
 跟 CUDA Core 类似，是单独的运算单元，只能用来计算矩阵乘累加
 
 在 cuDNN v7.6.3(V100) 和之后，卷积维度会自动被填充(auto padding)，来方便利用到 Tensor Core
+
 ## 如何用？
 三种 API：
 
 1. CUDA Warp Matrix Multiply Accumulation: wmma
-2. CUTLASS
-3. cuBlass
+2. CUTLASS: 一个基于 WMMA 的模版库
+3. cuBLAS GEMM
 
 ## 一些规则
 1. 只能给GEMM类操作，而且是 math limited 的情况做加速，反之 memory limited 算子加速不了
