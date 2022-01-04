@@ -45,6 +45,16 @@ chip/bank/row
 ## 3. 计算隔离
 
 实现：目前NV GPU没有提供硬件支持来把指定 SM 分配给一个 kernel。所以使用软件分区来达到计算隔离。基于 [32]来做的，persistent block
+
+## 4. 显存隔离
+核心：确保每个在不同分区里的程序使用的显存空间在不同的banks里。可以通过逆向来知道 cache 里使用的hash函数。
+
+这里有两个假设：
+
+1. 给定物理地址，可以通过 xor sum two or more 物理地址里的 bits 来获得
+2. GPU caches 使用 Least Recently Used(LRU) 作为驱除策略
+
+
 ## 问题
 
 
