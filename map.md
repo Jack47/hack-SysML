@@ -265,6 +265,10 @@ Google. Gemmlowp: building a quantization paradigm from first principles 里面�
 ###  1.17. <a name='ParameterServer'></a>Parameter Server
 [Scaling Distributed Machine Learning with the Parameter Server](https://www.cs.cmu.edu/~muli/file/parameter_server_osdi14.pdf)(2013?)
 
+### 1.18 Prunning
+
+The Lottery Ticket Hypothesis: Finding Sparse, Trainable Neural Networks(2019): 著名的彩票假设，指出了新的 pruning 方法，让pruning之后的网络能参与训练，不掉点 [My Notes](./papers/pruning/the-lottery-ticket-hypothesis.md)
+
 ### NLP
 
 Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Notes](,/papers/NLP/scale-efficiently_insights-from-pretraining-and-fine-tuning-transformers.md)
