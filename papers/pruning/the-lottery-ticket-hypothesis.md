@@ -12,7 +12,9 @@
 
 发明了算法，能识别出胜出的彩票，设计了系列实验，支持假设，而且说明了初始化的重要性。发现 MNIST 和 CIFAR10 上，找到的彩票，大小上少 10-20%。而且训练的比原网络更快，而且准确度更高！
 
-iterative pruning:
+传统的 one-shot pruning: 训练一次，把 p% 的权重剪枝，剩下的权重重置
+
+本文主要关注 iterative pruning: 在n个轮次里，反复训练、剪枝、重置。每次会剪枝上一轮留下的权重里的 p^(1/n)%。发现通过 iterative pruning，能找出胜出的彩票。
 
 initialize:
 
