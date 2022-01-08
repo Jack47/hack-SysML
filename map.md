@@ -267,7 +267,7 @@ Google. Gemmlowp: building a quantization paradigm from first principles 里面�
 
 ### 1.18 Prunning
 
-The Lottery Ticket Hypothesis: Finding Sparse, Trainable Neural Networks(2019): 著名的彩票假设，指出了新的 pruning 方法，让pruning之后的网络能参与训练，不掉点 [My Notes](./papers/pruning/the-lottery-ticket-hypothesis.md)
+The Lottery Ticket Hypothesis: Finding Sparse, Trainable Neural Networks(ICLR 最佳论文 2019): 著名的彩票假设，指出了新的 pruning 方法，让pruning之后的网络能从头训练，不掉点 [My Notes](./papers/pruning/the-lottery-ticket-hypothesis.md)
 
 ### NLP
 
