@@ -509,6 +509,8 @@ CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
 ###  11.2. <a name='CommunicationProfiling'></a>Communication Profiling
 [Designing-a-profiling-and-visualization-tool-for-scalable-and-in-depth-analysis-of-high-performance-gpu-clusters]()(2019 HiPC), [My notes](./papers/designing-a-profiling-and-visualization-tool-for-scalable-and-in-depth-analysis-of-high-performance-gpu-clusters.md)
 
+Bagua(Kuaishou): 类似 Hordvod 一样 Pytorch 里的插件，主要在一些特定场景下做了优化：Gradient AllReduce, TCP Communication Acceleration, Generic Fused Optimizer. NLP 里的 Load Balanced Data Loader。[My Notes](./)
+
 ##  12. <a name='ParallelProgramming'></a>Parallel Programming
 [Persistent threads style gpu programming for gpgpu workloads]() (2012 IEEE) [My Notes](papers/persistent-threads.md)
 [Persistent Threads Block](https://www.classes.cs.uchicago.edu/archive/2016/winter/32001-1/papers/AStudyofPersistentThreadsStyleGPUProgrammingforGPGPUWorkloads.pdf)
