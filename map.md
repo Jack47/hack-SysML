@@ -509,7 +509,7 @@ CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
 ###  11.2. <a name='CommunicationProfiling'></a>Communication Profiling
 [Designing-a-profiling-and-visualization-tool-for-scalable-and-in-depth-analysis-of-high-performance-gpu-clusters]()(2019 HiPC), [My notes](./papers/designing-a-profiling-and-visualization-tool-for-scalable-and-in-depth-analysis-of-high-performance-gpu-clusters.md)
 
-Bagua(Kuaishou): 类似 Hordvod 一样 Pytorch 里的插件，支持 Decentralized/Centralized, Quantized(or 1 bit)， Sync/Async的优化器和通信过程, 主要在一些特定场景下做了优化：Gradient AllReduce Overlaping with communicaiton, Hierarch TCP Communication Acceleration(多主机间通信), Generic Fused Optimizer(优化很多小tensor的场景). NLP 里的 Load Balanced Data Loader。[My Notes](./papers/communication/bagua-scaling-up-distributed-learning-with-system-relaxations.md)
+Bagua(Kuaishou): 类似 Hordvod 一样 Pytorch 里的插件，支持 Decentralized/Centralized, Quantized(or 1 bit)， Sync/Async的优化器和通信过程, 主要在一些特定场景下做了优化：Gradient AllReduce Overlaping with communicaiton, Hierarch TCP Communication Acceleration(多主机间通信), Generic Fused Optimizer(优化很多小tensor的场景). NLP 里的 Load Balanced Data Loader。[My Notes](./papers/communication/bagua-scaling-up-distributed-learning-with-system-relaxations.md). [阅读源码收获](./frameworks/bagua.md)
 
 ##  12. <a name='ParallelProgramming'></a>Parallel Programming
 [Persistent threads style gpu programming for gpgpu workloads]() (2012 IEEE) [My Notes](papers/persistent-threads.md)
