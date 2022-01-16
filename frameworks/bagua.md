@@ -11,6 +11,9 @@
 代码中把这个特性叫做 gradient as bucket view(do flatten)，更能精准表达含义。这个并不能减少那次拷贝，但是会增强程序的局部性。跟 LS 里把所有 param 和 grad 放到一个超大 tensor 里类似的机制
 
 ## 4. 第一个 iteration 里体现的 profile 阶段
+没找到，这里有个 [warmup iterations](https://github.com/BaguaSys/bagua/blob/471daa11fc6547045986c87199bf3083d1e5d746/bagua/script/bagua_sys_perf#L136)，但看起来是benchmark 里用的。
+
+讲道理应该是看通信、计算的情况，来分配如何做才是最高效的 ddp
 
 ## 5. fused optimizer
 把多个参数的更新，融合到一个或更少的更新里，为了达成这个，用户需要：
