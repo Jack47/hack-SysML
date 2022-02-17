@@ -146,15 +146,24 @@ tensor 的 payload 又指向假数据。这样 PS 不需要管理真正的 paylo
 
 ## 启发
 1. 参数在forward 之后，就没用了（没用 checkpoint 机制），可以丢掉 
-2. 这个方法能用到 CV 里吗，激活值比较大？
+2. 这个方法能用到 CV 里吗，激活值比较大？无法节省激活值，OS 是大头，而且关键是它的销峰作用，对我们帮助较大
 3. 与 DTR 相比，这篇更容易实现
+4. lightseq 使用后，
+
+## 优化
+### 8.2 Device-aware Operator Placement
+
+计算密集型操作：Linear，必须在 GPU 上
+内存密集型：embedding ，占用训练时间比较小，所以swap的话比较划算。适合在CPU和GPU上运行
+element-wise: Adam，可在 CPU 和 GPU 上进行
 
 ## 问题
 1. chunk based，会不会牵扯没必要 swap 的 tensor?
-2. 什么时机开始，提前换入？如果只是 Model pre fwd hook，感觉效率并不高？换出的东西倒是有各种策略
-3. non model 数据怎么处理？好像图里没管？
-4. 每次都要处理的话，会不会效率较低？而且在 Pytorch/Python 层面
-5. 运行时部分，如何掌管 PyTorch 对 tensor 的访问？
+2. 什么时机开始，提前换入？如果只是 Model pre fwd hook，感觉效率并不高？(可能因为是 chunk 粒度，所以摊薄了开销？而且次数显著变小)换出的东西倒是有各种策略
+3. non model 数据怎么处理？好像图里没管？对，主要是激活值，以及其他零碎的显存
+4. 每次都要处理的话，会不会效率较低？而且在 Pytorch/Python 层面。每次的开销，主要是记录当前参数（时刻）、显存大小
+5. 运行时部分，如何掌管 PyTorch 对 tensor 的访问？只是以chunk为单位组织 tensor，然后把这波tensor进行 swap
+6. 它和checkpoint 机制能混合用吗？
 
 ## TODO
 1. 看 DS 的短板: 图三
