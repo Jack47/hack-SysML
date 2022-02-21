@@ -162,6 +162,8 @@ Layer Normalization (2016.7) : [My Notes ](./papers/layer-normalization.md) : æƒ
 
 [Norm matters: efficient and accurate normalization schemes in deep networks](https://arxiv.org/pdf/1803.01814.pdf)(2019 ): suggest several alternatives to the widely used L2 batch-norm, using normalization in L1 and Lâˆž space
 
+Sync Batch Normalization(syncbn): [Source Code Notes](./operators/sync-bn.md)
+
 ####  1.9.2. <a name='GroupNormalization'></a>Group Normalization
 
 Sys Papers:
