@@ -80,3 +80,4 @@ fallback 举例： 下面的 TESTING_ONLY_GenericMode 是 DispatchKeySet
 1. [issues met when implement Dynamic tensor rematerialization](https://github.com/pytorch/pytorch/issues/62448): pytorch 的作者介绍了 一些对 DTR 第一版的一些问题和看法
 2. [Reimplementing DTR in generic](https://github.com/uwsampl/pytorch/pull/62)
 3. [first dtr pr](https://github.com/pytorch/pytorch/pull/42056)
+4. [DTR 作者知乎上的通俗解释](https://www.zhihu.com/people/marisa.moe/answers)
