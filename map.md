@@ -281,6 +281,8 @@ Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Note
 
 PERSIA: An Open, Hybrid System Scaling Deep Learning-based Recommenders up to 100 Trillion Parameters(2021) [Notes](./papers/recommender/persia.md), [Siyu Wang's Notes](./papers/recommender/Persia_note_siyuwang.md)
 
+#### DataSet
+[TaoBao AD](https://www.kaggle.com/pavansanagapati/ad-displayclick-data-on-taobaocom) [Notes]()
 ##  2. <a name='NetworkOperators'></a>Network Operators
 [Dropout vs Droppath](operators/dropout.md)
 
