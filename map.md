@@ -282,7 +282,7 @@ Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Note
 PERSIA: An Open, Hybrid System Scaling Deep Learning-based Recommenders up to 100 Trillion Parameters(2021) [Notes](./papers/recommender/persia.md), [Siyu Wang's Notes](./papers/recommender/Persia_note_siyuwang.md)
 
 #### DataSet
-[TaoBao AD](https://www.kaggle.com/pavansanagapati/ad-displayclick-data-on-taobaocom) [Notes]()
+[TaoBao AD](https://www.kaggle.com/pavansanagapati/ad-displayclick-data-on-taobaocom) [Notes](./papers/recommender/datasets/taobao-ad.md)
 ##  2. <a name='NetworkOperators'></a>Network Operators
 [Dropout vs Droppath](operators/dropout.md)
 
@@ -500,6 +500,8 @@ CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
 
 
 [Tensor Cores](./hardware/GPU/tensor-core.md): 它是什么，如何用，如何确定使用到了 TensorCore，启用 TC 的前提条件
+
+[NCCL All reduce hang 调查](./hardware/GPU/nccl.md)
 
 ##  10. <a name='MLCompilers'></a>ML Compilers
 ###  10.1. <a name='Rammer'></a>Rammer
