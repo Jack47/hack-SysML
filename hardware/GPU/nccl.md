@@ -7,7 +7,28 @@ CUDA 里，一个 stream 是在 GPU 上执行的顺序是按照主机上发射�
 所有的设备操作（kernel和数据传输）在CUDA中属于某个流。如果没有指定流，会使用默认流(也叫 null stream)。它跟其他流不一样，因为是在设备上**同步执行**(synchronizing)的流：只有当所有在它之前发射的任意流（同一个设备）上的操作都完成后，默认流中的操作才会开始。
 而且默认流中的这个操作必须完成，其他后续操作（同一个设备里的任意流）才会开始。
 
-2015年发布的CUDA 7 里，引入了新的选项来让主机上每个线程粒度使用单独的默认流，把per-thread default stream 当作常规的流(不会和其他流里的操作同步)。参看[GPU Pro Tip: CUDA 7 Streams Simplify Concurrency](https://developer.nvidia.com/blog/parallelforall/gpu-pro-tip-cuda-7-streams-simplify-concurrency/)
+所以默认流用在对性能要求不高的场景下，因为它会带来隐式地与其他流的同步。
+
+### per-thread default stream
+
+所以2015年发布的CUDA 7 里，引入了**新的选项**来让主机上每个线程粒度使用单独的默认流，把per-thread default stream 当作常规的流(不会和其他流里的操作同步)。参看[GPU Pro Tip: CUDA 7 Streams Simplify Concurrency](https://developer.nvidia.com/blog/parallelforall/gpu-pro-tip-cuda-7-streams-simplify-concurrency/)。
+
+这个 per-thread default stream 的特点：
+
+1. 让每个主机线程有一个默认流。所以不同主机线程上发射的命令可以并发执行
+2. 这些默认流是常规流，所以其他非默认流里的命令可以和 per-thread default stream 并发执行
+
+如何开启？两种方法选一个：
+
+1. nvcc --default-stream per-thread
+2. `#define CUDA_API_PER_THREAD_DEFAULTL_STREAM` before including CUDA headers (cuda.h or cuda_runtime.h)。 是在编译最开始就决定的开关
+
+### cudaStreamNonBlocking (非blocking 非默认流)
+
+createStreamCreate(cudaStreamNonBlocking) 这种创建的流:
+
+1. 如果是两个，那他两个之间就完全独立的，所以
+2. 它 legacy default stream 之间**不会**有隐式同步
 
 ```
 cudaMemcpy(d_a, a, numBytes, cudaMemcpyHostToDevice);
