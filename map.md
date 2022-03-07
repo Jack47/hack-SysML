@@ -406,6 +406,8 @@ Pytorch Image Models
  
  [Pytorch Llazy Tensor Core](./frameworks/pytorch/lazy-tensor-core.md)
  
+ [LazyTensor Paper](https://medium.com/syncedreview/facebook-googles-lazytensor-enables-expressive-domain-specific-compilers-230f695e676f)
+ 
 ####  5.5.1. <a name='JIT'></a>JIT
 
 ![](https://github.com/pytorch/tvm/blob/master/pt_execution.png?raw=true)
