@@ -36,3 +36,5 @@ Next Steps for PyTorch Compilers: 提供 eager mode。Lazy Tensors 是一种方�
 
 
 [Next Steps for PyTorch Compilers](https://dev-discuss.pytorch.org/t/next-steps-for-pytorch-compilers/309) : Edge Devices, Compilers in Eager Mode, Next Generation Accelerations, Exploratory Research
+
+[Lazy Tensor Core Project Progress](https://github.com/pytorch/pytorch/projects/26)
