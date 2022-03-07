@@ -402,6 +402,10 @@ Pytorch Image Models
  
  [Reading Source Code Snippets](./frameworks/pytorch/source-code.md)
  
+ [ProcessGroup ProcessGroupNCCL](./frameworks/pytorch/ProcessGroupNCCL.md)
+ 
+ [Pytorch Llazy Tensor Core](./frameworks/pytorch/lazy-tensor-core.md)
+ 
 ####  5.5.1. <a name='JIT'></a>JIT
 
 ![](https://github.com/pytorch/tvm/blob/master/pt_execution.png?raw=true)
