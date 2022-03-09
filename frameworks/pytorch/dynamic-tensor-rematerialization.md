@@ -25,6 +25,28 @@ DTR prototype 支持 PyTorch 实现细节如 in-place 修改，aliasing, multipl
   // When we are inside a vmap, all tensors dispatch on this key.
   // See Note: [DispatchKey::VmapMode usage] for more details.
   
+## Corner Cases:
+1. CT tensor如果被计算多次，那只想计算一次梯度。所以wrapper必须是 require_grad, 而wrapped value 不需要
+2. 常量 CT 是不可 evictable的
+3. op 返回多个输出的情况：rematerializer 在之间共享。所以执行一次，就拿到所有的结果
+4. op可能是inplace的情况：不返回输入，只修改输入。此时 COW operator,用 ref 来包装 CT。内部的 CT 就可以纯函数
+5. 可能修改 uncheckpointed tensor，不支持，报错
+6. create aliases：使用 AliasPool 来跟踪，每个 AliasPool 保存一个 tensor 的集合，是互为 alias 的关系。
+### 7. op 可能会创建一个对不可 evict tensor 的 Alias。
+不支持这种情况，会报错：如果tensor有任何live Alias。为啥不支持？
+
+要如何支持？
+
+然而可以：每个 AP 保存 External Reference 的 weak pointers。当 alias 修改发生，会使用 rematerialize_function 来在 base tensor (other tensor alias from)，然后输出所有新的alias 的值，最后更新 Ref
+
+## Memory Safety:
+对象会有很多 backedges. 为了收集计算完成后的内存信息，需要所有 strong pointer 是如下形式： value -> input。确保每个 external ref 之后，就可以释放
+
+## 优化：
+把没有外部 ref 的 tensor 这样对待：
+
+认为他的下次使用时间是无限大，所以 evict 的时候，会立马 evict
+
 ### Boxed functions vs C++ calling convention
 a boxed kernel function with signature `void(const OperatorHandle&, Stack*)`. i.e., they receive a stack of arguments in a boxed calling convention, ranther than in the native C++ calling convention. Boxed functions are typically only used to register backend fallbacks via torch::Library::fallback().
 
