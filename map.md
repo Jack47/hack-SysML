@@ -208,7 +208,9 @@ Tensor-based gpu memory management for deep learning. (2020)
 [Low-Memory Neural Network Training: A Technical Report](https://arxiv.org/pdf/1904.10631.pdf)(2019-4-24)
 
 [Gradient/Activation Checkpointing](./memory-efficiency/gradient-checkpointing.md)
+
 [Checkpoint in fairscale](./memory-efficiency/ckpt_activ_fairscale.md)
+
 [Visual Gifs to show gradient checkpointing](https://github.com/cybertronai/gradient-checkpointing)
 
 Binaryconnect: Training deep neural networks with binary weights during propagations. (2015)
