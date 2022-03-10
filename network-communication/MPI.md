@@ -69,6 +69,13 @@ Dynamic process management: 一个 MPI 进程可以参与到新的 MPI processes
 ## 问题
 1. slurm 里如何支持 MVAPICH2
 
+## API
+```
+int MPI_Probe(int source, int tag, MPI_Comm comm, MPI_Status * status)
+
+int MPI_Get_count(const MPI_Status *status, MPI_Datatype datatype, int *count)
+MPI_CHECK(MPI_Get_count(status, MPI_CHAR, &length))
+```
 ## 参考资料
 1. https://wiki.mpich.org/mpich/index.php/PMI_v2_API，介绍了 PMI 和 MPI 如何配合，比如 PMI_Init 时，会返回 size, int *rank, int *appnum(MPI_COMM_WORLD) 等
 2. https://anl.app.box.com/v/2019-06-21-basic-mpi： 介绍了 MPI里的基本概念，比如 MPI_COMM_WORLD，communicator,
