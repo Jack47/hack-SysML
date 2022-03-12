@@ -545,6 +545,14 @@ Bagua(Kuaishou): 类似 Hordvod 一样 Pytorch 里的插件，支持 Decentraliz
 
 AntMan
 
+## Dependency and Package Management
+
+### C/C++ Dependency and Package Manager
+Conan: 主要是给C和 C++ 项目加速开发和持续集成来设计并优化的。有二进制包的管理能力. [My Notes](./package-management/conan.md)
+
+### Python
+Conda
+
 ##  16. <a name='Misc'></a>Misc
 [The Modern Histry of Object Recognition -- Infographic](https://medium.com/@nikasa1889/the-modern-history-of-object-recognition-infographic-aea18517c318)
 
