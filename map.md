@@ -287,6 +287,9 @@ PERSIA: An Open, Hybrid System Scaling Deep Learning-based Recommenders up to 10
 
 #### DataSet
 [TaoBao AD](https://www.kaggle.com/pavansanagapati/ad-displayclick-data-on-taobaocom) [Notes](./papers/recommender/datasets/taobao-ad.md)
+
+Bamboo: [Notes](./datasets/bamboo.md)
+
 ##  2. <a name='NetworkOperators'></a>Network Operators
 [Dropout vs Droppath](operators/dropout.md)
 
