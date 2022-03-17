@@ -545,6 +545,13 @@ Bagua(Kuaishou): 类似 Hordvod 一样 Pytorch 里的插件，支持 Decentraliz
 
 AntMan
 
+## Active Learning
+希望在注解最少量样本的情况下，获得模型最大性能
+
+[A Survey of Deep Active Learning](https://arxiv.org/pdf/2009.00236.pdf)
+
+[Active Learning for Convolutional Neural Networks: A Core-Set Approach](https://arxiv.org/abs/1708.00489) (ICLR 2018)
+
 ## Dependency and Package Management
 
 ### C/C++ Dependency and Package Manager
