@@ -511,7 +511,7 @@ CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
 
 [Tensor Cores](./hardware/GPU/tensor-core.md): 它是什么，如何用，如何确定使用到了 TensorCore，启用 TC 的前提条件
 
-[NCCL All reduce hang 调查](./hardware/GPU/nccl.md)
+[NCCL All reduce hang 调查: streams](./hardware/GPU/nccl.md)
 
 [NCCL Performance : nccltest](./hardware/GPU/nccl-test.md)
 
