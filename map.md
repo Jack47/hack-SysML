@@ -477,7 +477,9 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 [NVLink](./hardware/GPU/nvlink.md) vs PCiE
 
-[Mixed Precision Training](https://arxiv.org/abs/1710.03740) (2017 ICLR) [My Notes](./papers/mixed-precision-training.md)
+[Mixed Precision Training](https://arxiv.org/abs/1710.03740) (2018 ICLR) [My Notes](./papers/mixed-precision-training.md)
+
+[Training Deep Neural Networks with 8-bit Floating Point Numbers](https://arxiv.org/abs/1812.08011)(2018 NeurIPS)(./papers/8-bit-floating-point-numbers.md)
 
 APEX: NVIDIA mixed-precision training [My Notes](./hardware/GPU/apex.md)
 
