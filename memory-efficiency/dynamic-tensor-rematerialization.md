@@ -11,6 +11,14 @@ Rematerialization：在反向传播时重新计算中间值，而不是存储他
 
 为什么大家用 checkpoint(重计算）较多，用 swap 较少？因为相比较而言，一个算子 swap 的开销是重计算的两个数量级倍，可以参考 MegEngine DTR介绍里的那个表格
 
+ 图4: 
+ 
+ DTR runtime overhead: 
+
+1. Cost Compute: computing heuristic scores
+2. Eviction Loop: comparing scores over tensors
+
+
 ## 启发
 1. 可以提供一个指导加 checkpoint 的方法？产出静态 checkpoint 的布局图
 

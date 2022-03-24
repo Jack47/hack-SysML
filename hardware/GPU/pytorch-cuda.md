@@ -5,6 +5,12 @@
 
 ## 其他 api
 
+### `torch.tensor.is_contiguous(memory_format=torch.contiguous_format)`
+
+Returns True if self tensor is contiguous in memory in the order specified by memory format
+
+memory_format: memory allocation order. Possible values are : `torch.contiguous_format`, `torch.channels_last`, `torch.preserve_format`
+
 ### torch.cuda.memory_summary
 输出举例：
 ```
