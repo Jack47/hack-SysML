@@ -104,7 +104,7 @@ bool get_free_block(AllocParams& p)
 `for (auto option : options)`  
 //对某个option进行解析  
 `if (kv[0].compare("max_split_size_mb") == 0)`  
-//如果成立，说明option解析出来的是对max_split_size的描述，而且是以MB为单位  
+**//如果成立，说明option解析出来的是对max_split_size的描述，而且是以MB为单位**  
 `size_t val2 = stoi(kv[1]);`  
 //val2就是解析出max_split_size_mb的实际值  
 `TORCH_CHECK(val2 > kLargeBuffer / (1024 * 1024)，...)`  
@@ -114,5 +114,5 @@ bool get_free_block(AllocParams& p)
 `val2 = std::min(val2, (std::numeric_limits<size_t>::max() / (1024 * 1024)));`  
 //并且m_max_split_size还有std::numeric_limits<size_t>::max()的限制（size_t类型的最大值）  
 `m_max_split_size = val2 * 1024 * 1024;`  
-//对处理完上述限制的val2，赋值给m_max_split_size  
+**//对处理完上述限制的val2，赋值给m_max_split_size**  
 
