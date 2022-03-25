@@ -99,10 +99,9 @@ bool get_free_block(AllocParams& p)
 则指向每个块实际被分配的memory地址。
 
 ## 4. 可以试着解释一下max_split_size_mb这个参数的作用嘛？
-```
-void parseArgs() 
+`void parseArgs() `
 //在参数解析函数中
-for (auto option : options)
+`for (auto option : options)`
 //对某个option进行解析
 if (kv[0].compare("max_split_size_mb") == 0)
 //如果成立，说明option解析出来的是对max_split_size的描述，而且是以MB为单位
