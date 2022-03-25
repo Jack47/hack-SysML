@@ -42,4 +42,5 @@ return collective(tensors, tensors, [&](input, output, comm, stream){}); // 可�
 ```
 
 
+ncclAllreduce 是同步的，但是上面 pytorch 可能会封装一下，放到另外一个stream里，那就变成异步的了
 
