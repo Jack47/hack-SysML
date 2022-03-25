@@ -99,20 +99,20 @@ bool get_free_block(AllocParams& p)
 则指向每个块实际被分配的memory地址。
 
 ## 4. 可以试着解释一下max_split_size_mb这个参数的作用嘛？
-`void parseArgs() `
-//在参数解析函数中
-`for (auto option : options)`
-//对某个option进行解析
-if (kv[0].compare("max_split_size_mb") == 0)
-//如果成立，说明option解析出来的是对max_split_size的描述，而且是以MB为单位
-size_t val2 = stoi(kv[1]);
-//val2就是解析出max_split_size_mb的实际值
-TORCH_CHECK(val2 > kLargeBuffer / (1024 * 1024)，...）
-//需要保证max_split_size>kLargeBuffer，***/ (1024 * 1024)的原因是kLargeBuffer以byte为单位存储
-val2 = std::max(val2, kLargeBuffer / (1024 * 1024));
-//如果val2 <= kLargeBuffer / (1024 * 1024)，则将val2赋值为kLargeBuffer / (1024 * 1024)
-val2 = std::min(val2, (std::numeric_limits<size_t>::max() / (1024 * 1024)));
-//并且m_max_split_size还有std::numeric_limits<size_t>::max()的限制（size_t类型的最大值）
-m_max_split_size = val2 * 1024 * 1024;
-//对处理完上述限制的val2，赋值给m_max_split_size
-```
+`void parseArgs() `  
+//在参数解析函数中  
+`for (auto option : options)`  
+//对某个option进行解析  
+`if (kv[0].compare("max_split_size_mb") == 0)`  
+//如果成立，说明option解析出来的是对max_split_size的描述，而且是以MB为单位  
+`size_t val2 = stoi(kv[1]);`  
+//val2就是解析出max_split_size_mb的实际值  
+`TORCH_CHECK(val2 > kLargeBuffer / (1024 * 1024)，...)`  
+//需要保证max_split_size>kLargeBuffer，***/ (1024 * 1024)的原因是kLargeBuffer以byte为单位存储  
+`val2 = std::max(val2, kLargeBuffer / (1024 * 1024));`  
+//如果val2 <= kLargeBuffer / (1024 * 1024)，则将val2赋值为kLargeBuffer / (1024 * 1024)  
+`val2 = std::min(val2, (std::numeric_limits<size_t>::max() / (1024 * 1024)));`  
+//并且m_max_split_size还有std::numeric_limits<size_t>::max()的限制（size_t类型的最大值）  
+`m_max_split_size = val2 * 1024 * 1024;`  
+//对处理完上述限制的val2，赋值给m_max_split_size  
+
