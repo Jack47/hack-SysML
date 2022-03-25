@@ -1,4 +1,4 @@
-# 三个问题的回答
+# 问题的回答
 
 ## 1.显存分配的大致阶段
 
@@ -116,3 +116,48 @@ bool get_free_block(AllocParams& p)
 `m_max_split_size = val2 * 1024 * 1024;`  
 **//对处理完上述限制的val2，赋值给m_max_split_size**  
 
+## 5."max_split_size_mb"，m_max_split_size，CachingAllocatorConfig::max_split_size()等的作用
+
+"max_split_size_mb"用于解析参数中设置m_max_split_size。（4.中回答）
+
+CachingAllocatorConfig::max_split_size()是返回m_max_split_size值的接口函数。
+
+m_max_split_size代表着“最大可分割块大小”。
+
+**设计原因**：代码中有一个逻辑是，为了减小内存碎片，不愿意对超大的（oversized，size>max_split_size）缓存块进行分割。除非请求就是超大的(size>max_split_size)且在分割后剩余的块小于20MB(kLargeBuffer)
+
+在`bool get_free_block(AllocParams& p)`函数中，有
+```
+    if ((p.size() < CachingAllocatorConfig::max_split_size()) &&
+        ((*it)->size >= CachingAllocatorConfig::max_split_size()))
+      return false;
+```
+//如果请求<max_split_size，但找到的符合要求的块>max_split_size，则返回查询失败
+```
+    // Allow oversized block size to be rounded up but within a limit
+    if ((p.size() >= CachingAllocatorConfig::max_split_size()) &&
+        ((*it)->size >= p.size() + kLargeBuffer))
+      return false;
+```
+//如果请求>=max_split_size，且找到的符合要求的块也是>=max_split_size，但分割后剩余块大小>=kLargeBuffer，则返回查询失败
+
+**如果没有这个参数**，则很可能将很大缓存块，分割给较小的请求，在后续的使用和释放中容易产生内存碎片。
+
+在CachingAllocatorConfig的构造函数中,
+设置了m_max_split_size的**默认值**，为size_t的最大值
+```
+  CachingAllocatorConfig()
+      : m_max_split_size(std::numeric_limits<size_t>::max()),
+...
+```
+
+这样就不会有size_t类型的值大于m_max_split_size，参数失效
+
+同时在bool release_available_cached_blocks() 函数中，有
+```
+  bool release_available_cached_blocks(const AllocParams& p) {
+    if (CachingAllocatorConfig::max_split_size() ==
+        std::numeric_limits<size_t>::max())
+      return false;//未设置超大块大小，仅为初始值
+```
+因为此函数目的是释放一个或多个超大块，如果max_split_size是默认值，则直接返回失败，因为没有超大块。
