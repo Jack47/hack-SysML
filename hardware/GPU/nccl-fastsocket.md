@@ -22,4 +22,5 @@
 ## 参考资料：
 1. [Google Cloud 上的介绍](https://cloud.google.com/blog/products/ai-machine-learning/how-to-optimize-google-cloud-for-deep-learning-training)
 
-2. [LanChen在 DataFun 的分享]()
+2. [LanChen在 DataFun 的分享](https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&mid=2247566835&idx=1&sn=0382cccd76b6b2509907be1b703fe7c2&chksm=fbd6779fcca1fe895ad0d361b31ba61a78061337124cfe2f3f32803fdc4ea9a12e4af359249a&mpshare=1&scene=1&srcid=03174sljwCpIPN6pBSmua7S8&sharer_sharetime=1648131228367&sharer_shareid=2341dd0b8f3d7cdff1b600532fc15b3a&version=4.0.2.90474&platform=mac#rd)
+3. [NCCL FastSocket](https://github.com/google/nccl-fastsocket)
