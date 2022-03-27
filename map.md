@@ -145,6 +145,7 @@ paper: [Scaling Distributed Machine Learning with In-Network Aggregation](https:
 
 [PMI](./network-communication/PMI.md): 并行编程中的Process Management System
 
+[InfiniBand, Remote Direct Memory Access(RDMA), Socket, Ethernet](./network-communication/basic-concepts.md)
 ####  1.8.1. <a name='GradientCompression'></a>Gradient Compression
 
 [GRACE: A Compressed Communication Framework for Distributed Machine Learning](https://sands.kaust.edu.sa/papers/grace.icdcs21.pdf) (2021) : s. We instantiate GRACE on TensorFlow and PyTorch, and implement 16 such methods.
