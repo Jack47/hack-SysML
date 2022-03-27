@@ -18,9 +18,17 @@
 1. TCP 通信和 NCCL 不是一个东西？
 
 
+## 启发
+1. 以太网 Socket 场景下，对于小消息，他们是跳过了一些步骤来发送，核心是提高延时。对于大消息，主要是做好负载均衡。这个思路是否可以借鉴？
+2. Reduction Server，是不是也是给云上用的呢？在公司这种土豪网络方案下，是可以的嘛？
+
+## 问题
+allReduce 的朴素实现：
+
+* reduce-scatter: 为啥是 (n-1)/n
+* all gather
 
 ## 参考资料：
 1. [Google Cloud 上的介绍](https://cloud.google.com/blog/products/ai-machine-learning/how-to-optimize-google-cloud-for-deep-learning-training)
-
 2. [LanChen在 DataFun 的分享](https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&mid=2247566835&idx=1&sn=0382cccd76b6b2509907be1b703fe7c2&chksm=fbd6779fcca1fe895ad0d361b31ba61a78061337124cfe2f3f32803fdc4ea9a12e4af359249a&mpshare=1&scene=1&srcid=03174sljwCpIPN6pBSmua7S8&sharer_sharetime=1648131228367&sharer_shareid=2341dd0b8f3d7cdff1b600532fc15b3a&version=4.0.2.90474&platform=mac#rd)
 3. [NCCL FastSocket](https://github.com/google/nccl-fastsocket)
