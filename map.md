@@ -481,7 +481,7 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 [Training Deep Neural Networks with 8-bit Floating Point Numbers](https://arxiv.org/abs/1812.08011)(2018 NeurIPS)(./papers/8-bit-floating-point-numbers.md)
 
-APEX: NVIDIA mixed-precision training [My Notes](./hardware/GPU/apex.md)
+NVIDIA Automatic Mixed Precision training [My Notes](./hardware/GPU/mixed-precision-training.md)
 
 [What Every Programmer Should Know About Floating-Point Arithmetic](https://floating-point-gui.de/) [My Notes](./hardware/GPU/what-every-programmer-should-know-about-floating-point.md)
 

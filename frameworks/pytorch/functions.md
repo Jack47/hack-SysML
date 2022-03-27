@@ -56,3 +56,9 @@ A placeholder identity operator that is argument-insensitive. m = nn.Identity(54
 ## torch.nn.Module.hooks
 
 Forward hooks, Backward hooks
+
+## torch.view(shape) -> Tensor
+在原始tensor数据不改变的条件下，返回新的tensor。要求新tensor的纬度是原始纬度的子空间，否则需要用 reshape() 来进行维度变换，此时得到的 tensor 不与原始 tensor 共享内存
+
+## stride 属性
+tensor的 stride 步长，代表从索引中的一个维度跨到下一个维度的跨度

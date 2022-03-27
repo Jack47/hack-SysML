@@ -28,6 +28,9 @@ Mixed Precision Training(fp16): 矩阵乘加时，乘法用fp16，加法用 fp32
 
 FP8 最终选择的(1,5,2)，说是研究完网络里数据的分布后，选择出来的格式。
 
+
+[可以和 fp16 混合精度训练做对比](../hardware/GPU/mixed-precision-training.md#L9)
+
 ### 2.3 Reduced Precision 下浮点数累加
 GEMM 里包含很多逐个乘积结果的累加，由于浮点数加法里需要先把小的一方指数部分对齐到大的一方，即右移底数，所以可能这个小的数字由于底数(mantissa 小数位)位数限制而直接被截断，这种在 HPC 领域叫 swamping。
 
@@ -58,3 +61,4 @@ chunk-based accumulation 这个操作需要用硬件来实现
 ## 参考材料
 
 1. [NIPS Open Review](https://proceedings.neurips.cc/paper/2018/file/335d3d1cd7ef05ec77714a215134914c-Reviews.html)
+
