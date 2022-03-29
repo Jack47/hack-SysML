@@ -18,3 +18,5 @@ RDMA 实现有三种：
 3. RDMA over Converged Ethernet(RoCE) :以太网交换机就行
 
 
+
+NCCL 是 NV 在 GPU 上实现的集合通信库，MPI 同样是集合通信库，但是在 CPU 上 的。
