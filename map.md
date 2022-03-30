@@ -463,7 +463,7 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 > Used an an experience replay system for distributed reinforcement learning algorithms
 
-[Path-Ways](./papers/pathways.md)
+[Pathways: Aschronous Distributed Dataflow for ML](./papers/pathways.md)(MLSys 2022)
 
 ##  6. <a name='CharacterizingMLTrainingWorkloads'></a>Characterizing ML Training Workloads
 [Characterizing Deep Learning Training Workloads on Alibaba-PAI](https://arxiv.org/pdf/1910.05930)(2019-10-14): 主要看看他们是用什么方法来profile的，是否有借鉴意义
