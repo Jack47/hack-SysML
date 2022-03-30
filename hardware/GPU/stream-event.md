@@ -59,7 +59,7 @@ cudaStreamCreate()
 2. cudaStreamSynchronize(stream1)：等待单个指定的 stream1 里所有操作执行完 
 3. cudaStreamQuery(stream1) 与2的差别是它不会阻塞 host 侧运行，只是去查询，而不是等待所有操作执行完 
 4. cudaEventSynchronize(event), cudaEventQuery(event) 跟2，3类似。
-5. cudaStreamWaitEvent 
+5. cudaStreamWaitEvent(stream, event, flags). 会让 stream 里的工作直到event完成后，再开始执行。也支持device级别的同步：把stream=NULL。
 
 是不是数据传输操作也行？像下面的
 
