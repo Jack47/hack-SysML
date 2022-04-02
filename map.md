@@ -471,6 +471,8 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 ##  7. <a name='DataPreprocessing'></a>Data Preprocessing
 [ImageNet-21K Pretraining for the Masses]() (2021.8.5) [My Notes](./papers/data/imagenet-21k-pretraining-for-the-masses.md)
 
+tf.data: A Machine Learning Data Processing Framework: (2017) [My Notes](./frameworks/tensorflow/tf.data.md)
+
 ##  8. <a name='Videos'></a>Videos
 [Flexible systems are the next frontier of machine learning](https://www.youtube.com/watch?v=Jnunp-EymJQ&list=WL&index=14) Stanford 邀请 Jeff Dean 和 Chris Re 探讨最新的进展(2019) [My Notes](./videos/Flexible-systems-are-the-next-frontiner-of-machine-learning.md)
 
