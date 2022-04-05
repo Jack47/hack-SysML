@@ -560,6 +560,10 @@ Bagua(Kuaishou): 类似 Hordvod 一样 Pytorch 里的插件，支持 Decentraliz
 
 AntMan
 
+## Chips
+
+The Deep Learning Revolution and Its Implications for Computer Architecture and Chip Design. [My Notes](./hardware/the-deep-learning-revolution-and-its-implications-for-computer-architecture-and-chip-design.md)
+
 ## Active Learning
 希望在注解最少量样本的情况下，获得模型最大性能
 
