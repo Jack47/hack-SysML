@@ -81,8 +81,116 @@ ML 训练和其他并发执行数据处理的平台(MapPreduce, Spark, DryadLINQ
 2）MXNet的 DataIter API使用原生 C++ 实现，比 PyTorch 性能高，但是需要用户添加C++ 插件来处理心的预处理 schemes。
 3） DALI API 让一些预处理比如图片解码，可以 offload 到 GPU 上。这个部分地满足对性能的要求，但是缺乏**灵活性**来高效支持异构的预处理和不同类型的加速器。
 
+在下一章，展示 tf.data 的编程模型，基于 chaining higher-order functional transformations来做的，受 LINQ 启发。一个数据处理系统提供了类似的编程模型，包括 DryadLINQ， Spark 和 Naiad。第6张详细讨论他们。
+由于编程的原因，我们没有考虑他们，因为实现和 C++ TF 代码不匹配，会严重影响性能。而且，这些系统都是给优化数据并行处理做的，在每个batch里有大量独立的数据。这导致顺序产出结果时，就很困难或者不高效。当使用类似 Spark 的流式数据处理
+时，然后通过内存 buffer 传递给 ML 框架，效率就不高，因为需要额外的拷贝。训练的负载，我们分析过每一步的时间少于1ms的场景很常见，大部分负载的 step time 少于 10ms。而且内存带宽是瓶颈的情况下，性能会显著下降。通过直接把 tf.data 集成
+到 tf里，共享线程池和内存分配器，避免了这个开销。
+
+## 3 设计与实现
+### 3.1 数据集合迭代器
+
+tf.data DATASET 代表了输入管线作为一个（潜在无限）元素序列的无状态定义。一个数据集可以是源数据集，或者是转阿欢后的数据集：转换一个或多个输入数据集到新的元素序列。数据集的元素是**静态类型**的，可用的数据集元素包括tensor(有特定的元素类型和可选的形状)和
+组合类型(例如tuples，可选项和嵌套的数据集)。源和转换后的数据集，形成一个表达树，代表了整个输入管线。表1展示了 DATASET 接口。
+
+```
+Method || Description
+-----------------------
+make_iterator || creates a new iterator over the dataset.
+serialize || converts the dataset to a serialized expression.
+element_spec || returns the type signature of dataset elements
+
+```
+Table 1: Dataset interface
+tf.data 包含源数据集，支持常见文件类型；实现了可以被用户定义的函数(UDF)参数化的转换功能函数。UTFs 可以用 Python 写，tf.data 使用 TF 的 Autograph 库来转换为 dataflow 图。表2 展示了最常见的 tf.data 转换。
+
+```
+Method || Description
+-----------------------
+batch | Concatenates multiple ements into a single element.
+cache | Stores the input data in memory
+concatenate | Concatenates two datasets
+from_file | Reads elements from a file, e.g. TextFileDataset.
+from_tensors | Creates a singleton dataset from data in memory
+filter | Returns elements matching a predicate
+flat_map | Maps elements to datasets and flattens the result
+interleave | Like flat_map, but mixes outputs from input elements # pytorch 没有
+map | Transforms individual elements
+prefetch | Adds a buffer to pipeline input production
+reduce | Reduces a dataset to a single element
+repeat | Produces the input dataset multiple times.
+shard | Selects a subset of elements from the dataset. # 这个 pytorch没有
+shuffle | Randomizes the order of elements.
+unbatch | Splits input elements on the 0th dimension
+zip | Combines elements of multiple datasets into tuples
+```
+
+Table 2: Common tf.data source and transformed datasets.
+
+tf.data ITERATOR 代表了当前便利数据集的状态。迭代器通过 `get_next` 提供了对数据集里元素的顺序访问，它返回一个类型元素或者错误状态，比如 EOF。在 tf.data 里，iterator 接口的实现是类型安全的，所以多线程并发调用 get_next 是安全的，可以提高吞吐，但代价是没法保证确定性。
+接口里也有 save 和 restore 方法来支持 checkpointing
+
+iterator 接口(Table 3)抽象了元素如何被创建，包括内部 buffer 和并行的细节。在使用优化之前，数据集和对象迭代器之间有一对一的关系，但是3.3节的优化会利用迭代器抽象来改变底层数据集的图，优化元素产生的过程，但是依然保持同样的接口。
+
+```
+Method || Descripption
+get_next | Returns the next element, or raises EOF.
+save | Writes the iterator state to a file
+restore | Reads the iterator state from a filee
+```
+
+Table 3: Iterator interface
+
+图3里的例子展示了一个训练的循环，使用了  tf.data 作为输入管线来读取文件里的元素，使用用户定义的处理逻辑来处理每个元素，把梳理后的元素结合到一起组成 mini-batch
+```
+ds = tf.data.TextFileDataset(["a.ttxt", ...])
+ds = ds.map(parse).batch(batch_size=10)
+for elem in ds:
+    train_step(elem)
+```
+
+Figure 3: parse is a user-defined function for data preprocessing.
+
+### 3.2 Parallel and Distributed Execution
+为了高效利用 Host 资源，tf.data 提供可以让软件 pipeline 和 计算与i/o并行执行的转换。Prefetch 转换操作，能够用内部的buffer来解耦合生产者和消费者，让他们的计算重叠。
+输入管线可以使用这个转换来重叠host计算、host到设备的传输和设备的计算。map 有个可选的参数，指定了使用用户定义的计算来并行处理输入元素的并发度。 interleave 转换提供
+类似的可选参数，可以指定从输入元素中并行获取数据时的并发度。特别地，interleave 转换可以通过交替从多个文件里读取数据来并发I/O(原来是这个意思，刚还在想 interleave是啥意思)。
+默认情况下，tf.data 以确定性顺序转换每个元素。然而，由于确定性会导致队头阻塞(队头的请求未被处理)，并行的 map 和 interleave 转换提供一个选项来容许非确定性的顺序，这个会以
+无法复现的代价来获得更高的性能。
 
 
+为了说明上述转换过程，我们再来看看图3里的例子。假设从文件里读取元素需要5ms，使用用户定义的逻辑需要2ms，而batch10个数据需要1ms。加速器会在每个迭代开始前，空闲 (5+2)*10+1 = 71ms。
+
+
+```
+ds = tf.data.Dataset.from_tensors(["a.txt", ...])
+ds = ds.interleave(tf.data.TextFileDataset, cycle_length=2, num_parallel_calls=2)
+ds = ds.map(parse, num_parallel_calls=10)
+ds = ds.batch(batch_size=10)
+ds = ds.prefetch(buffer_size=1)
+for elem in ds:
+    train_step(elem)
+```
+
+图4里的 tf.data 输入管线和图3里的在语义上是等价的。然啊后，它使用了：
+
+1） interleave 和 map 里使用可选的 `num_parallel_calls` 参数来并行I/O 和 计算。
+2） prefetch 来重叠输入管线的计算与训练的计算
+
+因此，图4里的输入管线可以最大以 (5*10/2, 2*10/10, 1) = 25ms 来产出一个 batch（假设有足够低的消费者），而且输入管线的计算（下一个batch）会和加速器上训练的计算重叠（当前 batch）。
+如果训练计算超过25ms，那么每个迭代里当迭代开始时，数据就已经准备好了。在3.3.2 里描述了自动调优的并行和buffer大小。
+
+虽然 interleave 主要用来并行 I/O，它也可以用来做任意输入管线（在输入数据的不同分片上操作）的并行执行多个拷贝。发现这个机制能有效加速主要由顺序变换如filter和unbatch造成的瓶颈。
+
+除了单个主机执行环境下的高效处理，tf.data 也设计为分布式 ML 训练计算的常见，比如多主机（每个主机上有加速器）上数据的并行同步处理。这种设置下，每个主机有一个 tf.data 输入 pipeline，提供数据
+给挂载到host上的加速器。为了提供每个epoch里干净的分割，输入数据可以在多个文件间分片，shard 转换确保不同主机在数据上操作u不同的分片。分片的输入管线之间不需要通信。
+
+### 3.3 自动优化
+tf.data 的函数时编程模型，使得对单个输入管线，可以有多个不同实现。自动静态和动态优化可以提高性能和可用性。
+
+#### 3.3.1 static optimizations
+
+运行时，tf.data 可以在任意数据集上reflect expression tree，然后用更高效的版本来替换。我们使用虚拟的数据集转换来实现静态的优化 。在表达式树上使用一套改写规则，来把改写后的 expression tree 再产出为
+一个输出数据集。当前的实现使用了 TensorFlow 里的 GraphDef 协议作为表示层，然后用 Grappler 这个优化框架来操作这些 expression trees。我们使用MLIR 作为更丰富语义的表达，可以让我们重用其他领域里的优化
 
 ## 问题
 1. 数据增广，如何提现到 POD 里的？一个 batch，bs=2，那么增广后，会变成4比如？
@@ -95,3 +203,9 @@ ML 训练和其他并发执行数据处理的平台(MapPreduce, Spark, DryadLINQ
 4. 大部分任务的执行时间都很短，会在1s内结束，所以优化异步传输，节省那100ms很有必要。
 5. 知道 UP 上最近一周 Top3 的网络结构和各自的耗时情况
 6. 我们还能告诉用户，你的训练，读取了多少数据（几T）,耗了多少W。可以只针对大型任务进行分析，对长尾可以做累加
+7. interleave 这个语义，或许可以用起来？比如数据集在两个ceph集群里，如果超时，就从另外一个地方获取
+
+## 参考文献
+Grappler: TensorFlow 2019. TensorFlow Graph Optimizations
+
+MLIR: A Compiler Infrastructure for the End of Moore's Law.
