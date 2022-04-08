@@ -44,7 +44,7 @@ tf.data API和运行时开源了。在Google内部，他们在2017年开始就�
 2. transform
 3. load(ETL) process
 
-![](./imgs/DF-of-input-data-size-across-ML-training-jobs.png)
+![](./imgs/CDF-of-input-data-size-across-ML-training-jobs.png)
 
 这个图的横坐标，没法给到 job compute time 用吧？
 
