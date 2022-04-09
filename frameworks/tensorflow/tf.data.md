@@ -213,6 +213,59 @@ tf.data 提供配置参数比如 map 转换的并行度和 prefetch 转换的 bu
 
 为了避免用户手工调整，tf.data 运行时包含一个自动调优机制，可以以最小化期望的输入管线延迟，来分配 input pipeline 里各部分的 CPU 和 RAM 资源。后面我们把产出一个元素的耗时叫做 output latency
 
+为了执行自动调优，tf.data 把输入管线用一种轻量级，维护了迭代器的一个树形展示，测量每个迭代器的执行时间。树的根部是为训练产出数据的迭代器，
+树的叶子是迭代器的源数据集，边代表数据集的输入和转换关系。树的结构会随着时间变化，比如 interleave or repeat 在生命周期中创建了多个迭代器。
+
+自动调优的实现，使用处理时间及输入 pipeline的结构来构建一个理论模型，可以用来预估管线输入参数对端到端处理时间的影响。预估函数是可调整参数的独立迭代器，迭代器执行时间和输入/输出时延的组合。组合最外面的函数是
+最终迭代器。对于同步的转换（比如无法解耦合消费者和生产者），输出时延是输入和处理时间的线性函数。对于异步转换，比如 prefetch 和 并行的 map 和 interleave，输出时延不是线性的，而是取决于并行度、buuffer 大小和消费者的速度。
+期望的输出时延是输入的延时乘以buffer被搬空的可能性，即 `M/M/1/k`。 预估如下图：
+
+![](./imgs/estimate-emtpy-prob.png)
+
+其中n 是 buffer 大小，x 是生产者速度（从输入迭代器的 output latency 计算），y 是消费的速度（根据 get_next 调用频率来计算得到）。生产速度 x，通常取决于上游计算速度，而消费速度，y，通常取决于下游计算速度。深度优先遍历
+整棵树，可以一次得到x 和 y
+
+为了说明预估如何工作，再次看一下图4，额外假设：训练平均每 10ms 会请求一次数据，interleave 并行度为1，buffer size 为1，map的并行度为5，buffer size 为5， prefetch buffer size 为2。
+
+图5给出了计算耗时的例子。
+
+![](./imgs/output-latency-estimation.png)
+
+向下遍历计算出 consumer rate。向上遍历计算出每个 iterator 输出的延迟. 对于异步的转换，比如 prefetch、map 和 interleave 使用上述预估公式。同步 batch 使用线性计算。
+
+
+
+tf.data 创建了一个后台线程，能定期使用上面提到的预估进程来评估不同组合和buffer size 下的处理速度。选择合适的参数来最小化期望的输出耗时，受 CPU 和 RAM 预算限制（如何做到？难道要考虑 CPU 和内存利用率？）。优化使用梯度下降算法，
+如图6所示。优化间隔会从 ms 到 s 不等，取决于输入管线结构和执行时间的改变。
+
+```
+while True:
+    model = pipeline.get_analytical_model()
+    params = model.get_tunable_parameters()
+    best_latency = INFINITY
+    latency = model.latency()
+
+    while(best_latency - latency >= EPS and model.resource_usage() <= BUDGET):
+        best_latency = latency
+        params -= DELTA * model.latency_grad()
+        latency = model.latency()
+        
+    pipeline.set_tunable_parameters(params)
+    sleep(OP_PERIOD)
+```
+
+图6: 间歇性优化可调参数 
+
+优化的重要角度是减少整个输入管线端到端的耗时，而非减少每个转换的输出耗时。因为不同的转换共享同样的 CPU 和内存资源，局部的最优解可能导致线程不够或者cache 交叉，会影响端到端性能。
+
+优化可以理论执行的能力很重要：它能让 tf.data 快速发现一个好的配置 而不需要在评估时实际影响输入管线。一旦后台线程识别出可以使用的配置，就更新并行度和 buffer 大小。对大部分 pipeline 而言，优化只需要几毫秒。
+
+
+
+## 5 经验
+### 5.1 公司里输入 pipeline 的分析
+
+### 5.2 未来研究方向
 
 ## 问题
 1. 数据增广，如何提现到 POD 里的？一个 batch，bs=2，那么增广后，会变成4比如？
@@ -229,6 +282,8 @@ tf.data 提供配置参数比如 map 转换的并行度和 prefetch 转换的 bu
 
 ## TODO
 1. 看看开头摘要、第一张里介绍的，受声明式集合库和数据并行大数据系统的启发。看看是哪些
+2. 看不懂图五里的两种计算方式：consumer rate 每个 iterator 的output 耗时
+
 ## 参考文献
 Grappler: TensorFlow 2019. TensorFlow Graph Optimizations
 
