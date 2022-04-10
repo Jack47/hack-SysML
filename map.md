@@ -282,6 +282,12 @@ The Lottery Ticket Hypothesis: Finding Sparse, Trainable Neural Networks(ICLR æœ
 
 Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Notes](,/papers/NLP/scale-efficiently_insights-from-pretraining-and-fine-tuning-transformers.md)
 
+[Using DeepSpeed and Megatron to Train Megatron-Turing NLG 530B, A Large-Scale Generative Language Model](./papers/NLP/using-deepspeed-and-megatron-to-train-megatron-turing-nlp-530b_a-large-scale-generative-language-model.md)(2022)
+
+Few-Shot Learning: **Query** samples are never seen before. Query samples are from unknown classes.
+
+[PaLM](./papers/NLP/PaLM.md)(2022.4)
+
 ### Recommenders 
 
 PERSIA: An Open, Hybrid System Scaling Deep Learning-based Recommenders up to 100 Trillion Parameters(2021) [Notes](./papers/recommender/persia.md), [Siyu Wang's Notes](./papers/recommender/Persia_note_siyuwang.md)

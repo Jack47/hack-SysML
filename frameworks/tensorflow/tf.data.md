@@ -249,7 +249,6 @@ while True:
         best_latency = latency
         params -= DELTA * model.latency_grad()
         latency = model.latency()
-        
     pipeline.set_tunable_parameters(params)
     sleep(OP_PERIOD)
 ```
@@ -283,6 +282,7 @@ while True:
 ## TODO
 1. 看看开头摘要、第一张里介绍的，受声明式集合库和数据并行大数据系统的启发。看看是哪些
 2. 看不懂图五里的两种计算方式：consumer rate 每个 iterator 的output 耗时
+3. [Better performance with the tf.data API](https://www.tensorflow.org/guide/data_performance): 里面有 autotune 的效果图，介绍了6种优化方法
 
 ## 参考文献
 Grappler: TensorFlow 2019. TensorFlow Graph Optimizations
