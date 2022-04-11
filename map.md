@@ -479,6 +479,8 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 tf.data: A Machine Learning Data Processing Framework: (2021) [My Notes](./frameworks/tensorflow/tf.data.md)
 
+Faster Neural Network Training with Data Echoing(2020) 如果数据这块 I/O 时间过长，可以对数据进行重用
+
 ##  8. <a name='Videos'></a>Videos
 [Flexible systems are the next frontier of machine learning](https://www.youtube.com/watch?v=Jnunp-EymJQ&list=WL&index=14) Stanford 邀请 Jeff Dean 和 Chris Re 探讨最新的进展(2019) [My Notes](./videos/Flexible-systems-are-the-next-frontiner-of-machine-learning.md)
 
