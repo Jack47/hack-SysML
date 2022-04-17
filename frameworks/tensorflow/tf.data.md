@@ -261,11 +261,29 @@ while True:
 
 
 
+### 4.3 与其他系统的对比
+
+DALI 适合 CV，DataLoader 适合文本负载
+
+
 ## 5 经验
+分析了2020年一个月里公司里的百万个任务。发现输入 pipeline 高度多样化，不少 op 是重复执行的。
+
 ### 5.1 公司里输入 pipeline 的分析
 
-### 5.2 未来研究方向
+有哪些 op 是最常见的？
 
+预处理如何影响数据大小？
+
+输入管线多久被重新执行？
+
+### 5.2 未来研究方向
+ Datasets as a service: 这样可以做 cache
+ 
+ Processing data closer to storage: 因为输出数据比输入小
+ 
+ Addressing host bottlenecks: 如果使用 CPU 太多，可以用一个前处理集群
+ 
 ## 问题
 1. 数据增广，如何提现到 POD 里的？一个 batch，bs=2，那么增广后，会变成4比如？
 2. 处理后的数据集大小比从存储拿到的数据集大小要小. 这个在 CV 里成立嘛？因为图片解码，势必要比原图大，而且给到模型的，是 R、G、B、Gray 的三色吧？
