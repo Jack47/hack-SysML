@@ -484,6 +484,8 @@ Faster Neural Network Training with Data Echoing(2020) 如果数据这块 I/O �
 ##  8. <a name='Videos'></a>Videos
 [Flexible systems are the next frontier of machine learning](https://www.youtube.com/watch?v=Jnunp-EymJQ&list=WL&index=14) Stanford 邀请 Jeff Dean 和 Chris Re 探讨最新的进展(2019) [My Notes](./videos/Flexible-systems-are-the-next-frontiner-of-machine-learning.md)
 
+The Deep Learning Revolution and Its Implications for Computer Architecture and Chip Design(Jeff Dean): 里面介绍了很多 ML 在各领域的应用，也介绍了为啥做专用硬件
+
 ##  9. <a name='Hardware'></a>Hardware
 
 ### GPU
@@ -568,6 +570,8 @@ Bagua(Kuaishou): 类似 Hordvod 一样 Pytorch 里的插件，支持 Decentraliz
 
 AntMan
 
+## Mixture Of Experts
+Sparsely-gated Mixture of Experts Model (Shazeer 2017)
 ## Chips
 
 The Deep Learning Revolution and Its Implications for Computer Architecture and Chip Design. [My Notes](./hardware/the-deep-learning-revolution-and-its-implications-for-computer-architecture-and-chip-design.md)
