@@ -556,6 +556,8 @@ Google FastSocket & Reduction Server : [My Notes](hardware/GPU/nccl-fastsocket.m
 
 Bagua(Kuaishou): 类似 Hordvod 一样 Pytorch 里的插件，支持 Decentralized/Centralized, Quantized(or 1 bit)， Sync/Async的优化器和通信过程, 主要在一些特定场景下做了优化：Gradient AllReduce Overlaping with communicaiton, Hierarch TCP Communication Acceleration(多主机间通信), Generic Fused Optimizer(优化很多小tensor的场景). NLP 里的 Load Balanced Data Loader。[My Notes](./papers/communication/bagua-scaling-up-distributed-learning-with-system-relaxations.md). [阅读源码收获](./frameworks/bagua.md)
 
+BytePS: A Unified Architecture for Accelerating Distributed DNN Training in Heterogeneous GPU/CPU Clusters（OSDI 2020） [My Notes](./papers/communication/a-unified-architecture-for-accelerating-designed-dnn-training-in-heterrogeneous-gpu-cpu-clusters.md)
+
 ##  12. <a name='ParallelProgramming'></a>Parallel Programming
 [Persistent threads style gpu programming for gpgpu workloads]() (2012 IEEE) [My Notes](papers/persistent-threads.md)
 [Persistent Threads Block](https://www.classes.cs.uchicago.edu/archive/2016/winter/32001-1/papers/AStudyofPersistentThreadsStyleGPUProgrammingforGPGPUWorkloads.pdf)
