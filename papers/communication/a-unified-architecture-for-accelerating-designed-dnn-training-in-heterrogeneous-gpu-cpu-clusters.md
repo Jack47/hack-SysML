@@ -46,7 +46,7 @@ PS上有两种放置策略。一种是 non-colocated mode, PS 进程在单独的
 bytes，接收 M bytes（因为是全量的，dp 模式）. 每个 CPU 机器接收 `n*M/k`, 发送 `n*M/k`。
 
 ![](./imgs/PS-communication-pattern.png)
-假设 k = n，PS理论上比 allreduce 快。
+假设 k = n，PS理论上比 allreduce 快。因为上述每个机器接收 M，是每个机器发送和接收的下限。然而当k <= n/2 时，就会比 allreduce 慢。GPU 机器的网络带宽会因为 CPU 成为瓶颈而没利用起来。
 
 另外一种模式是 colocated mode。在每个 GPU 机器上启动一个 PS进程，复用 CPU 资源。这种模式下，通信时间啊和 allreduce 一致
 
@@ -55,4 +55,30 @@ bytes，接收 M bytes（因为是全量的，dp 模式）. 每个 CPU 机器接
 ## 3 Motivation and Architecture
 ### 3.1 Motivation
 
+机会：在 GPU 生产集群，有空闲的 CPU 和带宽可用。我们统计了3个月里机器的使用情况，发现55-80% 的GPU机器至少被分配为一个**分布式训练**任务上的 GPU worker。那就说明有20%-45%的机器带宽没被使用，因为运行的
+是非分布式的任务。集群里 CPU 利用率只有 20%-35%。这和微软的统计分析一致
+
+![](./imgs/daily-statistics-training-clusters.png)
+
+our solution: BytePS, 完成一下目标：
+
+1. 在任意数量额外 CPU 和带宽的情况下，是通信最优的(为啥是任意，不是要求 k>=n 吗)。机器内通信也是最优的？
+2. 达到理论通信时间
+
+### 3.2 架构概览
+kkkkkk
+
+### 4.2 Intra-machine communication(机器内部)
+在通过 PCIe 链接，然后和网卡通信前，得先聚合/广播，否则 PCIe 会成为瓶颈
+
+#### 4.2.1 PCIe-only Topology
+下面的图里，是两个 NUMA CPU通过 QPI 连接，8个 GPU被分为两个组，连接到了两个 PCIe 交换机上(P0, P1)。网卡是 100Gbps，连接到了其中一个 CPU  上。
+![](./imgs/pcie-only-machines.png)
+
+## 启发
+1. 我们也可以统计，集群里执行8卡以上任务的占比，这些才会把 IB 充分利用起来
+2. 我们也可以统计，集群里 CPU 利用率情况
+
+## TODO
+Analysis of Large-Scale Multi-Tenant GPU Clusters for DNN Training Workloads(ATC 2019)
 
