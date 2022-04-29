@@ -573,7 +573,7 @@ BytePS: A Unified Architecture for Accelerating Distributed DNN Training in Hete
 AntMan
 
 ## Mixture Of Experts
-Sparsely-gated Mixture of Experts Model (Shazeer 2017)
+Sparsely-gated Mixture of Experts Model (Shazeer 2017), [My notes](papers/moe/outrageously-large-neural-networks-the-sparsely-gated-mixture-of-experts-layer.md)
 ## Chips
 
 The Deep Learning Revolution and Its Implications for Computer Architecture and Chip Design. [My Notes](./hardware/the-deep-learning-revolution-and-its-implications-for-computer-architecture-and-chip-design.md)
