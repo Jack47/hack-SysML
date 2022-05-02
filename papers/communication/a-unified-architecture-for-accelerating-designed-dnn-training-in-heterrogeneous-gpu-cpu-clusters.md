@@ -8,7 +8,7 @@
 ## 1. Introduction
 BytePS 的架构，是通信最优的（和nccl allreduce 的带宽最优有啥区别？），理论和实践都是。allreduce 和 PS 在特定 GPU/CPU 配置下，才能达到理论最优。然而在其他更宽泛的条件下不是最优的，比如有额外的 CPU 资源，不是最优的。
 
-传统 PS 里，参数是在 CPU server 上做聚合和参数更新的，B也特PS 把参数更新这个计算密集操作放到了 GPU 上做。而且我们使用了 pipeline 和 带优先级的调度，解决了多个 RDMD相关的性能问题。
+传统 PS 里，参数是在 CPU server 上做聚合和参数更新的，ByptePS 把参数更新这个计算密集操作放到了 GPU 上做。而且我们使用了 pipeline 和 带优先级的调度，解决了多个 RDMA 相关的性能问题。
 
 BytePS 可以作为拿过去就能替换的方法来用，对精度一点影响都没有。
 
@@ -66,18 +66,53 @@ our solution: BytePS, 完成一下目标：
 2. 达到理论通信时间
 
 ### 3.2 架构概览
-kkkkkk
+待看
 
 ### 4.2 Intra-machine communication(机器内部)
 在通过 PCIe 链接，然后和网卡通信前，得先聚合/广播，否则 PCIe 会成为瓶颈
 
 #### 4.2.1 PCIe-only Topology
-下面的图里，是两个 NUMA CPU通过 QPI 连接，8个 GPU被分为两个组，连接到了两个 PCIe 交换机上(P0, P1)。网卡是 100Gbps，连接到了其中一个 CPU  上。
+下面的图里，是两个 NUMA CPU通过 QPI 连接，8个 GPU被分为两个组，连接到了两个 PCIe 交换机上(P0, P1)。网卡是 100Gbps，连接到了其中一个 CPU  上。图中所有的 PCIe 链路都是 3.0 x 16 (128Gbps 理论带宽)。
+CPU 内存和 QPI 都是 >= 300 Gbps 带宽，所以不太可能是通信瓶颈。这种只有 PCIe 拓扑。测量后发现同一个 PCIe switch 内部，GPU之间显存拷贝大约 105Gbps。而跨 PCIe 的显存间拷贝，只有 80Gbps (76%)
+
 ![](./imgs/pcie-only-machines.png)
 
-## 启发
+而现有的 TF PS 等都是使用层次化 allreduce 来在同一主机内部进行 reduce 操作。这会导致跨 PCIe 交换机的内存拷贝，会非常慢
+
+BytePS 让所有同一个 PCIe 交换机下的 GPU 先聚合 tensor，然后拷贝给 CPU，让CPU做全局聚合，然后再广播回全局 Sum。叫 CPU 辅助的聚合。
+
+#### 4.2.2 NVLink-based 拓扑
+下图所示，有4个 PCIe 交换机，每个连接两个 GPU 卡。GPU 之间也通过 NVLinks 连接。它给每个 GPU 总共 1.2Tbps 的 GPU 间带宽，比 PCIe 的高非常多(11.5倍)。网卡依然是连接在某个 PCIe 交换机上。
+
+![](./imgs/nvlink-based-topology.png)
+
+有了 NVLink，GPU 间通信非常快，可以完全不需要使用 PCIe，不需要CPU辅助的聚合。但我们发现即使  NCCL 里的 allreduce 实现，也不是最优的。
+
+原因是考虑网卡的情况下，拓扑并不是对称的，网卡只连接在了4个里的一个 PCIe 交换机上。所以同一个交换机下的网卡、显卡，以及 CS  和 SS 都需要用它，所以大家之间是竞争的关系。所以 P0 -- CPU0 之间的
+PCIe 带宽又变成了整个通信里的瓶颈。
+
+基于这个分析，我们会尽量让 PCIe 带宽留给网卡用来做聚合。使用 reduce 和 broadcast 而非 reduce-scatter 和 allgather(需要每个人都参与): 来自所有GPU 的 tensor 会先在GPU2上进行 reduce，然后
+结果从 GPU2 上拷贝到 CPU0 的内存里。上图8b里展示了以上步骤。之后，CS从SS里拿到聚合后的结构，GPU2会把tensor拷贝到 GPU 里，然后广播到其他 GPU。这样就完全阻止了GPU使用 P0-CPU0的带宽，所以
+NIC 能够跑满整个 100 Gbps 的带宽。
+
+这个方法好像会让 GPU2 上的流量成为热点。但 NVLink 的带宽比 PCIe 要一个数量级，所以 GPU 间通信不是瓶颈。而 P1 - CPU0 PCIe  link 这个作为 GPU 和 CPU 间拷贝和 NIC 的带宽差不多都是100Gbps，所以也
+不是瓶颈。
+
+所以 BytePS 达到了最有结果--没有机器内部的热点。NCCL 里，会让 GPU 使用 P0-CPU0 带宽，因为GPU0 离  NIC 近。
+
+#### 4.2.3 讨论
+上面讨论了两种典型，尽管还有其他很多变种，我们总结了两个原则：
+
+1. 两个 GPU 不在同一个 PCIe 交换机的情况下，避免直接使用 GPU-到-GPU 的显存拷贝，因为会很慢（垮了 PCIe，NVLink 没用）
+2. 减少被 GPU 和 网卡共享的 PCIe 交换机上的流量
+
+GPU-direct  RDMA (GDR): 这个技术可以减少 PCIe 上的带宽。但是它需要 GPU 和 RDMA 网卡在同一个 PCIe 交换机上，否则即使是 100Gbps 的网卡，也只会有 50Gbps。
+## 启发f
 1. 我们也可以统计，集群里执行8卡以上任务的占比，这些才会把 IB 充分利用起来
 2. 我们也可以统计，集群里 CPU 利用率情况
+3. 我们也可以统计 allreduce 的实现，应该选 reduce-scatter、allgather 还是 reduce、broadcast。看看 NVLink 的这个拓扑下，能不能让 GPU2 负责主机内聚合
+
+
 
 ## TODO
 Analysis of Large-Scale Multi-Tenant GPU Clusters for DNN Training Workloads(ATC 2019)
