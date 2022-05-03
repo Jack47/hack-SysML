@@ -69,11 +69,11 @@ Switch layer 的收益有三重：
 ### 2.4 Training 和 Fine-Tuning 技术
 训练不稳定问题，可能是因为hard-switching。而且低精度比如 bfloat16 会加剧router上 softmax 的这个问题。下面是困难和应对方法
 
-** Selective precision with large sparse models** : 用 bf16 一方面节约计算，另外能节省通信开销
+**Selective precision with large sparse models** : 用 bf16 一方面节约计算，另外能节省通信开销
 
-** Smaller parameter initialization for stability** : 
+**Smaller parameter initialization for stability** : 
 
-** Regularizing large sparse models** : 参数量很大后，在下游任务上可能会有 overfitting。
+**Regularizing large sparse models** : 参数量很大后，在下游任务上可能会有 overfitting。
 
 ## 3 Scaling 属性
 随着专家数量增加，计算量差不多是固定的，因为每个token上只选择一个专家。router计算的概率分布需要计算的专家数量增多，但这个也是计算复杂度为`O(dmodel*num experts)`。下文主要讨论固定计算量下，在 step basis 和time basis 上的scaling 属性。
@@ -88,7 +88,7 @@ Switch layer 的收益有三重：
 7里看到，把 T5-Base 的权重从 Switch-Base初始化而来，使用混合了teacher和真值标签的loss后，性能达到最高。
 ## 5 使用数据、模型和专家并行来设计模型
 
-** Reviewing the Feed-Forward Network(FFN) Layer : 
+**Reviewing the Feed-Forward Network(FFN) Layer:**
 
 ## 8 未来工作
 1. 大模型的训练稳定性。虽然我们的稳定性方法在 Switch-Base, Large, C 上有效，但是在 Switch-XXL 上无效。未来可以试试 regularizers, adapted forms of gradient clipping
