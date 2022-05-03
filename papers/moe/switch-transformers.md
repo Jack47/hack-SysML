@@ -34,7 +34,7 @@ topk ，假设 T 是选出的 topk 的下标，那么这个层的计算输出是
 
 ![](./imgs/layer-output-2017.png)
 
-** Switch Routing** : 重新思考 MoE。当初17年 Shazeer 的结论是 k > 1 的专家是必须的，为了能让门函数有梯度。但我们使用了简化的策略，只路由给单个专家，我们发现这样模型质量有保证，
+**Switch Routing** : 重新思考 MoE。当初17年 Shazeer 的结论是 k > 1 的专家是必须的，为了能让门函数有梯度。但我们使用了简化的策略，只路由给单个专家，我们发现这样模型质量有保证，
 减少了路由的计算量，效果更好。这种k为1的路由策略被称为 Switch layer
 
 Switch layer 的收益有三重：
@@ -54,10 +54,10 @@ Switch layer 的收益有三重：
 我们使用 Mesh-Tensorflow (MTF) (Shazeer 2018)，它是一个库，有跟 Tensorflow 一样的语义和 API，带高效的数据分发和模型并行。它通过把物理的核抽象为逻辑的mesh 处理器。Tensor 和 计算能被分片到
 命名的维度上，让模型在跨维度分片上非常方便。我们设计模型时脑袋里有 TPU，它需要静态声明的大小。下面描述具体细节：
 
-** Distributed Switch Implement** 所有tensor 的大小都是静态在编译时决定的，但是计算是动态的，因为训练和推理时，路由策略是动态的。因为这个原因，一个重要的考虑是如何设置专家容量。专家容量
+**Distributed Switch Implement** 所有tensor 的大小都是静态在编译时决定的，但是计算是动态的，因为训练和推理时，路由策略是动态的。因为这个原因，一个重要的考虑是如何设置专家容量。专家容量
 -- 每个专家计算的token数量-- 。好像这里说的都是 capacity factor 如何取值的问题
 
-** 可微分的负载均衡 Loss **  原始的 17年 Shazeer 论文里，使用了一个单独的 balanced load across experts. 而 ST 里简化了这个过程，没有单独用一个 loss。
+**可微分的负载均衡 Loss**  原始的 17年 Shazeer 论文里，使用了一个单独的 balanced load across experts. 而 ST 里简化了这个过程，没有单独用一个 loss。
 
 由于我们希望一批里的 tokens 在N 个专家里的路由是均匀分布(uniform)，所以希望希望路由给每个专家的概率是 1/N，而 tokens 也是1/N的概率分发到这个专家。上述等式4鼓励 routing 是均匀分布，因为只有这种情况下，
 才能达到最小值。
