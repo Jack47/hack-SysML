@@ -89,6 +89,15 @@ Switch layer 的收益有三重：
 ## 5 使用数据、模型和专家并行来设计模型
 
 ** Reviewing the Feed-Forward Network(FFN) Layer : 
+
+## 8 未来工作
+1. 大模型的训练稳定性。虽然我们的稳定性方法在 Switch-Base, Large, C 上有效，但是在 Switch-XXL 上无效。未来可以试试 regularizers, adapted forms of gradient clipping
+2. fine-tuning quality, FLOPS per token 和 参数量之间的依赖关系还没研究明白
+3. 理想情况下，给定硬件配置（计算，显存，通信），一个人可以很快设计出一个最优模型。同时反之，能够帮助设计未来的硬件
+4. 我们方法使用的是一致的，同构的专家，但未来可能会支持异构的专家。这样更灵活地可以适配：当希望更大计算量时，路由到大专家上--或许是为了处理难样本
+5. 尝试 Transformer 的 FFN 层之外的专家层。附录 A 里，我们汇报了在 Self-Attention 层里面添加experts后，有性能增加。但是bfloat16下不稳定
+6. 在新的或者跨多个模态情况下尝试 Switch Transformer
+
 ## 问题
 1. 速度增大4倍、7倍、这个是为什么？
 
