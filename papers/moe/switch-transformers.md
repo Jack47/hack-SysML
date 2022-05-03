@@ -54,8 +54,41 @@ Switch layer 的收益有三重：
 我们使用 Mesh-Tensorflow (MTF) (Shazeer 2018)，它是一个库，有跟 Tensorflow 一样的语义和 API，带高效的数据分发和模型并行。它通过把物理的核抽象为逻辑的mesh 处理器。Tensor 和 计算能被分片到
 命名的维度上，让模型在跨维度分片上非常方便。我们设计模型时脑袋里有 TPU，它需要静态声明的大小。下面描述具体细节：
 
-** Distributed Switch Implement** 所有tensor 的大小都是静态在编译时决定的，但是计算是动态的，因为训练和推理时，路由策略是动态的。
+** Distributed Switch Implement** 所有tensor 的大小都是静态在编译时决定的，但是计算是动态的，因为训练和推理时，路由策略是动态的。因为这个原因，一个重要的考虑是如何设置专家容量。专家容量
+-- 每个专家计算的token数量-- 。好像这里说的都是 capacity factor 如何取值的问题
 
+** 可微分的负载均衡 Loss **  原始的 17年 Shazeer 论文里，使用了一个单独的 balanced load across experts. 而 ST 里简化了这个过程，没有单独用一个 loss。
+
+由于我们希望一批里的 tokens 在N 个专家里的路由是均匀分布(uniform)，所以希望希望路由给每个专家的概率是 1/N，而 tokens 也是1/N的概率分发到这个专家。上述等式4鼓励 routing 是均匀分布，因为只有这种情况下，
+才能达到最小值。
+
+![](imgs/st-differentiable-load-balancing-loss.png)
+
+### 2.3 组合到一起：ST
+
+### 2.4 Training 和 Fine-Tuning 技术
+训练不稳定问题，可能是因为hard-switching。而且低精度比如 bfloat16 会加剧router上 softmax 的这个问题。下面是困难和应对方法
+
+** Selective precision with large sparse models** : 用 bf16 一方面节约计算，另外能节省通信开销
+
+** Smaller parameter initialization for stability** : 
+
+** Regularizing large sparse models** : 参数量很大后，在下游任务上可能会有 overfitting。
+
+## 3 Scaling 属性
+随着专家数量增加，计算量差不多是固定的，因为每个token上只选择一个专家。router计算的概率分布需要计算的专家数量增多，但这个也是计算复杂度为`O(dmodel*num experts)`。下文主要讨论固定计算量下，在 step basis 和time basis 上的scaling 属性。
+### 3.2 Scaling results on a time-basis
+固定训练时长和计算开销的情况下，一个人应该训练dense还是 sparse 模型？
+
+## 4 下游结果
+部署这种超大模型非常不方便。为了缓解，我们使用蒸馏来把稀疏模型蒸馏为小的稠密模型。
+
+通过各种技术方法，最终达到只需要 1/20 的参数，就能保留30%的超大稀疏模型的能力。
+
+7里看到，把 T5-Base 的权重从 Switch-Base初始化而来，使用混合了teacher和真值标签的loss后，性能达到最高。
+## 5 使用数据、模型和专家并行来设计模型
+
+** Reviewing the Feed-Forward Network(FFN) Layer : 
 ## 问题
 1. 速度增大4倍、7倍、这个是为什么？
 
