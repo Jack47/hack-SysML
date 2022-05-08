@@ -105,34 +105,56 @@ partial-value 的好处是比立即reducing partital 的结果更高效. 有了 
 ### 3.4 编程接口
 编程接口的设计目标是让 op 的 API 和模型描述，在单卡和分布式版本下保持一样。而不同的分布式策略下，用户只需要设置一些tensor的placement和SBP的签名即可。
 
+考虑图5里展示的例子，M1和M2分别使用数据和模型并行。
+
 其逻辑图如下，就是两个 Matmul操作，只是涉及到数据并行和流水并行，而只需要在逻辑图上，设置每个Tensor的placement和SBP签名即可实现
 
 ![](./imgs/example-SBP-logical-graph.png)
 
+下图里的代码展示了OF如何做到。
+
 ```
-import oneflow as flow
-P0 = flow.placement("cuda", {0:[0,1]})
-P1 = flow.placementt("cuda", {1:[0,1]})
-a0_sbp=flow.sbp.split(0) # data parallel
-b0_sbp=flow.sbp.broadcast # 
-y0_sbp=flow.sbp.broadcast
-b1_sbp=flow.sbp.split(1) # model parallel
-
-A0=flow.randn(4,5,placement=P0,sbp=a0_sbp) # data parallel
-B0=flow.randn(5,8,placement=P0,sbp=b0_sbp) 
-Y0=flow.matmul(A0,B0)
-
-Y0=Y0.to_global(placement=P1,sbp=y0_sbp) # 要 allgather吧？
-B1=flow.randn(8,6,placement=P1,sbp=b1_sbp)
-Y2=flow.matmul(Y0,B1)
+1 import oneflow as flow
+2 P0 = flow.placement("cuda", {0:[0,1]})
+3 P1 = flow.placementt("cuda", {1:[0,1]})
+4 a0_sbp=flow.sbp.split(0) # data parallel
+5 b0_sbp=flow.sbp.broadcast # 
+6 y0_sbp=flow.sbp.broadcast
+7 b1_sbp=flow.sbp.split(1) # model parallel
+8 
+9 A0=flow.randn(4,5,placement=P0,sbp=a0_sbp) # data parallel
+10 B0=flow.randn(5,8,placement=P0,sbp=b0_sbp) 
+11 Y0=flow.matmul(A0,B0) # 会自动推导出Y0的 SBP 签名 split(0)
+12 
+13 Y0=Y0.to_global(placement=P1,sbp=y0_sbp) # 要 allgather吧？是为了15行里能正确计算。 split(0) -> broadcast
+14 B1=flow.randn(8,6,placement=P1,sbp=b1_sbp)
+15 Y2=flow.matmul(Y0,B1)
 ```
 
-上述的local tensor布局如下图，类似颜色代表是同一个global tensor的切分，相同颜色代表形状跟global tensor 一致。
+问题： 用户自己写，得知道op上支持的操作类型，可能会写出不支持的SBP签名出来
+
+上述的local tensor布局如下图，类似颜色代表是同一个global tensor的切分，相同颜色代表形状跟global tensor 一致。由于Y0涉及到跨主机传输，所以这里用了流水并行：M0和M1之间
 
 ![](./imgs/local-tensor-example.png)
 
 ## 4 运行时
+我们在运行时使用了 actor 模型。每个op是一个很薄的 actor 封装，抽象了op的依赖和资源使用，把他们放到 actor 的状态里。Actor和其他人之间通过消息传递**而非函数调用**来交互。
+一个 actor 状态会在它从其他人接收到消息后进行更新。actor model 可以优雅地解决很多现有 DL 框架里的多种问题
 
+![](imgs/actors-explained.png)
+
+### 4.1 Actor 模型
+有以下4个组件
+
+Register: 简单地记录tensor的地址。有两类：in 即要被actor消费的tensor；out 即要被生产的tensor
+
+Messages: 和其他之间进行交换信息来通信：req 消息是生产者发给消费者，告知消费者一个包含新产生 tensor 的 register 被产生了，可以读取了。ack 消息是消费者发给生产者，指示特定的 reigster 不再被消费者使用了
+
+Actions: 绑定在 actor上的 op(比如执行一个 GPU kernel 或者数据搬运)
+
+A state machine: 每个 actor 记录依赖是否满足
+
+那是根据物理图，去部署 op？
 ## 问题
 1. 依然是 SPMD？不会涉及到要把不同的函数分发到不同的设备上去
 2. 
@@ -140,3 +162,7 @@ Y2=flow.matmul(Y0,B1)
 ## 启发
 1. SBP 之后，需要通信的地方，是可以自动推导出来的. 连 AllReduce 也是，这个也是因为目前 SBP 这种模式下特点
 2. 
+
+## 参考资料
+1. [UCLA: Actors](http://web.cs.ucla.edu/~palsberg/course/cs239/papers/karmani-agha.pdf)
+2. [4minutes Actor Model Explained](https://www.youtube.com/watch?v=ELwEdb_pD0k)
