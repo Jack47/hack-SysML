@@ -74,6 +74,10 @@ PyTorch: PipeDream
 但目前 DL 框架不太支持这种操作，没有哪个 DL 框架给用户暴露了调度的接口。理想情况下框架应该把所有依赖显示地在图里OP间呈现(包含数据移动)。一旦达成，在运行时执行图
 就会被极大的简化。
 
+上述例子不足：
+
+1. 上一节里O1和O2是两个算子，这里看起来 O1 和 O2 都是计算算子，但是O2需要O1 进行数据搬运？（是通信还是内存拷贝操作呢）
+
 ### 2.4 总结
 设计了 OneFlow，一个编译器可以自动产生一个物理的图来执行数据、模型和流水并行。编译器支持完整的分析各种依赖关系（比如资源、数据搬运和计算）。如何做到支持共享资源的依赖判断呢？如何支持数据里动态shape？如何知道计算时的资源有多大?
 而且我们基于actor model 设计了简练的执行时，能够用一个一致的图里actor之间消息传递来实例化所有的依赖关系
@@ -131,11 +135,15 @@ partial-value 的好处是比立即reducing partital 的结果更高效. 有了 
 15 Y2=flow.matmul(Y0,B1)
 ```
 
-问题： 用户自己写，得知道op上支持的操作类型，可能会写出不支持的SBP签名出来
+问题： 
+
+1. 用户自己写，得知道op上支持的操作类型，可能会写出不支持的SBP签名出来
+2. 上述 L5 的 b0_sbp，这个是类似DP，初始化时，一个instance 初始化后，广播到其他人？其实只广播一次，后续只是通过 allreduce 来达成一致
 
 上述的local tensor布局如下图，类似颜色代表是同一个global tensor的切分，相同颜色代表形状跟global tensor 一致。由于Y0涉及到跨主机传输，所以这里用了流水并行：M0和M1之间
 
 ![](./imgs/local-tensor-example.png)
+
 
 ## 4 运行时
 我们在运行时使用了 actor 模型。每个op是一个很薄的 actor 封装，抽象了op的依赖和资源使用，把他们放到 actor 的状态里。Actor和其他人之间通过消息传递**而非函数调用**来交互。
@@ -154,10 +162,53 @@ Actions: 绑定在 actor上的 op(比如执行一个 GPU kernel 或者数据搬�
 
 A state machine: 每个 actor 记录依赖是否满足
 
-那是根据物理图，去部署 op？
-## 问题
+
+### 4.2 给一个op的输入和输出tensor(in、out register)的显示资源依赖计数器
+每个 actor 分配了一个预定义数量的 out register，代表每个 actor 上固定数量的显存 quota。如果一个 actor 使用完了，下一个 action 就不会被调度，即使它的所有输入 tensor 都ok了，直到之前分配给 actor 的显存拷贝被回收。
+为了达成这个目标，我们给每个register分配了一个计数器。in counter 被初始化为0，记录 in register 里拿着的可以被消费的 tensor 数量，而 out counter 里非零的初始化值代表空闲的显存 quota。每个 action 会让一些 out counter
+变小。只有当一个 actor 的in  counter 符合预期的非零值（即输入tensor ready），out counter 是非0（有显存可用），才有可能触发一个操作。
+
+那看起来 oneflow 里，永远不会出现 OOM？只会出现因为显存不够而 Hang 住，或者速度执行非常慢
+
+已有的 DL 框架里，调度器只考虑 OP 的输入是否 ready，是就立马开始执行，不会考虑之后这个算子是否能成功获得要写入输出的显存。当op被调度后，只有当执行操作前，运行时才会尝试即时分配显存，此时会成功或者失败。通过 in和out counter，
+oneflow 把资源可用当作了调度器的显示依赖，可以决定一个 OP 是否能成功执行。这样，编译期的资源规划和运行时的流控才成为可能。
+
+上述提到的 in/out counter 有不同含义：输入 tensor 生命周期由它的消费者管理，所以消费者只需要记录有**几个** tensor 就行；而 out 是自己管理的，需要记录每个输出tensor的显存大小
+
+** Reference counting with message passing** 
+
+除了 in/out counter，还需要给每个 out register 额外一个初始化为0的 reference counter，表示寄存器在使用中，内容不能被修改(复用)。而这个引用计数可以根据消息传递的协议进行修改：
+
+* 生产者发送 req 消息给一个消费者，会让与消息关联的 out register 的引用计数加一。而一个引用计数从0到非0的变化会让一个 out counter 减一。说的都是生产者 actor 这里
+* 消费者接收到 req，直到一个 in register ready了，会让 in counter + 1
+* 消费者用完in register 里的 tensor，会让 in counter -1，发送ack 给消费者，说消费完了
+* 生产者接收到 ack 消息，会让关联的out register 的引用计数-1。如果引用计数减到0，说明对应的 out register 没有人用了，可以回收了
+
+上面协议里，如果一个 out register 被其他人使用，那么引用计数就非零，所以会一直存在。利用这种互斥性(mutual exclusion property)，可以实现零拷贝机制：如果生产者和对应的消费者在一台主机上，消费者可以直接使用生产者的内存，
+而不需要再单独拷贝一份。
+
+### 4.3 应用：流水和背压机制(back pressure)
+
+![](./imgs/actor-based-runtime-pipeline-example.png)
+
+让 register 的 out counter 大于1，可以容许并行处理多个批次数据。每个actor独立运行，天然的形成流水线。同一个 register 上的多个批次，可以认为是传统 DL 框架里用到的双缓冲里的泛化版。图6里，actor1 有三个输出 register；
+actor2 和 actor3 有两个 register
+
+* 在 t0， a1 产出r11，而a2和3因为输入为0（in counters==0），而空闲
+* t1，a2可以干活( in counters > 0 && out counters > 0)。而a1因为 out counter > 0 而可以再次执行一次 OP(是另一个微batch)
+* t2，3个 actor 的 action 都可以被触发，因为所有依赖的register 都满足
+
+本质上，actor-based 协议和 ATM(asynchronous transfer mode: 异步传输模式) 网络credit-based flow 控制方法是等价的。如果out reg都被使用(out counter == 0)，那 producer 就不能生产了。没有这种背压机制（现有的框架都没有），
+消费者很快就会因为消费者很慢而OOM
+
+现有框架里是怎么做的呢？
+
+## 5 实现
+**Actor 寻址和消息路由**
+和 CUDA stream 类似，我们抽象其他硬件资源（比如网络和CPU）为FIFO 队列。保证不会因为共享资源而导致隐式依赖。例如，会为拷贝和计算引擎创建各自独立的 cuda stream。为了减少设备上下文切换，OF 给每个设备队列创建了一个
+### 问题
 1. 依然是 SPMD？不会涉及到要把不同的函数分发到不同的设备上去
-2. 
+2. 那是根据物理图，去部署 op？ 可以看看现有框架怎么做的
 
 ## 启发
 1. SBP 之后，需要通信的地方，是可以自动推导出来的. 连 AllReduce 也是，这个也是因为目前 SBP 这种模式下特点
