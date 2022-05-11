@@ -180,7 +180,7 @@ oneflow 把资源可用当作了调度器的显示依赖，可以决定一个 OP
 除了 in/out counter，还需要给每个 out register 额外一个初始化为0的 reference counter，表示寄存器在使用中，内容不能被修改(复用)。而这个引用计数可以根据消息传递的协议进行修改：
 
 * 生产者发送 req 消息给一个消费者，会让与消息关联的 out register 的引用计数加一。而一个引用计数从0到非0的变化会让一个 out counter 减一。说的都是生产者 actor 这里
-* 消费者接收到 req，直到一个 in register ready了，会让 in counter + 1
+* 消费者接收到 req，知道一个 in register ready了，会让 in counter + 1
 * 消费者用完in register 里的 tensor，会让 in counter -1，发送ack 给消费者，说消费完了
 * 生产者接收到 ack 消息，会让关联的out register 的引用计数-1。如果引用计数减到0，说明对应的 out register 没有人用了，可以回收了
 
@@ -192,7 +192,7 @@ oneflow 把资源可用当作了调度器的显示依赖，可以决定一个 OP
 ![](./imgs/actor-based-runtime-pipeline-example.png)
 
 让 register 的 out counter 大于1，可以容许并行处理多个批次数据。每个actor独立运行，天然的形成流水线。同一个 register 上的多个批次，可以认为是传统 DL 框架里用到的双缓冲里的泛化版。图6里，actor1 有三个输出 register；
-actor2 和 actor3 有两个 register
+actor2 和 actor3 有两个 register(这里一个 register代表当前OP有可以执行一次OP所需的输出资源，可能是多个 tensor)
 
 * 在 t0， a1 产出r11，而a2和3因为输入为0（in counters==0），而空闲
 * t1，a2可以干活( in counters > 0 && out counters > 0)。而a1因为 out counter > 0 而可以再次执行一次 OP(是另一个微batch)
@@ -201,11 +201,36 @@ actor2 和 actor3 有两个 register
 本质上，actor-based 协议和 ATM(asynchronous transfer mode: 异步传输模式) 网络credit-based flow 控制方法是等价的。如果out reg都被使用(out counter == 0)，那 producer 就不能生产了。没有这种背压机制（现有的框架都没有），
 消费者很快就会因为消费者很慢而OOM
 
-现有框架里是怎么做的呢？
+现有框架里是怎么做 Minibatch 呢？
 
 ## 5 实现
 **Actor 寻址和消息路由**
-和 CUDA stream 类似，我们抽象其他硬件资源（比如网络和CPU）为FIFO 队列。保证不会因为共享资源而导致隐式依赖。例如，会为拷贝和计算引擎创建各自独立的 cuda stream。为了减少设备上下文切换，OF 给每个设备队列创建了一个
+![](imgs/message-routing-cases.png)
+
+和 CUDA stream 类似，我们抽象其他硬件资源（比如网络和CPU）为FIFO 队列。保证不会因为共享资源而导致隐式依赖。例如，会为拷贝和计算引擎创建各自独立的 cuda stream。为了减少设备上下文切换(actor和设备队列在一个OS线程上，这个没太懂)，OF 给每个硬件设备队列创建了一个专门的
+OS线程，actor使用相同的队列（或者硬件资源）是被绑定到相同的OS线程上（即图7里的 actora和actorb）。使用 actor，device，OS thread 和节点之间的静态绑定，OneFlow给每个 actor 分配一个唯一且层次化组织的64位地址（等价ID），如
+图8。这样消息路由时带着接收者 actor ID 就够了。
+
+在 OneFlow 里，所有运行在相同 OS 线程上的 actors， 共享一个 FIFO 消息队列。Actor接收消息时，消息先会被对应的 OS 线程放到队列里，然后不断 poll 队列，把消息分发给对应的 receiver（即花圈的case3）。同时每个 OS线程上还有一个本地消息队列。因为发送方把消息放到了
+本地消息队列，由同一个OS线程上的接收方直接处理，无须OS线程poll(case 1)
+
+**统一内部和节点间的 actor 系统**
+
+引入了 actor message bus 这个抽象层，提供了统一接口来路由消息到接收者，无论接收者在相同还是其他节点。图7里，actora到actord的消息进过逻辑路径 2,4，但是实际路径是 2,5,6,7。这个抽象隐藏了底层网络通信的细节。(像隧道)
+
+和已有框架不同，OF并不会在跨节点通信时在两边分别插入 Send 和 Recv op，编译器只会在消费方插入一个专门的网络 actor，来从生产者那里拉数据。图7里，节点1上的actore需要节点0上的actora；当产生物理图时，编译器产生actord，它的唯一职责是
+从节点0拉取输出到节点1，这样actore就可以认为消费方在本机。
+
+
+### 6.4 优化器并行
+
+DDP 里的参数、梯度、优化器等模型状态可以通过分片到各种设备上来减少显存消耗，每个设备只需要保存分片后的部分模型数据。当需要整个模型时，使用all-gather。OF 可以更简单来实现。上图14是OF产生的两个设备的物理图，使用混合精度。首先转换OP（比如 fp16 cast）被插入。第二，
+框架设置cast op的输入为 S（0）,cast OP 的输出为 B。编译器就能自动产生 forward 和 backward 的物理图。数据路由的op（搬运）会被自动插入。ZeRO-DP 的实现需要 2k 行 pytorch 代码，但是OF 只需要300行。
+
+图14：在OneFlow 里并行优化器
+
+![](imgs/zero-optimizer-pass.png)
+上述图里是优化器状态+梯度+参数都 split 了。实际就是每个人负责存储某几个层，以及计算这几个层，它可以把所需数据从别人那里拿过来
 ### 问题
 1. 依然是 SPMD？不会涉及到要把不同的函数分发到不同的设备上去
 2. 那是根据物理图，去部署 op？ 可以看看现有框架怎么做的
