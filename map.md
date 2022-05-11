@@ -410,7 +410,8 @@ Pytorch Image Models
 目前还在比较早期阶段，还无法做到通用
 
 ###  5.4. <a name='OneFlow'></a>OneFlow
-OneFlow: Redesign the Distributed Deep Learning Framework from Scratch [My Notes](papers/frameworks/oneflow.md)
+OneFlow: Redesign the Distributed Deep Learning Framework from Scratch。主要是想让算子在分布式和单机下实现是一致的，解放研究员，然后能做自动并行。提出的完整管理依赖，actor 方式来流水和背压机制值得学习。 [My Notes](papers/frameworks/oneflow.md)
+
 ###  5.5. <a name='Pytorch'></a>[Pytorch]()
  [Functions/APIs in PyTorch ](./frameworks/pytorch/functions.md)
  
