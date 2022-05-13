@@ -136,6 +136,7 @@ TAT 的设计目标是两个：
 
 TensorFLow 里能区分出每个 iteration，通过 stepID，而 pytorch 里没有，只能通过第二次访问同一个 tensor 来知道 backward 开始了。
 
+从 [DTR 的 openreview](https://openreview.net/forum?id=Vfs_2RnOD0H) 里知道，Capuchin 没有支持动态模型，因为运行时需要先 profiling，然后假设计算图和访问模式都没有改变
 ## 启发
 1. 能够把 overlap 思想结合到 actnn 里？让解压缩提前做，这样解压缩和backward 同时进行
 2. 关于 Pytorch 里的 Allocator，可以看看 ActNN 对 pytorch 里内存分配策略的修改？

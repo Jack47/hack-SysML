@@ -20,8 +20,11 @@ Rematerialization：在反向传播时重新计算中间值，而不是存储他
 
 
 ## 启发
-1. 可以提供一个指导加 checkpoint 的方法？产出静态 checkpoint 的布局图
+1. 可以提供一个指导加 checkpoint 的方法？产出静态 checkpoint 的布局图。感觉pytorch的实现里，是不太行的，会非常琐碎？得看看一个 iteration 里发生了多少次 evict，然后在这些 evict 的地方加 checkpoint？不会很麻烦
+2. 此计数能不能帮助解决大家遇到的 CUDA OOM 烦恼？可以把 budget 设置为正好的内存大小。不过可能会引发其他问题，并不能暴露出问题 
 
+## 问题
+1. 能不能设置一些 tensor 为不evict的状态？即 decheckpoint 即可？比如对于参数，没必要evict
 
 ## DTR 和 Capuchin 的对比
 1. DTR 支持 dynamic tensor。Capuchin 里的 checkpoint 方法不支持，因为runtime 需要执行 profiling pass，然后假设计算图是静态的。这样才能固定访问 tensor的模式，然后制定出内存管理的策略
