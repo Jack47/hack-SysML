@@ -175,7 +175,7 @@ oneflow 把资源可用当作了调度器的显示依赖，可以决定一个 OP
 
 上述提到的 in/out counter 有不同含义：输入 tensor 生命周期由它的消费者管理，所以消费者只需要记录有**几个** tensor 就行；而 out 是自己管理的，需要记录每个输出tensor的显存大小
 
-** Reference counting with message passing** 
+**Reference counting with message passing** 
 
 除了 in/out counter，还需要给每个 out register 额外一个初始化为0的 reference counter，表示寄存器在使用中，内容不能被修改(复用)。而这个引用计数可以根据消息传递的协议进行修改：
 
