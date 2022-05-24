@@ -622,3 +622,13 @@ Conda
 
 ## Image Steganography
 StegaStamp: Invisible Hyperlinks in Physical Photographs(2019 Berkeley) [My notes](papers/stegastamp.md)
+
+## Chip Design
+
+Circuit Training: An open-source framework for generating chip floor plans with distributed deep reinforcement learning.
+
+[A Graph Placement Methoodology for Fast Chip Design. Peer Review File](https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-021-03544-w/MediaObjects/41586_2021_3544_MOESM1_ESM.pdf)
+
+[Stronger Baselines for Evaluating Deep Reinforcement Learning in Chip Placement](http://47.190.89.225/pub/education/MLcontra.pdf)
+
+[ISPD(International Symposium on Physical Design) 2022 TOC](papers/ISPD-2022/toc.md)
