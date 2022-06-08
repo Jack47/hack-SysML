@@ -286,7 +286,7 @@ Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Note
 
 Few-Shot Learning: **Query** samples are never seen before. Query samples are from unknown classes.
 
-[PaLM](./papers/NLP/PaLM.md)(2022.4)
+[PaLM](./papers/NLP/PaLM.md)(2022.4) [My Notes](papers/NLP/PaLM.md)
 
 ### Recommenders 
 
@@ -601,6 +601,8 @@ The Deep Learning Revolution and Its Implications for Computer Architecture and 
 
 [Active Learning for Convolutional Neural Networks: A Core-Set Approach](https://arxiv.org/abs/1708.00489) (ICLR 2018)
 
+## Large Model Inference 
+BMInf: An Efficient Toolkit for Big Model Inference and Tuning [My Notes]()
 ## Dependency and Package Management
 
 ### C/C++ Dependency and Package Manager
