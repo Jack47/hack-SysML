@@ -32,3 +32,7 @@ Dynamic control flow
 
 Dynamic shapes: graph 假设每个被捕获的 op 里，每个 tensor 在每次重放时都是固定大小的
 
+Make sure to run few warmup iterations before you capture, especially if you're setting torch.backends.cudnn.benchmark = True. You do NOT want all the cudnn benchmarking dry-run kernels ending up in the capture
+
+
+[Prohibited and Unhandled Operations](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#prohibited-unhandled-operations)
