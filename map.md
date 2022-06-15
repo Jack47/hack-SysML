@@ -278,6 +278,10 @@ Google. Gemmlowp: building a quantization paradigm from first principles 里面�
 
 The Lottery Ticket Hypothesis: Finding Sparse, Trainable Neural Networks(ICLR 最佳论文 2019): 著名的彩票假设，指出了新的 pruning 方法，让pruning之后的网络能从头训练，不掉点 [My Notes](./papers/pruning/the-lottery-ticket-hypothesis.md)
 
+### 1.19 FasterMoE
+
+ [My Notes](./papers/fasterMoe/SmartScheduling.md)
+
 ### NLP
 
 Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Notes](,/papers/NLP/scale-efficiently_insights-from-pretraining-and-fine-tuning-transformers.md)
@@ -414,15 +418,15 @@ OneFlow: Redesign the Distributed Deep Learning Framework from Scratch。主要�
 
 ###  5.5. <a name='Pytorch'></a>[Pytorch]()
  [Functions/APIs in PyTorch ](./frameworks/pytorch/functions.md)
- 
+
  [Reading Source Code Snippets](./frameworks/pytorch/source-code.md)
- 
+
  [ProcessGroup ProcessGroupNCCL](./frameworks/pytorch/ProcessGroupNCCL.md)
- 
+
  [Pytorch Llazy Tensor Core](./frameworks/pytorch/lazy-tensor-core.md)
- 
+
  [LazyTensor Paper](https://medium.com/syncedreview/facebook-googles-lazytensor-enables-expressive-domain-specific-compilers-230f695e676f)
- 
+
 ####  5.5.1. <a name='JIT'></a>JIT
 
 ![](https://github.com/pytorch/tvm/blob/master/pt_execution.png?raw=true)
@@ -457,7 +461,7 @@ Fast rust parallel code generation for data analytics frameworks. Developed at S
 > Weld is a language and runtime for improving the performance of data-intensive applications. It optimizes across libraries and functions by expressing the core computations in libraries using a common intermediate repersentation, and optimizing across each framwork.
 > Modern analytics applications combine multiple functions from different libraries and frameworks to build complex workflows.
 > Weld's take on solving this problem is to lazily build up a computation for the entire workflow, and then optimizingn and evaluating it only when a result is needed.
- 
+
 看起来就是解决掉用不同的库和框架来构建复杂工作流时的效率问题。通过引入一层中间表达，然后再实现到不同的框架里来做联合优化。
 
 Paper: [Weld: Rethinking the Interface Between Data-Intensive Applications.](https://arxiv.org/abs/1709.06416)
