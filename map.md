@@ -590,6 +590,9 @@ Sparsely-gated Mixture of Experts Model (Shazeer 2017): 能千倍增加网络参
 Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity [My notes](papers/moe/switch-transformers.md)
 
 GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding(ICLR 2021) [My Notes](papers/moe/gshard.md)
+
+[FasterMoE: Modeling and Optimizing Training of Large-Scale Dynamic Pre-Trained Models](papers/moe/faster-moe.md)
+
 ## Chips
 
 The Deep Learning Revolution and Its Implications for Computer Architecture and Chip Design. [My Notes](./hardware/the-deep-learning-revolution-and-its-implications-for-computer-architecture-and-chip-design.md)
