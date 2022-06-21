@@ -89,11 +89,28 @@ The collective operation is then executed asynchronously on the CUDA device.
 
 Using NCCL to perform inter-GPU communication concurrently with CUDA-aware MPI may create deadlocks. 因为 NCCL 创建设备间的依赖（资源依赖），所以当一个 NCCL  kernel
 执行后，会等待（可能会block CUDA device），直到communicator里所有 rank 都发射了 NCCL kernel。而 CUDA-aware MPI 也可能会创建同样的依赖（要看具体实现）。
+
+
+## NCCL 2.12 PXN
+
+### Combining NVLink and network communication
+
+PXN，作为 PCI x NVLink, 让 GPU和主机上网卡可以先通过 NVLink，再通过PCI来通信。而不是使用 QPI 来经过 CPU或者其他 CPU 间通信协议，这种无法发挥全带宽。这种模式下，每个 GPU 依然使用离自己近的 NIC，
+需要的话可达其他 NICs
+
+与给local NIC准备一个local memory buffer 来发送不同，GPU 在中间的 GPU 上准备buffer，通过 NVLink 写入。然后通知 NIC 对应的 CPU proxy ：数据已经好了，而不是通知自己的 CPU proxy。GPU和 CPU 之间的
+同步会稍微慢一些，因为可能要跨 CPU sockets，但是数据自身只使用 NVLink 和 PCI 交换机，保证最大带宽使用
+
+PXN 使用主机内部 NV NVSwitch 来连接GPU，首先把GPU上的数据移动到和目标在同样的 rail 上的GPU，然后就可以不同跨 rail 来发送数据给目标 GPU。这样就使用了消息聚合和网络传输的优化 
+
 ## 问题
 AllReduce 内部会全部分段还是一整个传输呢
 
 
-NCCL 里的基本概念：ring, CTA, communicators
-TODO：
+## TODO：
+1. NCCL 里的基本概念：ring, CTA, communicators
+
+2. byteps 里节省 PCIe 0 带宽的技巧：让PCIe 1 下面的 GPU 先通过NVLink 收集，然后再给 PCIe 0上的 NIC 发送。这样 PCIe 0 上就不会涉及除了网卡通信之外的流量了
+
 看看里面的链接
 
