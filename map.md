@@ -116,6 +116,8 @@ Competition-Level Code Generation with AlphaCode. [My Notes](./papers/transforme
 
 [YOLO]() : (2016): [My Notes](./papers/object-detection/YOLO.md)
 
+End-to-End Object Detection with Transformers : (2020 FaceBook Research) [My Notes](papers/object-detection/end-to-end-object-detection-with-transformers.md)
+
 ### Model Compression
 Model compression(2006)：ensemble 模式下的多个模型的知识，可以压缩到一个模型里
 
