@@ -430,6 +430,8 @@ OneFlow: Redesign the Distributed Deep Learning Framework from Scratch。主要�
 
  [LazyTensor Paper](https://medium.com/syncedreview/facebook-googles-lazytensor-enables-expressive-domain-specific-compilers-230f695e676f)
 
+ [Pytorch CUDA Memory Caching Allocator](./frameworks/pytorch/memory-caching-allocator.md)
+
 ####  5.5.1. <a name='JIT'></a>JIT
 
 ![](https://github.com/pytorch/tvm/blob/master/pt_execution.png?raw=true)
