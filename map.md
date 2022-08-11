@@ -242,9 +242,13 @@ Deep gradient compression: Reducing the communication bandwidth for distributed 
 
 
 ####  1.13.2. <a name='PipelineParallelism'></a>Pipeline Parallelism
-[PipeDream: Generalized Pipeline Parallelism for DNN Training](https://cs.stanford.edu/~matei/papers/2019/sosp_pipedream.pdf)(SOSP'19)
+首先是模型并行(Model Parallel)，然后为了提高模型并行里的效率，就有了流水并行
 
-[GPipe: Efficient training of giant neural networks using pipeline parallelism]()(NIPS 2019)
+[PipeDream: Generalized Pipeline Parallelism for DNN Training](https://cs.stanford.edu/~matei/papers/2019/sosp_pipedream.pdf)(SOSP'19) 
+
+[GPipe: Efficient training of giant neural networks using pipeline parallelism]()(NIPS 2019): 
+
+Memory Efficient Pipeline-Parallel DNN Training(ICML 2021): 主要是提出了 PipeDream-2BW: 自动切分模型，double buffering of weights。算是在 PipeDream基础上进行提高
 
 [PipeDream Source Code](https://github.com/msr-fiddle/pipedream)
 
