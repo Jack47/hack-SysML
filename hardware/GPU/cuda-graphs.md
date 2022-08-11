@@ -11,6 +11,8 @@ stream 模式下，当你把 kernel 放到 stream里，host 驱动需要执行�
 ## 原理
 一个 CUDA graph 是工作（主要是 kerne 及其参数）的记录，通过使用相同的参数来回放它。这样通过静态的图来换取极大程度降低 CPU 开销。图的参数和执行的kernel 都是固定的，所以图的回放能跳过参数设置和kernel dispatch，包括 python，C++，cuda driver 开销。底层是通过一个 cudaGraphLaunch 调用来让整个图进行提交。
 
+![](./imgs/cuda-graphs-benefits.png)
+
 通过图提交的工作，分为三个阶段：
 
 1. 定义: 图里节点及之间的依赖关系
@@ -36,3 +38,9 @@ Make sure to run few warmup iterations before you capture, especially if you're 
 
 
 [Prohibited and Unhandled Operations](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#prohibited-unhandled-operations)
+
+## 参考资料
+[Accelerating PyTorch with CUDA Graphs](https://pytorch.org/blog/accelerating-pytorch-with-cuda-graphs/) ： 里面资料很丰富，在 Mask-R RCNN 上能加速1.7倍，nccl里的launch时间也能节省
+[cuda graphs的一些限制](https://pytorch.org/docs/1.11/notes/cuda.html#constraints): 比如fwd和bwd的输入必须是静态固定在虚拟地址空间里的
+[CUDA Graphs NV 介绍](https://developer.nvidia.com/blog/cuda-graphs/)
+[CUDA Graphs Session](https://www.nvidia.com/en-us/on-demand/session/gtcspring21-s32082/)
