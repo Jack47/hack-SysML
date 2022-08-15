@@ -514,6 +514,8 @@ Implementation of Control Flow In TensorFlow
 Dynamic Control Flow in Large-Scale Machine Learning
 ### GPU
 
+[Optimization](./hardware/GPU/optimization.md)
+
 [NVLink](./hardware/GPU/nvlink.md) vs PCiE
 
 [Mixed Precision Training](https://arxiv.org/abs/1710.03740) (2018 ICLR) [My Notes](./papers/mixed-precision-training.md)
