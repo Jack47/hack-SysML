@@ -520,7 +520,7 @@ Dynamic Control Flow in Large-Scale Machine Learning
 
 [Mixed Precision Training](https://arxiv.org/abs/1710.03740) (2018 ICLR) [My Notes](./papers/mixed-precision-training.md)
 
-[Training Deep Neural Networks with 8-bit Floating Point Numbers](https://arxiv.org/abs/1812.08011)(2018 NeurIPS)(./papers/8-bit-floating-point-numbers.md)
+[Training Deep Neural Networks with 8-bit Floating Point Numbers](https://arxiv.org/abs/1812.08011)(2018 NeurIPS) [My Notes](./papers/8-bit-floating-point-numbers.md)
 
 NVIDIA Automatic Mixed Precision training [My Notes](./hardware/GPU/mixed-precision-training.md)
 
