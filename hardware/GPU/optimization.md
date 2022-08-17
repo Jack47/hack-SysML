@@ -1,3 +1,6 @@
+## Channels
+cuDNN v7.6.3 及以后，conv 维度会被自动padded到8的倍数来启用 tensorcore(Channels In And Out)
+
 ## Batch Norm
 BN 里满足以下条件，就可以开启 semi-persistent NHWC kernel：
 
