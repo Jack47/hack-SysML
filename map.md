@@ -574,6 +574,8 @@ Google FastSocket & Reduction Server : [My Notes](hardware/GPU/nccl-fastsocket.m
 > It's an MLIR-based end-to-end compiler and runtime that lowers ML modeles to a unified IR that scales up to meet the needs of the datacenter and down to satisfy the constraints and special considerations of mobile and edge deployments.
 目前支持 TensorFlow, JAX
 
+[IOS: Inter-Operator Scheduler For CNN Acceleration](./papers/parallelism/IOS-Inter-Operator-Scheduler-For-CNN-Acceleration.md)(MLSys 2021): 主要用 dp 来做推理时算子间的调度。因为 multi branch下conv算子更小了，而新的GPU上 SM 越来越多
+
 Nimble: Lightweight and Parallel GPU task Scheduling for Deep Learning(NeurIPS 2020), [My Notes](./frameworks/) 主要是通过 CUDA graph 抹掉调度开销，然后通过多 stream 来尽量并发。但是论文和开源代码只能用于 static graph和static input，据说[闭源版本支持动态](https://github.com/snuspl/nimble/issues/14#issuecomment-909925884)
 ##  11. <a name='Profiling'></a>Profiling
 ###  11.1. <a name='MemoryProfiling'></a>Memory Profiling
