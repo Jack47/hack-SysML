@@ -19,6 +19,10 @@ BN 里满足以下条件，就可以开启 semi-persistent NHWC kernel：
 * filter 类型是 `CUDNN_TENSOR_NCHW` OR `CUDNN_TENSOR_NHWC`
 * 如果 filter 用的 `CUDNN_TENSOR_NHWC` ，当输入，filter和输出数据都被对齐到 128 bit(16B) 边界
 
+## 如何查看 tensorcore 利用率？
+
+nsight system 里打开 gpu metrics指标（需要root权限），就可以捕获，在ui里查看 tensor active 这一项。或者是dlprof 里，会有两列：tensor eligible
+
 [CUDNN Developer Guide](https://docs.nvidia.com/deeplearning/cudnn/developer-guide/index.html#tensor-ops-conv-functions-data-filter-formats)
 
 [Deep Learning Performance Optimization with **Profiling Tools**](https://www.nvidia.com/en-us/on-demand/session/gtcspring21-s31228/): 主要介绍 DLProf, 里面有 Tensor Core Efficiency ，可以看出有多少可用 TC，但是没用到
