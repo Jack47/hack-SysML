@@ -20,6 +20,16 @@
 
 ![](./imgs/hierarchy-stream-kernel-block-warp-thread.png)
 
+
+具体这些数量，可以根据 CUDA Occupancy Calculator 里看到。比如 A100里面：
+108个 SM，每个 SM 里有 64 个 FP32的 cuda cores，4个 3th Tensor Core
+max thread block size: 1024
+Max Block: 65536
+
+max shared memory / block (bytes) = 102400
+
+每个 multiprocess 上可以有 48 个 warp，每个warp里有32个 thread
+
 参考资料：
 
 1. [课堂里的讨论](http://15418.courses.cs.cmu.edu/spring2014/lecture/gpuarch/slide_052)
