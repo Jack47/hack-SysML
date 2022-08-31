@@ -590,7 +590,14 @@ BytePS: A Unified Architecture for Accelerating Distributed DNN Training in Hete
 
 ##  12. <a name='ParallelProgramming'></a>Parallel Programming
 [Persistent threads style gpu programming for gpgpu workloads]() (2012 IEEE) [My Notes](papers/persistent-threads.md)
+
 [Persistent Threads Block](https://www.classes.cs.uchicago.edu/archive/2016/winter/32001-1/papers/AStudyofPersistentThreadsStyleGPUProgrammingforGPGPUWorkloads.pdf)
+
+除了上面的 persistent threads block，还有 SM-Centric 的方式：
+
+[Enabling and Exploiting Flexible Task Assignment on GPU through SM-Centric Program Transformations](papers/sm-centric-program-transformations.md)(2015): 遗憾的是没开源
+
+无论是 persisten threads block，还是 sm-centric，还是 elasticsearch，都是为了细粒度控制GPU上资源使用的
 
 
 

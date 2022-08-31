@@ -41,6 +41,9 @@ Make sure to run few warmup iterations before you capture, especially if you're 
 
 ## 参考资料
 [Accelerating PyTorch with CUDA Graphs](https://pytorch.org/blog/accelerating-pytorch-with-cuda-graphs/) ： 里面资料很丰富，在 Mask-R RCNN 上能加速1.7倍，nccl里的launch时间也能节省
+
 [cuda graphs的一些限制](https://pytorch.org/docs/1.11/notes/cuda.html#constraints): 比如fwd和bwd的输入必须是静态固定在虚拟地址空间里的
+
 [CUDA Graphs NV 介绍](https://developer.nvidia.com/blog/cuda-graphs/)
+
 [CUDA Graphs Session](https://www.nvidia.com/en-us/on-demand/session/gtcspring21-s32082/)

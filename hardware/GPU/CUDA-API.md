@@ -1,23 +1,28 @@
 ## GPU 里基本结构
+如下图左侧，GPU 被叫做 device，每个 kernel 运行在不同的 Grid(卡） 上，Grid 可以和卡对应起来。每个 grid 内部可以跑很多 block（比如发射一个 kernel<0, 128>，即128个block，block数量和block里线程数量都是程序员决定的)，而每个 block 里有很多threads，这些threads以32为一个warp进行调度。这里每个层级比如 block，都可以是一、二、三维的。
+
+从右侧图可以看到：Thread Block 内部threads之间有共享的显存(\__share__)。而每个thread有自己独占的 local memory（这个是固定的吗？还是像 register一样编译时分配好？）和寄存器。 Block 之间要通过 Global Memory 来交换数据
 
 ![](./imgs/gpu-grid-block-thread-arch.png)
 
+下面是物理的gpu视图。CUDA 调度以 Warp 为单位，一次调度一个 Warp（这个算实现细节了，甚至有warp instruciton 这种warp级别的api），也就是32个线程，这就是所谓的 CUDA 的 SIMT 模型，也就是说一个 warp 的 32 个线程必须执行相同的指令（用的同一个 instruction unit?)。这个也是 SIMT 的意思了。一条指令，同时跑在32个线程上。跑在 SM(streaming multi-processor) 上，里面是有多个核的(processor)
+
 ![](./imgs/gpu-hardware-model.png)
-
-
-如图左侧，GPU 被叫做 device，每个 kernel 运行在不同的 Grid 上，Grid 可以和卡对应起来，每个 grid 内部有很多 block，而每个 block 里有 threads。这里每个层级比如 block，都可以是一、二、三维的。
-
-如图右侧，Threads 有自己的寄存器，内存。而Block 内部(threads之间)有共享内存，而 Block 之间要通过 Global Memory 
-
- CUDA 调度以 Warp 为单位，一次调度一个 Warp，也就是32个线程，这就是所谓的 CUDA 的 SIMT 模型，也就是说一个 warp 的 32 个线程必须执行相同的指令。跑在 SM(streaming multi-processor) 上。
-
 
 一个 SM(有多个 core) 上可以同时跑多个 Block。由于每个 core 采用流水线机制，所以一个 SM 处理的 thread 数量往往大于 core 的数量
 
-关于 thread, core, block 和 SM的关系可以见下图：
+关于 thread, core, block 和 SM的关系可以见下图。一个 thread 由一个 core 运行，一个 Thread block 由一个 SM 运行。
 
 ![](./imgs/thread-core_block-SM.jpeg)
 
+## stream、kernel（blocks）和threads、warp的层级关系
+一个block里有多个warp，当一个warp在sm上跑时遇到需要等资源等情况，其他warp 就可以调度上来
+
+![](./imgs/hierarchy-stream-kernel-block-warp-thread.png)
+
+参考资料：
+
+1. [课堂里的讨论](http://15418.courses.cs.cmu.edu/spring2014/lecture/gpuarch/slide_052)
 V100 老黄说这是06年以来显卡的最大创新。添加了 **Tensor Core** 能对矩阵乘这种 DL 里的最常见操作进行加速，分离了 fp32和int32操作(两者可并行）。
 
 ## cuda 显存
