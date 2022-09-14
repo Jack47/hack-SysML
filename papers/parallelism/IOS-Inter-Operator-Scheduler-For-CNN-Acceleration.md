@@ -5,6 +5,7 @@
 5. 有哪些局限性？如何优化？
 6. 这个工作可能有什么深远的影响？
 
+https://github.com/mit-han-lab/inter-operator-scheduler
 
 多分支的CNNs 使用更多小的Conv，放大了现在新的GPU上资源用不满的情况
 
