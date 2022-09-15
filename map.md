@@ -580,9 +580,12 @@ Google FastSocket & Reduction Server : [My Notes](hardware/GPU/nccl-fastsocket.m
 
 [IOS: Inter-Operator Scheduler For CNN Acceleration](./papers/parallelism/IOS-Inter-Operator-Scheduler-For-CNN-Acceleration.md)(MLSys 2021): 开源了。主要用 dp 来做推理时算子间的调度。因为 multi branch下conv算子更小了，而新的GPU上 SM 越来越多
 
-[Automatic Horizontal Fusion for GPU Kernels]()
+[Automatic Horizontal Fusion for GPU Kernels](./papers/parallelism/automatic-horizontal-fusion-for-gpu-kernels.md)
 
 
+[ROLLER](./papers/parallelism/roller.md)(OSDI 22)
+
+训练相关的：
 
 Nimble: Lightweight and Parallel GPU task Scheduling for Deep Learning(NeurIPS 2020), [My Notes](./frameworks/) 主要是通过 CUDA graph 抹掉调度开销，然后通过多 stream 来尽量并发。但是论文和开源代码只能用于 static graph和static input，据说[闭源版本支持动态](https://github.com/snuspl/nimble/issues/14#issuecomment-909925884)
 ##  11. <a name='Profiling'></a>Profiling
