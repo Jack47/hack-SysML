@@ -185,7 +185,7 @@ Sys Papers:
 
 ###  1.11. <a name='MemoryEfficiency'></a>Memory Efficiency
 
-[MONeT: Memory optimization for deep networks](https://openreview.net/pdf?id=bnY0jm4l59)(ICLR 2021) : 发在了 Learning Representation 上，说明不是系统的改进，是算法的改进
+[MONeT: Memory optimization for deep networks](https://openreview.net/pdf?id=bnY0jm4l59)(ICLR 2021) : 发在了 Learning Representation 上，说明不是系统的改进，是算法的改进。[My Notes](./memory-efficiency/monet.md)
 1. MONeT: Memory Optimization for Deep Networks：https://github.com/utsaslab/MONeT
 
 [Backprop with approximate activations for memory-efficient network training]() (arXiv 2019)
