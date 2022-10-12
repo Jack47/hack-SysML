@@ -1,3 +1,9 @@
+总结：
+
+dataset iterator的行为是拿一份数据并做前处理等，调用时机：dataloader 内部[多次调用](https://gitlab.bj.sensetime.com/linklink/pytorch/blob/v1.11.0/torch/utils/data/dataloader.py#L914) dataset iter
+
+而一般训练时 get_batch 调用的是 dataloader iterator，里面会拿到一个batch里所有的数据，然后处理下
+
 ## intro
 
 pytorch数据读取，有两个部分，一是dataset本身，二是dataset的加载器，包括三个类：
