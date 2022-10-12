@@ -594,6 +594,8 @@ Google FastSocket & Reduction Server : [My Notes](hardware/GPU/nccl-fastsocket.m
 Nimble: Lightweight and Parallel GPU task Scheduling for Deep Learning(NeurIPS 2020), [My Notes](./frameworks/) 主要是通过 CUDA graph 抹掉调度开销，然后通过多 stream 来尽量并发。但是论文和开源代码只能用于 static graph和static input，据说[闭源版本支持动态](https://github.com/snuspl/nimble/issues/14#issuecomment-909925884)
 
 [PyTorch NVFuser vs NNC vs TorchInductor](./frameworks/pytorch/backends.md)
+
+Alpa: Automating Inter and Intra-Operator Parallelism for Distributed Deep Learning, [My Notes](./frameworks/)
 ##  11. <a name='Profiling'></a>Profiling
 ###  11.1. <a name='MemoryProfiling'></a>Memory Profiling
 [Capuchin: Tensor-based GPU Memory Management for Deep Learning]()(2020 ASPLOS) , [My notes](./papers/capuchin.md)
