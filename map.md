@@ -595,7 +595,9 @@ Nimble: Lightweight and Parallel GPU task Scheduling for Deep Learning(NeurIPS 2
 
 [PyTorch NVFuser vs NNC vs TorchInductor](./frameworks/pytorch/backends.md)
 
-Alpa: Automating Inter and Intra-Operator Parallelism for Distributed Deep Learning, [My Notes](./frameworks/)
+Alpa: Automating Inter and Intra-Operator Parallelism for Distributed Deep Learning, [My Notes](papers/parallelism/alpa.md), [源码阅读](./frameworks/alpa.md)
+
+Unity: Accelerating DNN Training Through Joint Optimization of Algebraic Transformations and Parallelization. [My Notes](papers/parallelism/unity.md)
 ##  11. <a name='Profiling'></a>Profiling
 ###  11.1. <a name='MemoryProfiling'></a>Memory Profiling
 [Capuchin: Tensor-based GPU Memory Management for Deep Learning]()(2020 ASPLOS) , [My notes](./papers/capuchin.md)
