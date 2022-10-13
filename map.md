@@ -185,9 +185,6 @@ Sys Papers:
 
 ###  1.11. <a name='MemoryEfficiency'></a>Memory Efficiency
 
-[MONeT: Memory optimization for deep networks](https://openreview.net/pdf?id=bnY0jm4l59)(ICLR 2021) : 发在了 Learning Representation 上，说明不是系统的改进，是算法的改进。[My Notes](./memory-efficiency/monet.md)
-1. MONeT: Memory Optimization for Deep Networks：https://github.com/utsaslab/MONeT
-
 [Backprop with approximate activations for memory-efficient network training]() (arXiv 2019)
 
 [Don't waste your bits! squeeze activations and gradients for deep neural networks via tinyscript]() (ICML, 2020)
@@ -230,6 +227,10 @@ Deep compression: Compressing deep nerual networks with pruning, trained quantiz
 
 Deep gradient compression: Reducing the communication bandwidth for distributed training. (ICLR, 2018 Songhan)
 
+MONet: Memory optimization for deep networks(ICLR 2021): 与DTR几乎同期，优势在于大部分逻辑python实现，但是因为要直接用scheduler生成fwd和bwd的python调用代码来串联各个op，而里面没完全支持所有的pytorch python语法，所以用起来麻烦
+
+[MONeT: Memory optimization for deep networks](https://openreview.net/pdf?id=bnY0jm4l59)(ICLR 2021) : 发在了 Learning Representation 上，说明不是系统的改进，是算法的改进。[My Notes](./memory-efficiency/monet.md)
+1. MONeT: Memory Optimization for Deep Networks：https://github.com/utsaslab/MONeT
 ###  1.13. <a name='Parallelism'></a>Parallelism
 
 [Efficient Large-Scale Language Model Training on GPU Clusters](https://arxiv.org/pdf/2104.04473.pdf) (2021.4): 主要介绍了继 Megatron-LM 之后，如何结合多种并行方式，让特定 batchsize 的大transformer 模型，高通吐地运行起来。[阅读笔记](papers/efficient-large-scale-language-model-training.md)
@@ -595,9 +596,9 @@ Nimble: Lightweight and Parallel GPU task Scheduling for Deep Learning(NeurIPS 2
 
 [PyTorch NVFuser vs NNC vs TorchInductor](./frameworks/pytorch/backends.md)
 
-Alpa: Automating Inter and Intra-Operator Parallelism for Distributed Deep Learning, [My Notes](papers/parallelism/alpa.md), [源码阅读](./frameworks/alpa.md)
+Alpa: Automating Inter and Intra-Operator Parallelism for Distributed Deep Learning(OSDI 2022), [My Notes](papers/parallelism/alpa.md), [源码阅读](./frameworks/alpa.md)
 
-Unity: Accelerating DNN Training Through Joint Optimization of Algebraic Transformations and Parallelization. [My Notes](papers/parallelism/unity.md)
+Unity: Accelerating DNN Training Through Joint Optimization of Algebraic Transformations and Parallelization(OSDI 2022). [My Notes](papers/parallelism/unity.md)
 ##  11. <a name='Profiling'></a>Profiling
 ###  11.1. <a name='MemoryProfiling'></a>Memory Profiling
 [Capuchin: Tensor-based GPU Memory Management for Deep Learning]()(2020 ASPLOS) , [My notes](./papers/capuchin.md)
