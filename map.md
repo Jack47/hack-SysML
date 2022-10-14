@@ -113,12 +113,16 @@ Competition-Level Code Generation with AlphaCode. [My Notes](./papers/transforme
 ###  1.6. <a name='ObjectDetection'></a>Object Detection
 
 [Concepts](./papers/object-detection/concepts.md)
+
 [Fast R-CNN](): (2015) 提出用一个统一的网络来训练 R-CNN，而不是之前的三个阶段，不同的网络. [My Notes](./papers/object-detection/Fast-R-CNN.md)
+
 [Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks](https://arxiv.org/pdf/1506.01497.pdf) (2016)：提出了 Region Proposal Network (RPN)，和检测网络共享图片卷积特征，因此 region proposal 的代价非常小。 [My Notes](./papers/object-detection/Faster-R-CNN.md)
 
 [YOLO]() : (2016): [My Notes](./papers/object-detection/YOLO.md)
 
 End-to-End Object Detection with Transformers : (2020 FaceBook Research) [My Notes](papers/object-detection/end-to-end-object-detection-with-transformers.md)
+
+Focal Loss for Dense Object Detection:(2017): [My Notes](papers/object-detection/focal-loss-for-dense-object-detection.md), 第一次解决了一阶段检测的精度问题，为了使用这个loss算法，自己构造了 RetinaNet，精度超越了faster rcnn
 
 ### Model Compression
 Model compression(2006)：ensemble 模式下的多个模型的知识，可以压缩到一个模型里
