@@ -2,7 +2,7 @@
 2. 为何成功，标志/准是什么？
 3. 在前人基础上的关键创新是什么？去掉了需要手工搞的一些组件，比如 non-maximum suppression 或者是 anchor 产生的过程（需要显示编码人对任务的先验经验）。使用了 set-based global loss。给定固定小集合的可学习对象请求，DETR 推理出对象和全局图片上下文之间的关系来直接并行输出最终集合。
 4. 关键结果有哪些？
-5. 有哪些局限性？如何优化？在小目标检测上效果不明显
+5. 有哪些局限性？如何优化？在小目标检测上效果不明显，而且训练时需要很多 epochs 才能收敛
 6. 这个工作可能有什么深远的影响？
 
 与传统 cv 里的不同，检测里平常又复杂的手工的流水线，而 DETR 把检测当作一个直接的集合预测问题(direct set prediction problem). 包含一个基于集合的 global loss，通过二分匹配的唯一预测(unique predictions via bipartite matching)和transformer 的 encoder-decoder 架构来做。给定一个固定的学到的对象query小集合,
