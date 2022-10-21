@@ -577,6 +577,7 @@ Google FastSocket & Reduction Server : [My Notes](hardware/GPU/nccl-fastsocket.m
 
 [Triton vs Numba vs Taichi](hardware/GPU/triton-vs-numba-vs-taichi.md)
 
+[cudnn benchmark 的详解](hardware/GPU/cudnn-benchmark.md)
 ##  10. <a name='MLCompilers'></a>ML Compilers
 ###  10.1. <a name='Rammer'></a>Rammer
 
