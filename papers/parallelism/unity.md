@@ -8,3 +8,5 @@
 Algebraic Transformations 包含哪些？
 operator fusion
 operator reordering (结合律和)
+
+有对 PyTorch 的支持，是基于 [torch.fx.symbolic_trace()](https://github.com/flexflow/FlexFlow/blob/master/python/flexflow/torch/model.py#L2396-L2397) 来做的。先通过 fx 来把torch里的图转换到 flexflow

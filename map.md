@@ -245,7 +245,7 @@ MONet: Memory optimization for deep networks(ICLR 2021): 与DTR几乎同期，�
 
 [Automatic Cross-Replica Sharding of Weight Update in Data-Parallel Training](https://arxiv.org/abs/2004.13336)(2020-4-28) : 提出了 weights 的自动切分方法，通过高效的通信原语来同步，使用静态分析计算图的方法，应用于 ADAM 或 SGD
 
-[GSPMD: General and Scalable Parallelization for ML Graphs](https://arxiv.org/pdf/2105.04663.pdf)(2021-5-10) (for transformers)
+[GSPMD: General and Scalable Parallelization for ML Graphs](https://arxiv.org/pdf/2105.04663.pdf)(2021-5-10) (for transformers) ：是基于XLA上的扩展，针对 transformer来做的
 
 
 
@@ -265,8 +265,9 @@ Memory Efficient Pipeline-Parallel DNN Training(ICML 2021): 主要是提出了 P
 [torochpipe](https://github.com/kakaobrain/torchgpipe)
 
 ####  1.13.3. <a name='ParallelizationStrategies'></a>Parallelization Strategies
-[Beyond Data and Model Parallelism for Deep Neural Networks](https://arxiv.org/pdf/1807.05358.pdf)
+[Beyond Data and Model Parallelism for Deep Neural Networks](https://arxiv.org/pdf/1807.05358.pdf)(2018)
 > Defined a more comprehensive search space of parallelization strategies for DNNs called SOAP, which includes strategies to parallelize a DNN in the Sample, Operation, Attribute, and Parameter dimesions. Proposed FlexFlow, a deep learning framework that uses guided randomized search of the SOAP spaceto find a fast parallelization strategy for a specific parallel machine. To accelerate this search, FlexFlow introduces a novel execution simulator that can accurately predict a parallelizaiton strategy's performance.
+jiazhihao的，里面有一个模拟器，能预测出速度
 
 ###  1.14. <a name='Quantization'></a>Quantization 
 
@@ -493,6 +494,10 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 [Pathways: Aschronous Distributed Dataflow for ML](./papers/pathways.md)(MLSys 2022)
 
+### XLA
+
+[XLA concepts](frameworks/XLA/concepts.md)
+
 ##  6. <a name='CharacterizingMLTrainingWorkloads'></a>Characterizing ML Training Workloads
 [Characterizing Deep Learning Training Workloads on Alibaba-PAI](https://arxiv.org/pdf/1910.05930)(2019-10-14): 主要看看他们是用什么方法来profile的，是否有借鉴意义
 
@@ -604,7 +609,9 @@ Nimble: Lightweight and Parallel GPU task Scheduling for Deep Learning(NeurIPS 2
 
 Alpa: Automating Inter and Intra-Operator Parallelism for Distributed Deep Learning(OSDI 2022), [My Notes](papers/parallelism/alpa.md), [源码阅读](./frameworks/alpa.md)
 
-Unity: Accelerating DNN Training Through Joint Optimization of Algebraic Transformations and Parallelization(OSDI 2022). [My Notes](papers/parallelism/unity.md)
+Unity: Accelerating DNN Training Through Joint Optimization of Algebraic Transformations and Parallelization(OSDI 2022). [My Notes](papers/parallelism/unity.md)。是基于 flex flow 来做的
+作者斯坦福的 jiazhihao，FlexFlow, TASO 等都是他写的。unity是在之前dp+pp的基础上，加入了代数转换和op内并行策略. flexflow 是类似pytorch一样的一个新框架，它支持tf和pytorch的前端
+
 ##  11. <a name='Profiling'></a>Profiling
 ###  11.1. <a name='MemoryProfiling'></a>Memory Profiling
 [Capuchin: Tensor-based GPU Memory Management for Deep Learning]()(2020 ASPLOS) , [My notes](./papers/capuchin.md)
