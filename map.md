@@ -612,6 +612,8 @@ Alpa: Automating Inter and Intra-Operator Parallelism for Distributed Deep Learn
 Unity: Accelerating DNN Training Through Joint Optimization of Algebraic Transformations and Parallelization(OSDI 2022). [My Notes](papers/parallelism/unity.md)。是基于 flex flow 来做的
 作者斯坦福的 jiazhihao，FlexFlow, TASO 等都是他写的。unity是在之前dp+pp的基础上，加入了代数转换和op内并行策略. flexflow 是类似pytorch一样的一个新框架，它支持tf和pytorch的前端
 
+pytorch/tau(PiPPy): [My Notes](frameworks/pytorch/tau.md)
+
 ##  11. <a name='Profiling'></a>Profiling
 ###  11.1. <a name='MemoryProfiling'></a>Memory Profiling
 [Capuchin: Tensor-based GPU Memory Management for Deep Learning]()(2020 ASPLOS) , [My notes](./papers/capuchin.md)
