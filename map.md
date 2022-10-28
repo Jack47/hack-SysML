@@ -585,7 +585,7 @@ Google FastSocket & Reduction Server : [My Notes](hardware/GPU/nccl-fastsocket.m
 [cudnn benchmark 的详解](hardware/GPU/cudnn-benchmark.md)
 ##  10. <a name='MLCompilers'></a>ML Compilers
 
-JAX: Compiling machine learning programs via high-level tracing(2011?), [My Notes](./papers/compiler/compiling-machine-learning-programs-via-high-level-tracing.md)
+JAX: Compiling machine learning programs via high-level tracing(2011?), [My Notes](./papers/compiler/compiling-machine-learning-programs-via-high-level-tracing.md). JAX 相当于可以用非常易用的 Python 来连接了研究员和 XLA 的加速能力
 
 ###  10.1. <a name='Rammer'></a>Rammer
 
