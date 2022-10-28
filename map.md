@@ -584,6 +584,9 @@ Google FastSocket & Reduction Server : [My Notes](hardware/GPU/nccl-fastsocket.m
 
 [cudnn benchmark 的详解](hardware/GPU/cudnn-benchmark.md)
 ##  10. <a name='MLCompilers'></a>ML Compilers
+
+JAX: Compiling machine learning programs via high-level tracing(2011?), [My Notes](./papers/compiler/compiling-machine-learning-programs-via-high-level-tracing.md)
+
 ###  10.1. <a name='Rammer'></a>Rammer
 
 ###  10.2. <a name='IREEIntermediateRepresentationExecutionEnvironment'></a>IREE(Intermediate Representation Execution Environment)
