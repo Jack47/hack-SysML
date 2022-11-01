@@ -103,6 +103,8 @@ Self-Attention Does Not Need O(n^2) Memory(2021.12) [My Notes](./papers/transfor
 
 Competition-Level Code Generation with AlphaCode. [My Notes](./papers/transformer/Competition-Level-Code-Generation-with-AlphaCode.md)
 
+FLASHATTENTION: Fast and Memory-Efficient Exact Attention with IO-Awareness. (2022) [My Notes](./papers/transformer/flash-attention.md)
+
 ###  1.4. <a name='AttributeRecognition'></a>Attribute Recognition
 [Hierarchical Feature Embedding for Attribute Recognition]() (2020.5.23) [My Notes](./papers/attribute-recognition/hierarchical-feature-embedding-for-attribute-recognition.md)
 
