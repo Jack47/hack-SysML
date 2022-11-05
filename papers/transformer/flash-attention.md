@@ -32,12 +32,19 @@ F 对 batchsize 变化不敏感。比如 16，32，64上，都是 2-3x 的比 Me
 
 MLPerf 里的最新实现是 vendor 里软硬件组花了6个月的实现。但我们的依然比他们的快
 
+FA的实现需要至少一定数量的 SRAM。在 T4 上测试过。其他非 GPU 加速器有比 GPU 更多的 SRAM（比如 TPUv4 有128M SRAM，Graphcore 有 1GB SRAM，而 A100里只有19MB）
+
+## 问题
+他们在跑 GPT 等时，用的pytorch？代码有吗？
+
 ## TODO
 1. Long range arena: A benchmark for efficient transformers
 2. Efficient transformers: A survey.
 3. Data movement is all you need: A case study on optimizing transformers
 4. Memory hierarchy design. Computer Architecture: A Quantitative Approach(2003)
-5. Roofline: an insightful visual performance model for multicore architectures(2009).
+5. Roofline: an insightful visual performance model for multicore architectures(2009). E.7 里有
+6. E.5 里有与 TVM 的对比
+
 ## 参考资料
 1. [openreview](https://openreview.net/forum?id=H4DqfPSibmx)
 2. [在 PyTorch 里的实现](https://github.com/pytorch/pytorch/pull/84771): 没有用 triton，用的cutblass
