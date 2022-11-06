@@ -622,6 +622,9 @@ Unity: Accelerating DNN Training Through Joint Optimization of Algebraic Transfo
 
 pytorch/tau(PiPPy): [My Notes](frameworks/pytorch/tau.md)
 
+[Triton: An Intermediate Language and Compiler for Tiled Neurual Network Computations](2019 Machine Learning And Programming Languages) [My Notes](./papers/triton.md)
+
+[TensorIR: An Abstraction for Automatic Tensorized Program Optimization](2022.10.27) [My Notes](./papers/compiler/tensorir.md)
 ##  11. <a name='Profiling'></a>Profiling
 ###  11.1. <a name='MemoryProfiling'></a>Memory Profiling
 [Capuchin: Tensor-based GPU Memory Management for Deep Learning]()(2020 ASPLOS) , [My notes](./papers/capuchin.md)
