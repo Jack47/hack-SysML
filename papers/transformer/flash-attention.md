@@ -48,3 +48,4 @@ FA的实现需要至少一定数量的 SRAM。在 T4 上测试过。其他非 GP
 ## 参考资料
 1. [openreview](https://openreview.net/forum?id=H4DqfPSibmx)
 2. [在 PyTorch 里的实现](https://github.com/pytorch/pytorch/pull/84771): 没有用 triton，用的cutblass
+3. [GPT or VIT 里的 flashattention 例子](https://github.com/tridao/zoo/blob/main/src/models/gpt2.py)
