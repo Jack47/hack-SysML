@@ -5,7 +5,7 @@
 5. 有哪些局限性？如何优化？
 6. 这个工作可能有什么深远的影响？
 
-## 介绍
+## 1 介绍
 虽然 transformers 越来越大，深，但是使用更长的上下文依然很难，因为自注意力模块核心的时间和显存复杂度都是序列长度的二次方。所以一个核心问题是让attention更快、显存更高效是否能帮助 transformer 模型克服他们在长序列(long sequences)情况下运行时和显存挑战。目前的 GPT3 被限制在了 2k 的长度。而 FLASH 可以长到8k，最长64k。这样还可以用到高分辨率的VIT上。
 
 有很多近似的attention方法想减少计算和显存开销。包括 sparse-approximation， low-rank approximation，以及他们的组合。尽管他们减少到线性或者接近线性序列长度的计算开销，但是很多并没有明显的加速效果，因此使用不广泛。一个主要原因是他们集中在减少 FLOPS（可能跟加速不直接关联），因此忽视了仿存方面(IO)的开销
@@ -13,11 +13,51 @@
 本文里，我们认为之前没考虑到的一个方法是：让注意力算法对 IO-感知，仔细审计对不同级别快慢不同显存的读写（比如快的 GPU 上的片上  SRAM和相对慢的 GPU带宽显存，或者 HBM，见下图1）。现代的 GPU 上，**计算速度比显存速度要快非常多**，transformer里的大部分操作都是仿存速度为瓶颈。IO-aware 算法对类似内存制约的操作上很关键，即当读取和写入
 数据在执行时间上占大头的情况：例如数据库 joins，图片处理，数值线性代数(numerical linear algebra)。但是 Python接口的深度学习框架比如 PyTorch 或者 TF 没有暴露这种显存访问的精细接口。
 
+我们提出的 FA，是一种新的 attention 算法，可以用更少的内存访问来完成一样 的attention运算。目标是避免从 HBM 里读取和写入attention矩阵。这需要：
+
+1. 计算 softmax 规约时，不要访问整个输入
+2. backward时，无须fwd过程存储大得到中间attention矩阵
+
+我们用了两个熟知的技术来解决这些挑战：
+1. 重建了 attention 的计算过程，把输入切分成了 blocks，遍历了好几轮输入的blocks，因此能增量执行softmax 规约（也叫做 tiling）
+2. 存储了fwd过程里的 softmax 规约的因子，可以在 bwd 过程里在片上快速重计算 attention，这样比标准的从 HBM 里读取 attention 矩阵要快。我们在 CUDA 里实现了 FA 来获得更细粒度的内存访问控制，把所有 attention 操作都融合到一个 GPU kernel(matmul, dropout, softmax, mask, matmul)。尽管因为重计算而导致 FLOPS 增加，但是算法依然更快（在 GPT-2上是 7.6倍），使用更少的显存：相比标准的attention，是输入长度的线性，因此 HBM 访问猛降。
+
+我们分析了 IO 复杂度，证明了它需要 O(N^2d^2M^-1) HBM 访问，d是 head dimension，M 是 SRAM 的大小，与之相比标准 attention 是 O(Nd+N^2)。对于典型的 d 和 M，FA 需要的 HBM 访问是多倍的少于 标准 attention 的（最大9倍，见图2）。而且，我们提供了下界的证明，说明没有其他 attention 算法能渐近地改进在所有SRAM大小上的 HBM 访问次数
+
+我们还展示了 FA 可以作为实现潜在的近似 attention 算法的有用原语，因为克服了他们的访存开销。为了作为概念的验证，我们实现了 block-sparse FA，是比 FA 快2-4倍的稀疏 attention 算法，能扩展到 64k 的序列长度。证明了 block-sparse FA 比 FA 的 IO 复杂度要好，是倍数于稀疏率。我们在第五节讨论了更多扩展（attention在多个GPU上，kernel回归，block-sparse 矩阵）。开源了代码
+
+验证了 FA 在模型训练上的加速效果，提高了模型质量，方法是给更长的上下文建模。也 benchmark 了运行时和显存开销
+
+* **更快的模型训练** FA 在 BERT-large（seq len 512）上比 MLPerf 1.1 里的记录快15%，GPT2（seq length 1K）比 HuggingFace 和 Megatron-LM 快3倍，在 long-range arena (seq length 1K-4K)上快2.4倍
+
+* **更高的模型质量** 支持了 16K 的序列长度。Block-sparse FA 支持 64K
+
+* **Benchmarking Attention 比标准实现，在常见序列长度 128～2K上 快到3倍，能扩展到 64K。长度到了 512 之后，FA 比已有的任何 attention 算法要快而且更节省显存。而长度超过 1K 后，一些近似的 attentioin 方法（比如 Linformer）开始变的更快。另外，block-sparse FA 比任何我们已知的近似方法要快
+
+## 2 背景
+
+### 2.1 硬件性能
+
+**GPU 显存层次**
+GPU 显存层次（下图1左）。例如 A100 GPU上，有 40-80G的高带宽显存(High bandwidth memory)，带宽是 1.5-2.0TB/s，芯片上108个 streaming multiprocessors 里的每个里有 192KB的 SRAM，带宽大约是 19TB/s。可见 SRAM 速度比 HBM 高一个数量级，但是大小上却小很多数量级（40G vs 10M）。由于计算速度相对仿存速度要快很多，因此操作的瓶颈越来越多是显存的访问（HBM）。因此利用更快的 SRAM 就很重要。
+
+**性能特性**. 根据 op 的计算和仿存的关系，可以分为计算密集型(compute-bound)和仿存密集型(memory-bound)。通常是通过算术密度(arithmetic intensity)，即每个字节的显存访问上的算数操作次数
+
+1. 计算密集型：有很多算术操作，而仿存很少。典型例子：inner dimension很大的 matrix multiply，有很大channels 的 conv
+2. 显存密集型：典型例子包括其他的op：elementwise(activation，dropout)，和规约(sum, softmax, bn, ln)
+
+**Kernel 融合** 最常用的加速显存密集型算子的方法是 kernel fusion：如果对输入有多次op运算，可以从 HBM 里加载一次，而不是每次运算都加载一次。编译器可以自动融合很多 elementwise 运算。但是从模型训练上下文里，中间值依然要写入 HBM，因为 BWD 里需要使用，这降低了简单的 kernel 融合的有效性。
+
+### 2.2 标准的 Attention 实现
+![](flash-attention-tiling.png)
+
+##  openreview  里的一些回复
 
 尽管利用的技术（tiling & recomputation)都是已知的，但是依然有空间(2-4x)来加速 attentioin。需要使用 softmax decomposition。我们认为有两个原因导致虽然FLOPS增加（重计算），但是加速了：
 
 1. softmax decomposition with scaling 虽然被很多 ML 算法人员熟知，但没被很多系统研究员知道，虽然 operation fusion/memory IOs 减少是系统/编译器社区的常备，但是对算法工程师而言却不熟悉。在 F 里，即需要 softmax decomposition，也需要 operation fusion 来达到加速和节省显存的效果
 2. flash attention 里，算法是没变的，所以模型精度不受影响，甚至能提升（因为可以训练更长的序列）
+
 
 附录 E.5 (NVfuser 1.12, AOT compiler from functorch, and TVM)里添加了自动做op fusion的baseline。Megatron 的比 这些快，而 flash 比他们还快。因为 softmax 被分解为了 local softmax。希望编译器领域的进展可以让未来加速/fusion成为可能。我们也在和编译器研究员一起自动化这些技术
 
@@ -35,7 +75,9 @@ MLPerf 里的最新实现是 vendor 里软硬件组花了6个月的实现。但�
 FA的实现需要至少一定数量的 SRAM。在 T4 上测试过。其他非 GPU 加速器有比 GPU 更多的 SRAM（比如 TPUv4 有128M SRAM，Graphcore 有 1GB SRAM，而 A100里只有19MB）
 
 ## 问题
-他们在跑 GPT 等时，用的pytorch？代码有吗？
+1. 他们在跑 GPT 等时，用的pytorch？代码有吗？
+2. MB15里能用吗？比如最大长度1000*1000 = 1000K
+
 
 ## TODO
 1. Long range arena: A benchmark for efficient transformers
