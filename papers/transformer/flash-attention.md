@@ -51,6 +51,29 @@ GPU 显存层次（下图1左）。例如 A100 GPU上，有 40-80G的高带宽�
 ### 2.2 标准的 Attention 实现
 ![](flash-attention-tiling.png)
 
+给定输入序列 Q、K、V属于 R^(Nxd)，其中N 是序列长度，d是 head的维度，需要计算 attention 的输出 O属于 R^(Nxd):
+
+```
+S = Q*K^T 属于 R^(NxN), P = softmax(S)，属于 R^(NxN), O=P*V，属于 R^(Nxd)
+```
+其中 softmax 是逐行计算的。
+
+标准的实现把矩阵 S 和 P 写到 HBM 里去，需要花费 O(N^2)的显存。通常 N>>d(比如 GPT2里，N=1024，d=64)。其中的一些算子是仿存密集型的（比如 softmax），大量的 HBM 访问导致速度慢。
+这个问题还会被其他在 attention 矩阵上进行的挨个元素的操作，比如应用在 S 上的 mask，应用在 P 上的 dropout 给拖慢。因此有很多尝试是想把多个逐个元素访问的操作融合到一起，比如 fusing masking和softmax (ls 里也是这样的)
+
+在3.2节，展示了标准 attention 实现会有与序列长度 N 成二次方关系的 HBM 访问。我们也比较了两者之间FLOPS和HBM 访问的次数
+
+## 3 FA：算法，分析，扩展
+我们要展示如何用更少的 HBM 读取/写入来计算一样的attention，而不需要存储巨大的中间矩阵来给 bwd 使用。这让算法既显存高效，速度又快。分析IO复杂度，发现我们的方法需要更少的 HBM 访问。
+
+下面专注在 forward 上的分析；附录 B 包含bwd的细节
+
+### 3.1 使用 Tiling 和 重计算来实现高效的 Attention 算法
+主要思路是把 Q、K、V 切分成块，从慢的 HBM 加载到快的 SRAM，然后计算对应的 attention 输出。通过给每个block的输出乘上right normalization因子然后再做加法，可以最终得到准确的值。
+
+**Tiling**: Softmax 和 K 的列是耦合的，所以使用 scaling 分解大的 softmax。为了数值计算稳定，softmax 如下计算：
+
+通过额外记录一些统计关系(m(x), l(x))，可以每次计算一个 softmax。
 ##  openreview  里的一些回复
 
 尽管利用的技术（tiling & recomputation)都是已知的，但是依然有空间(2-4x)来加速 attentioin。需要使用 softmax decomposition。我们认为有两个原因导致虽然FLOPS增加（重计算），但是加速了：
