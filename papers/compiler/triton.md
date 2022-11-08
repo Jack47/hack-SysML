@@ -76,6 +76,7 @@ Tile 声明
 
 ## 问题
 1. Triton IR 和 JIT 都是基于 LLVM，那 LLVM 到底提供什么能力，而 Triton 又在之上开发了什么呢
+2. autotune 是怎么做的？记录一个数据库，使用某种算法，还是说直接暴力枚举？
 
 ## 和 TensorIR 的对比
 

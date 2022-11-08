@@ -32,7 +32,7 @@
 
 * **更高的模型质量** 支持了 16K 的序列长度。Block-sparse FA 支持 64K
 
-* **Benchmarking Attention 比标准实现，在常见序列长度 128～2K上 快到3倍，能扩展到 64K。长度到了 512 之后，FA 比已有的任何 attention 算法要快而且更节省显存。而长度超过 1K 后，一些近似的 attentioin 方法（比如 Linformer）开始变的更快。另外，block-sparse FA 比任何我们已知的近似方法要快
+* **Benchmarking** Attention 比标准实现，在常见序列长度 128～2K上 快到3倍，能扩展到 64K。长度到了 512 之后，FA 比已有的任何 attention 算法要快而且更节省显存。而长度超过 1K 后，一些近似的 attentioin 方法（比如 Linformer）开始变的更快。另外，block-sparse FA 比任何我们已知的近似方法要快
 
 ## 2 背景
 
@@ -49,7 +49,7 @@ GPU 显存层次（下图1左）。例如 A100 GPU上，有 40-80G的高带宽�
 **Kernel 融合** 最常用的加速显存密集型算子的方法是 kernel fusion：如果对输入有多次op运算，可以从 HBM 里加载一次，而不是每次运算都加载一次。编译器可以自动融合很多 elementwise 运算。但是从模型训练上下文里，中间值依然要写入 HBM，因为 BWD 里需要使用，这降低了简单的 kernel 融合的有效性。
 
 ### 2.2 标准的 Attention 实现
-![](flash-attention-tiling.png)
+![](imgs/flash-attention-tiling.png)
 
 给定输入序列 Q、K、V属于 R^(Nxd)，其中N 是序列长度，d是 head的维度，需要计算 attention 的输出 O属于 R^(Nxd):
 
