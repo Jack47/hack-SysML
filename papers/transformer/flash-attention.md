@@ -39,7 +39,7 @@
 ### 2.1 硬件性能
 
 **GPU 显存层次**
-GPU 显存层次（下图1左）。例如 A100 GPU上，有 40-80G的高带宽显存(High bandwidth memory)，带宽是 1.5-2.0TB/s，芯片上108个 streaming multiprocessors 里的每个里有 192KB的 SRAM，带宽大约是 19TB/s。可见 SRAM 速度比 HBM 高一个数量级，但是大小上却小很多数量级（40G vs 10M）。由于计算速度相对仿存速度要快很多，因此操作的瓶颈越来越多是显存的访问（HBM）。因此利用更快的 SRAM 就很重要。
+GPU 显存层次（下图1左）。例如 A100 GPU上，有 40-80G的高带宽显存(High bandwidth memory)，带宽是 1.5-2.0TB/s，芯片上108个 streaming multiprocessors 里的每个里有 192KB的 SRAM(v100是128K)，带宽大约是 19TB/s。可见 SRAM 速度比 HBM 高一个数量级，但是大小上却小很多数量级（40G vs 10M）。由于计算速度相对仿存速度要快很多，因此操作的瓶颈越来越多是显存的访问（HBM）。因此利用更快的 SRAM 就很重要。
 
 **性能特性**. 根据 op 的计算和仿存的关系，可以分为计算密集型(compute-bound)和仿存密集型(memory-bound)。通常是通过算术密度(arithmetic intensity)，即每个字节的显存访问上的算数操作次数
 
@@ -72,8 +72,35 @@ S = Q*K^T 属于 R^(NxN), P = softmax(S)，属于 R^(NxN), O=P*V，属于 R^(Nxd
 主要思路是把 Q、K、V 切分成块，从慢的 HBM 加载到快的 SRAM，然后计算对应的 attention 输出。通过给每个block的输出乘上right normalization因子然后再做加法，可以最终得到准确的值。
 
 **Tiling**: Softmax 和 K 的列是耦合的，所以使用 scaling 分解大的 softmax。为了数值计算稳定，softmax 如下计算：
+softmax(x) = f(x)/l(x)
 
-通过额外记录一些统计关系(m(x), l(x))，可以每次计算一个 softmax。
+通过额外记录一些统计关系(m(x), l(x))，可以每次计算一块的 softmax。因此把输入的 Q、K、V分片为 blocks(Algo 1 line 3)，使用额外的统计值(line 10)来计算 softmax(line 10)，把结果合并起来(line 12)
+
+**重计算**: 目标之一是不用给 bwd 存储O(N^2)的中间值，即 S、P。bwd里通常是需要他们来计算相对于 Q、K、V的梯度的。然而，通过存储O和 softmax 里计算所需的 (m, l)统计值，可以很容易根据 SRAM 里的 Q、K、V(是要在bwd时重新load进去的吧？只不过比load S和P要大小小) 来重计算出上述的 S、P。这可以看为类似于选择性左 gradient checkpointing。虽然它一般目的是减少峰值的显存占用，所有实现都是要牺牲速度来换显存。但是对比起来，我们的重计算方案却尽管FLOPS多了，但是bwd过程却加速了，因为减少了 HBM 仿存 (Fig. 2)。bwd的完整描述在附录B
+
+**实现细节**: Kernel 融合。 Tiling 让我们可以用一个 CUDA kernel实现算法，把 input 从 HBM 里加载进来，执行所有的计算步骤（矩阵乘，softmax，选择性 masking，dropout，matrix multiply），然后把结果写回 HBM （masking和 dropout在附录 B）。这样避免从 HBM 读取输入，写入输出
+
+图2:
+
+![](imgs/flash-attention-benchmark.png)
+
+左边：GPT-2 medium 上的 FWD+BWD 运行时对比(seq len 1024, head dim 64, 16 heads, batch size 64) 在A100 上。确实 FA 的仿存次数减少了9倍，耗时减少了6倍！
+
+中间：A100 上不同 block size 下， FA 的 FWD 运行耗时和 HBM的访问量(GB? 不是次数，是大小？)，seq length 1024，head dim 64，16 heads，bs 64。当 block size 越大，HBM 访问次数更少，但是有一个上限.
+
+右边：seq length 4k 上的 block-sparse FA的加速比例，和稀疏度成正比
+
+渐近地提高所有 SRAM 大小上的 HHBM 仿存，证明在附录 C：
+
+定理2：让 N 是序列长度，d是 head dim，M 是 SRAM 的大小，那么 d 远小于 M，远小于 Nd。标准的算法需要 O(Nd+N^2) HBM 访问，而 fa 需要 O(N^2\*d^2\*M^-1) 次。而其中 d 远小于M，所以 fa 的访问次数小于 O(N^2)。
+
+对于典型的 d(64-128)，M（约为 100KB），d^2 是比M小很多的。
+
+算法1: FA
+```
+
+```
+
 ##  openreview  里的一些回复
 
 尽管利用的技术（tiling & recomputation)都是已知的，但是依然有空间(2-4x)来加速 attentioin。需要使用 softmax decomposition。我们认为有两个原因导致虽然FLOPS增加（重计算），但是加速了：
