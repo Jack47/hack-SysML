@@ -51,6 +51,8 @@ GPU 显存层次（下图1左）。例如 A100 GPU上，有 40-80G的高带宽�
 ### 2.2 标准的 Attention 实现
 ![](imgs/flash-attention-tiling.png)
 
+有图里，可以看出他计算时：Q、K、V都是在行上切分，即切分N，d这个维度是不切分的，不然就没法在inner loop 里计算出 Sij了
+
 给定输入序列 Q、K、V属于 R^(Nxd)，其中N 是序列长度，d是 head的维度，需要计算 attention 的输出 O属于 R^(Nxd):
 
 ```
@@ -74,11 +76,50 @@ S = Q*K^T 属于 R^(NxN), P = softmax(S)，属于 R^(NxN), O=P*V，属于 R^(Nxd
 **Tiling**: Softmax 和 K 的列是耦合的，所以使用 scaling 分解大的 softmax。为了数值计算稳定，softmax 如下计算：
 softmax(x) = f(x)/l(x)
 
+这里对softmax 的改进，跟计算m(x)的改进方法类似:
+
+分块计算出来 x1和x2的max，然后就可以再增量计算出他俩整体的max
+
+而FA的FWD 算法里，不仅是m，l和O都是用这种算法
+$$
+\begin{aligned}
+m(x^{(1)})
+\end{aligned}
+$$
+
+
+当第二块计算出来时，就知道这俩整体的情况了
+$$
+\begin{aligned}
+\max(x)
+&=\max(x_1^{(1)},\ldots, x_N^{(1)},x_1^{(2)},\ldots, x_M^{(2)}) \\
+&=\max(\max(x_1^{(1)},\ldots, x_N^{(1)}), \max(x_1^{(2)},\ldots, x_M^{(2)}))\\
+&=\max(m(x^{(1)}), m(x^{(2)}))
+
+\end{aligned}
+$$
+
+
 通过额外记录一些统计关系(m(x), l(x))，可以每次计算一块的 softmax。因此把输入的 Q、K、V分片为 blocks(Algo 1 line 3)，使用额外的统计值(line 10)来计算 softmax(line 10)，把结果合并起来(line 12)
 
 **重计算**: 目标之一是不用给 bwd 存储O(N^2)的中间值，即 S、P。bwd里通常是需要他们来计算相对于 Q、K、V的梯度的。然而，通过存储O和 softmax 里计算所需的 (m, l)统计值，可以很容易根据 SRAM 里的 Q、K、V(是要在bwd时重新load进去的吧？只不过比load S和P要大小小) 来重计算出上述的 S、P。这可以看为类似于选择性左 gradient checkpointing。虽然它一般目的是减少峰值的显存占用，所有实现都是要牺牲速度来换显存。但是对比起来，我们的重计算方案却尽管FLOPS多了，但是bwd过程却加速了，因为减少了 HBM 仿存 (Fig. 2)。bwd的完整描述在附录B
 
 **实现细节**: Kernel 融合。 Tiling 让我们可以用一个 CUDA kernel实现算法，把 input 从 HBM 里加载进来，执行所有的计算步骤（矩阵乘，softmax，选择性 masking，dropout，matrix multiply），然后把结果写回 HBM （masking和 dropout在附录 B）。这样避免从 HBM 读取输入，写入输出
+
+
+
+![](./imgs/flash-attn-algo-1.png)
+
+### 上图里的疑问：
+
+1. 为什么分片的大小，K、V 里面是Bc，是 M/4d ? 大概就是几十到上百行
+
+2. 为什么分片时分两组？Q，l、m；K、V是一组，大小为Br，是min(Bc, d)？
+
+3. 为什么先循环列，再循环行？
+4. 这里说 [Block size 越大越好](https://github.com/HazyResearch/flash-attention/issues/67#issuecomment-1308321140)，如下图2里中间的图，越大，仿存次数越小。但是看起来blocksize=ceil（M/4d
+
+
 
 图2:
 

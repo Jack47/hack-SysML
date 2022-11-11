@@ -101,6 +101,8 @@ Masked Autoencoders Are Scalable Vision Learners [My Notes](./papers/transformer
 
 Self-Attention Does Not Need O(n^2) Memory(2021.12) [My Notes](./papers/transformer/Self-Attention-Does-Not-Need-Memory.md)
 
+[Deformable DETR: Deformable Transformers for End to End Object Detections](papers/transformer/deformable-detr_deformable-transformers.md)
+
 Competition-Level Code Generation with AlphaCode. [My Notes](./papers/transformer/Competition-Level-Code-Generation-with-AlphaCode.md)
 
 FLASHATTENTION: Fast and Memory-Efficient Exact Attention with IO-Awareness. (2022) [My Notes](./papers/transformer/flash-attention.md)
