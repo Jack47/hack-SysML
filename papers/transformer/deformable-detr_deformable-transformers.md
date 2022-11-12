@@ -7,7 +7,10 @@
 
 ## 1 介绍
 
-DETR不仅需要很长的epoch 来训练，而且在小物体检测上表现不好，原因是小物体需要高分辨率，但 因为attention部分的计算复杂度是输入尺寸的平方，所以DETR处理大图片的效果不好
+DETR 的劣势：
+
+1. DETR不仅需要很长的epoch 来训练，而且在小物体检测上表现不好，原因是小物体需要高分辨率，但 因为attention部分的计算复杂度是输入尺寸的平方，所以DETR处理大图片的效果不好
+2. 和现代的目标检测相比，DETR 需要更多的epoch 来训练收敛。原因是attention 在处理图片features上很困难。例如，在初始化时，cross-attention 模块几乎是在全局feature上平均的注意力，但是到训练结束时，学出来的 attention map 非常稀疏，只聚焦在目标上。因此需要更长的训练时间来学习到attention map里的如此巨大的变化
 
 
 
@@ -49,7 +52,7 @@ multi head attention 模块会 adaptively 把 key(指value?公式里的 Wm'*X) �
 
 <img src="imgs/multi-head-attention.png" style="zoom:50%;" />
 
-这里看到输入只有两个: zq和x，分别是query 和输入的 表征(representation feature)，估计 Q=qm(zq)，K=km(x)?。上图中 Wm 和 Wm‘都是可学习的权重，如下图
+这里看到输入只有两个: zq和x(zq是啥呢？），分别是query 和输入的 表征(representation feature)，估计 Q=qm(zq)，K=km(x)?。上图中 Wm 和 Wm‘都是可学习的权重，如下图
 
 ![](imgs/learnable-weights-in-attention.png)
 
@@ -70,12 +73,60 @@ multi head attention 模块会 adaptively 把 key(指value?公式里的 Wm'*X) �
 
 ![](../object-detection/imgs/detr-arch.png)
 
-DETR里的transformer encoder，它的 query 和 key 都是输入的feature map。这里encoder的计算复杂度是 O(H^2\*W^2\*C)，说明是跟feature map的大小成平方关系
+#### Encoder
+
+DETR里的transformer encoder，它的 query 和 key 都是输入的feature map。这里encoder的计算复杂度是 O(H^2\*W^2\*C)，说明是跟feature map的大小成**平方关系**
 
 对于 DETR 里的 decoder，输入包括两部分：
 
 1. encoder输出的feature map
 2. N个目标的请求(object queries)，以可学习的positional embeddings (比如 N=100）
 
-在decoder 里，有两类 attention 模块，即self和cross attention。在cross-attention 里，object queries 会抽取 feature map里的features。
+#### Decoder
 
+在decoder 里，有两类 attention 模块，即self和cross attention。
+
+在 self-attention 里，object queries需要和其他人交互，来捕获之间的关系。query和key是都是 object queries。而 Nq=Nk=N,所以self attention的复杂度是O(2NC^2+N^2C)，即**与spatial size** 无关。复杂度在object queries可控下是可接受的。N一般就是100
+
+在cross-attention 里， object queries从 feature map里抽取features（没太看懂）。query 元素是object queries，key 元素是 **encoder的输出** feature maps。因此 Nq = N(比如100），Nk=H\*W。因此 cross attention的复杂度是O(H\*W\*C^2+NHWC)，因此复杂度是输入feature map空间大小(spatial size)的**线性**。
+
+
+
+## 4 方法
+
+### 4.1 Deformable Transformers For End-to-End Object Detection
+
+**Deformable Attention Module** 在图片 feature map上应用 transformer attention 时遇到的核心问题是它会访问所有可能的空间位置。为了解决这个问题，提出了 deformable attention 模块。受 deformable convolution 启发，它只关注在 reference point 周边的少量key sampling points，忽略 feature map 的大小。如下图2，通过给每个**query**应用少量**固定**的keys，收敛问题和feature空间分辨率问题就缓解了。
+
+![](imgs/deformable-attention-illustration.png)
+
+给定一个输入 feature map x(CHW)，让 q 是一个利用 content feature zq 就行的查询，pq是2-d的 reference point，那么 deformable attention feature 如下计算：
+
+![](imgs/deformable-attention.png)
+
+k 索引 sampled keys，K 是总共 sampled key 数量 (K << HW)。可见 attention weights 和 sampling offsets 都是与m,q,k 有关的，sampling offsets（可变卷积的核心？或者名字来源) 和 attention weights 都是通过 query feature zq 来linear projection 后得到的（见上图）。Amqk 这个 attention weights 依然是经过softmax成为概率的，和为1。而 sampling offsets 属于二维实数，由于 sampling locations 是分数的，所以在计算 x*sampling_locations 时使用 bilinear interpolation(与 Deformable Conv 类似)。实现时，zq被输入到一个 3MK channels 的linear 中去，前2MK channels(2d) 编码 sampling offsets，后一个 MK channels经过一个 softmax来获得 attention weights(1d)。 
+
+
+
+Deformable Attention 与 attention 的差别：
+
+1. 引入了 sampling locations，所以不是采样所有的V
+2. q\*k -> q
+
+Deformable attention 模块被设计为**把卷积 feature maps 当做 key elements 来处理**(所以只代替 decoder 里的 cross attention)。让 Nq 是 query lements 的长度，当 MK 相对较小，复杂度是 O(2NqC^2+min(HWC^2, NqKC^2))。当应用在 DETR encoder 里，Nq=HW，复杂度就是 O(HWC^2)，是feature size 的**线性复杂度**。当应用在 decoder 里的 cross attention 里时，Nq=N(N是object queries的数量=100)，复杂度是 O(NKC^2)，与**空间大小 HW无关**
+
+
+
+所以看复杂度，deformable attention 应用在 encoder 里收益客观，从输入的平方复杂度变为线性复杂度
+
+**多尺度 Deformable Attention Module**: 公式三和单个尺度的版本非常相似，除了从多尺度的feature map里，它采样的是 LK 个点而非单尺度下的K个点
+
+![](imgs/multi-scale-deformable-attention.png)
+
+当 L=1,K=1,Wm' 固定为一个 identity 矩阵时，就退化为 deformable conv。Deformable conv 是设计为处理单个尺度的输入，只聚焦在每个注意力头上采样一个点。而我们提出的多尺度 deformable attention在多尺度输入(L>1)下，查看的是多个(K > 1)采样点。提出的(多尺度) deformable attention 模块也可以看做是高效的 transformer attention：通过deformable sampling locations，一个预过滤的机制被引入。当采样的点遍历了所有可能的位置(K=?)，那就等价于transformer attention
+
+## 问题
+
+1. 4.1里提到的当采样的点遍历了所有可能位置，此时也不等价于 transformer attention吧？因为只是V等价，但是依然没有 Q*K 的过程
+
+   
