@@ -670,6 +670,8 @@ GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding
 
 [FasterMoE: Modeling and Optimizing Training of Large-Scale Dynamic Pre-Trained Models](papers/moe/faster-moe.md)
 
+[TUTEL: Adaptive Mixture-of-Experts at Scale(2022.6)](papers/moe/tutel.md)
+
 ## Chips
 
 The Deep Learning Revolution and Its Implications for Computer Architecture and Chip Design. [My Notes](./hardware/the-deep-learning-revolution-and-its-implications-for-computer-architecture-and-chip-design.md)
