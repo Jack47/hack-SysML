@@ -38,9 +38,30 @@ MOE以及倍经典的 ML 算法上用过了，在大规模的 DNN 模型里，�
 
 1. Token路由策略：会把每个token路由给多个experts(top k)，而tokens在expert里的分布是不均匀的。这样每个 iter 里每个expert上要处理的 tokens 数量动态改变的
 2. 动态的 expert capacity. 每个expert的负载容量受 expert capacity 所限制，定义为一个 expert 最大能处理的tokens数量。
-### 2.4 
-两个元素制约通信和计算效率
+
+### 2.4 无法扩展的 MoE Dispatch & Combine
+发现 All-to-All 的实现在大规模下表现很差。
+
+**小消息的传输** 大部分DL框架都是利用 nccl p2p api 来实现 线性的all-to-all 算法，见上述算法一。有n个GPU的情况下，每个GPU会把自己总共的 S 字节划分为 n 个 chunks (每个是 S/n 字节)，然后通所有其他人执行P2P通信。当GPU数量变大后，任意两个GPU间传输的 S/n 的 chunk size 会变的特别小，就很难
+利用好 NVLink 和 HDR 的带宽了（见图6）。S 是固定的，只由模型自己决定
+
+不像最新的 allreduce 实现，能在数据大小和网络拓扑下选择不同的通信算法，all-to-all 的实现只有一个算法，它在S很大而且很小规模下比较好（比如图6里的128KiB，GPU 数量<=64)。这让 MoE 通信很难适应动态负载，尤其是超大规模下。
+
+算法1:线性 All-to-All
+
+```
+all2all_linear(output, input) # input: 要dispatch的输入激活值，返会从别人那里cobmine到的激活值
+n = ngpus, S = sizeof input
+chunksize = S/n
+for r = 0; r < n; r++ do # 和每个其他 GPU 通信
+    loc = r*chunksize, peer = r
+    ncclSend(input[loc], chunksize, peer)
+    ncclRecv(output[loc], chunksize, peer)
+end for
+```
+
 
 ## 问题
+0. 为什么叫 Linear All-to-All
 1. 它提出的 all2all 有两种？
 2. 没太明白 expert capacity 干嘛的
