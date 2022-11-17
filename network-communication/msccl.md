@@ -6,4 +6,4 @@ msccl里allreduce实现有两种：
 
 
 
-Msccl 诞生的目的是针对 azure 特定的环境和size，对通信进行优化，利用nccl 原语实现高效的通信
+Msccl 诞生的目的是针对 azure 特定的环境和size，对通信进行优化，利用nccl 原语实现高效的通信。它自己是编译器，而 msccl-tools 里包含了很多用msccl的python dsl描述的all2all、allreduce等的实现

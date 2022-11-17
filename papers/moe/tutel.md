@@ -85,7 +85,7 @@ end for
 ```
 
 **计算layout不合适** 
-![](imgs/ffnlayer_slow_down.png)
+![](imgs/ffn_layer_slow_down.png)
 
 发现目前系统的扩展问题不仅仅有通信的原因，还有计算的原因。例如，图7里， DeepSpeed MoE 层里通过不同数量 GPU 下，计算耗时从单个GPU上的耗时增加到了2048GPU上的30.2ms，变慢了11.3倍。经过 profiling 发现主要是 All-to-All 原语导致的输出 layout变化。图7里，当GPU数量从1增加到2048，此时 matmul 的 shape 从 A(1,delta(E),16384,M)变到B(2048,delta(E),8,M)。可见第三维度上差异非常大(相当于这个向量从矮胖变成了高细），这个对matmul效率影响很大，pytorch里相当于 bgemm_strided_batched 操作的效率只有原来的8.8%的计算吞吐率。
 

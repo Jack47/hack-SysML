@@ -169,7 +169,7 @@ Finally, we present a thorough quantitative evaluation with a variety of DNNs (c
 
 [Code: GRACE: A Compressed Communication Framework for Distributed Machine Learning](https://github.com/sands-lab/grace):  is an unified framework for all sorts of compressed distributed training algorithms
 
-GC3: An Optimizing Compiler for GPU Collective Communication(ASPLOS 23) . 对应的库叫 msccl, [My Notes](./network-communication/msccl.md)
+GC3: An Optimizing Compiler for GPU Collective Communication(ASPLOS 23)[My Notes](netwok-communication/gc3.md) . 对应的库叫 msccl, [My Notes](./network-communication/msccl.md)
 
 ###  1.9. <a name='OPsinNetwork'></a>OPs in Network
 
