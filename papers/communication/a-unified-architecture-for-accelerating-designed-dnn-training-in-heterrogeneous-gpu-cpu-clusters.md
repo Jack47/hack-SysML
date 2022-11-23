@@ -100,6 +100,41 @@ NIC 能够跑满整个 100 Gbps 的带宽。
 
 所以 BytePS 达到了最有结果--没有机器内部的热点。NCCL 里，会让 GPU 使用 P0-CPU0 带宽，因为GPU0 离  NIC 近。
 
+##### 具体到A100集群的一个例子
+
+可以通过 `nvidia-smi topo -m` 来查看当前网卡和显卡的拓扑
+
+```
+        GPU0    GPU1    GPU2    GPU3    GPU4    GPU5    GPU6    GPU7    mlx5_0  mlx5_1  mlx5_2  CPU Affinity    NUMA Affinity
+GPU0     X      NV12    NV12    NV12    NV12    NV12    NV12    NV12    PXB     PXB     PXB     0-27,56-83      0
+GPU1    NV12     X      NV12    NV12    NV12    NV12    NV12    NV12    PXB     PXB     PXB     0-27,56-83      0
+GPU2    NV12    NV12     X      NV12    NV12    NV12    NV12    NV12    NODE    NODE    NODE    0-27,56-83      0
+GPU3    NV12    NV12    NV12     X      NV12    NV12    NV12    NV12    NODE    NODE    NODE    0-27,56-83      0
+GPU4    NV12    NV12    NV12    NV12     X      NV12    NV12    NV12    SYS     SYS     SYS     28-55,84-111    1
+GPU5    NV12    NV12    NV12    NV12    NV12     X      NV12    NV12    SYS     SYS     SYS     28-55,84-111    1
+GPU6    NV12    NV12    NV12    NV12    NV12    NV12     X      NV12    SYS     SYS     SYS     28-55,84-111    1
+GPU7    NV12    NV12    NV12    NV12    NV12    NV12    NV12     X      SYS     SYS     SYS     28-55,84-111    1
+mlx5_0  PXB     PXB     NODE    NODE    SYS     SYS     SYS     SYS      X      PIX     PIX
+mlx5_1  PXB     PXB     NODE    NODE    SYS     SYS     SYS     SYS     PIX      X      PIX
+mlx5_2  PXB     PXB     NODE    NODE    SYS     SYS     SYS     SYS     PIX     PIX      X 
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+```
+
+stackoverflow 上的一个解释图最长赞，正好和上面的拓扑匹配
+![](imgs/a100-topology.png)
+
+我们集群的拓扑里，正好也是GPU0、GPU1与 mlx5_0,1,2 在同一个PCIe bridge下(Level-1 PCIe switch)，而与GPU2就跨越了PCIe  Host bridges(Level-2 PCIe switch)，类似图里的PHB。而与GPU4之间就需要跨越NUMBA nodes 了。依次是速度越来越慢的
+
+参考资料： [Evaluating Moder GPU Interconnect: PCIe, NVLink, NV-SLI, NVSwitch and GPUDirect](https://arxiv.org/pdf/1903.04611.pdf)，里面有collective以及bandwidth在各种条件下的结果
 #### 4.2.3 讨论
 上面讨论了两种典型，尽管还有其他很多变种，我们总结了两个原则：
 

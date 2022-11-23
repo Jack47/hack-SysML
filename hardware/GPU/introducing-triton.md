@@ -44,6 +44,9 @@ Triton 和 Numba 非常相似：Kernels 都是被定义为装饰之后的python�
 
 1. SM 之间并行：并行执行不同的kernel 实例
 2. SM 内部并行：分析每个 block 级别算子里的iteration space，来充分划分到不同的 SIMD 单元里(thread 级别？)
+
+## TODO
+1. 它的网站里，介绍了两类优化速度的方法及对应的限制：Polyhedral Compilation 和 Scheduling languages(Halide)
 ## 问题
 1. 第一个示例代码里，add函数是有 grid 个示例？每个示例内部，idx 是说要从start一直到 arange(BLOCK)吗？
 2. 看看它提到的softmax处理时的优势？感觉是 tl.max(x, axis=0) 这一行里，直接实现了对给定的小矩阵里的一整行做max
