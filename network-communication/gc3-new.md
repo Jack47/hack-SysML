@@ -5,7 +5,12 @@
 ## 3 GC3 DSL
 
 ### 3.1 Buffers and Chunks
-GPU 显存在 GC3 里暴露为命名的 buffers，有三种类型：input, 是保存输入数据的地方，output和scratch 这两种未被初始化。GC3 program 的作用是保证每个 GPU 上的 output buffer 都被集合通信的结果准确填充。scratch buffer 被当作临时的存储
+GPU 显存在 GC3 里暴露为命名的 buffers，有三种类型：
+
+1. input, 是保存输入数据的地方，
+2. output和scratch 这两种未被初始化。
+
+GC3 program 的作用是保证每个 GPU 上的 output buffer 都被集合通信的结果准确填充。scratch buffer 被当作临时的存储
 
 
 Buffers 会被分成很多 chunks，代表了连续的元素，在整个 GC3 程序里都是均匀的大小。chunks 的数量是显示指定的。但是，程序粒度的 buffer size 是抽象的；大小只有当程序里具体的buffer被传递给gc3程序时，才会确定。chunks 有三种形态：
@@ -32,3 +37,9 @@ LL 有最低的带宽和延迟
 
 LL128 是居于之间的
 ## 5 调度的扩展，更多优化
+
+## 其他
+1. 关于 two-step 和 three step的图文解释，见我的keynote：“msccl alltoall通信相关”
+## 问题
+1. c.copy之后生成的 scratch buffer这种临时存储，命名是某个卡上唯一？不需要保证整个group粒度唯一？比如 two-step里的 c.copy(rankd2, f'copy_{n2}') # 每个主机上，会有8份拷贝给n2主机的数据
+2. Buffer.Input，看起来是全局的，只不过靠它上面的rank和index来区分是当前这个rank里自己的，还是别人那里的？
