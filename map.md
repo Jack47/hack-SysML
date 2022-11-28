@@ -123,9 +123,11 @@ InstructPix2Pix（2022）: 给定输入图像和告诉模型需要做什么的�
 
 OpenAI DALLE2 和Google Imagen 都是半开源
 
-High-Resolution Image Synthesis with Latent Diffusion Models(CVPR 2022, Stable Diffusion模型的论文) runwayml 是背后参与的一家公司。可以做Erase and replace
+High-Resolution Image Synthesis with Latent Diffusion Models(CVPR 2022, Stable Diffusion模型的论文) runwayml 是背后参与的一家公司。可以做Erase and replace 的视频公司，AIGC 只是他们能力链条里的一部分. [My Notes](papers/AIGC/latent-diffusion-model.md)
 
 Stable Diffusion 代码：https://huggingface.co/CompVis/stable-diffusion 高质量数据集 LAION 的加持。 支持：txt2image, image+txt2image, erase and replace
+
+HuggingFace上对于Stable Diffusion 的介绍。 [My Notes](papers/AIGC/huggingface-stable-diffusion-intro.md)
 
 Imagen: Photorealistic Text-to-Image Diffusion Models with Deep Language Understanding(2022.5). DrawBench 上对 VG-GAN+CLIP, Latent Diffusion Models, DALL-E-2 等做了评价
 

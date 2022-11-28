@@ -8,3 +8,4 @@
 2. [Hugging Face blog : Annotated Diffusion](https://huggingface.co/blog/annotated-diffusion)
 3. [What are Diffusion Models](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/)
 4. [Generative Modeling by Estimating Gradients of the Data Distribution](https://yang-song.net/blog/2021/score/)
+5. [HuggingFace Diff Models # Definition ](https://github.com/huggingface/diffusers#definitions)
