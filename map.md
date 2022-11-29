@@ -680,9 +680,11 @@ BytePS: A Unified Architecture for Accelerating Distributed DNN Training in Hete
 [Deep Learning in your browser](https://cs.stanford.edu/people/karpathy/convnetjs/)
 
 ##  15. <a name='ClusterScheduler'></a>Cluster Scheduler
-[Pollux: Co-adaptive Cluster Scheduling for Goodput-Optimized-Deep-Learning]() [My notes](papers/scheduler/pollux.md)
+[Pollux: Co-adaptive Cluster Scheduling for Goodput-Optimized-Deep-Learning]() [My notes](papers/cluster_scheduler/pollux.md)
 
 AntMan
+
+Bamboo:  (2022): A system for running large pipeline-parallel DNNs affordably, reliably, and efficiently using spot instances. [My Notes](papers/cluster_scheduler/bamboo.md)
 
 ## Mixture Of Experts
 Sparsely-gated Mixture of Experts Model (Shazeer 2017): 能千倍增加网络参数，但是计算量不增大：稀疏激活，这个领域里的种子文章 [My notes](papers/moe/outrageously-large-neural-networks-the-sparsely-gated-mixture-of-experts-layer.md)
