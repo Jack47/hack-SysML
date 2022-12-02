@@ -67,6 +67,19 @@ Tensor.baddbmm(input, batch1, batch2, *, beta=1, alpha=1)
 
 input: the tensor to be added
 
+## matmuls use tf32
+原理如下图：它使用类似fp16那样的16bit来表示fp32的数字，所以它的 range 和 fp32是一样的，但是精度差一些。即 range和fp32一样，而精度和fp16一样（见图）。而且用户不需要改代码，只需要开启这个开关就行
+ 
+![](imgs/tf32.png)
+
+[python1.11及之前都是True的，但是1.12之后是False的](https://pytorch.org/docs/master/notes/cuda.html#tensorfloat-32-tf32-on-ampere-devices)。这个控制在自从A100开始，是否使用TensorFloat32(TF32)的 tensor cores 来计算 matmul和卷积
+
+它举的 [10240,10240]的两个矩阵乘法的例子里，速度会快7倍
+
+Since the release of Ampere GPUs, pytorch has been using tf32 by default. 
+
+
+
 ## FAQ
 1. 打印 pytorch 里 tensor 时出现：`CUDA error: invalid configuration argument`: 是由于 tensor 元素个数太多，print 最终会调用 cuda ，使用预先分配给 print 的显存空间
 2. 执行某个算子时提示：`RuntimeError: expected scalar type Half but found Float`：这个错误提示反了，最终发现是 需要调用 layer.to(torch.device("cuda:0"), dtype=torch.half) 来设置模型使用 fp16 精度

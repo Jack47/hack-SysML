@@ -580,6 +580,8 @@ Fractional GPUs: Software-based Compute and Memory Bandwidth Reservation for GPU
 Optimizing Convolutitonal Layers: NV 官网的优化卷积运算的指南。[Notes](./hardware/GPU/optimizing-conv-layers.md)
 
 [NV官网 GPU Performance Background](https://docs.nvidia.com/deeplearning/performance/dl-performance-gpu-background/index.html). [My Notes](./hardware/GPU/GPU-performance-background.md)
+
+[Nsight Compute Notes](./hardware/GPU/nsight-compute.md)
 ### CUDA
 CUTLASS: [My Notes](./hardware/GPU/cutlass.md)
 
