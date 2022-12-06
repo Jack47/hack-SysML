@@ -78,6 +78,21 @@ Tile 声明
 1. Triton IR 和 JIT 都是基于 LLVM，那 LLVM 到底提供什么能力，而 Triton 又在之上开发了什么呢
 2. autotune 是怎么做的？记录一个数据库，使用某种算法，还是说直接暴力枚举？
 
+## [Matrix Multiplication](https://triton-lang.org/master/getting-started/tutorials/03-matrix-multiplication.html)
+
+* Block 级别的矩阵乘法
+* 多维度 pointer
+* Program re-ordering for improved L2 cache hit rate (无法同时照顾到两个矩阵？)
+* Automatic performance tuning
+
+在 Deformable 加速方案里，画个图，当前算法和博客里的图还不一样，是在k上也分块了（这样K很大也没关系了），得整体拿到结果才能计算，暂时放到ppt里画图
+
+### 问题
+![](./imgs/triton-grouped-ordering-matmul.png)
+
+1. L2 cache 友好就指是只要代码层面数据多复用，就能友好？这里 column major 为什么比 row major 要好呢？ 下面的图好理解，但是怎么跟 column major 对应呢？
+
+2. 
 ## 和 TensorIR 的对比
 
 triton 功能上差不多是 TensorIR 的一个子集：设计了一个 tile-level programming interface，然后自动做了一些 schedule: 比如 ti.dot 背后的 tensorize
