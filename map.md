@@ -640,6 +640,8 @@ JAX: Compiling machine learning programs via high-level tracing(2011?), [My Note
 
 [TensorRT Performance Best Practices](./hardware/GPU/tensorrt/performance-best-practices.md)
 
+DeepSpeed Inference: Enabling Efficient Inference of Transformer Models at Unprecedented Scale(2022.6) [My Notes](papers/inference/deepspeed-inference.md)
+
 训练相关的：
 
 Nimble: Lightweight and Parallel GPU task Scheduling for Deep Learning(NeurIPS 2020), [My Notes](./frameworks/) 主要是通过 CUDA graph 抹掉调度开销，然后通过多 stream 来尽量并发。但是论文和开源代码只能用于 static graph和static input，据说[闭源版本支持动态](https://github.com/snuspl/nimble/issues/14#issuecomment-909925884)
