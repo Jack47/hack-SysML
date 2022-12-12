@@ -22,8 +22,11 @@
 
 
 具体这些数量，可以根据 CUDA Occupancy Calculator 里看到。比如 A100里面：
+
 108个 SM，每个 SM 里有 64 个 FP32的 cuda cores，4个 3th Tensor Core
+
 max thread block size: 1024
+
 Max Block: 65536
 
 max shared memory / block (bytes) = 102400
@@ -63,6 +66,8 @@ it's simply a struct of four 'float' components named 'x', 'y', 'z', 'w'.
 The GPU hardware provides load instructions for 32-bit, 64-bit and 128-bit data, which maps to the float, float2 and float4 data types, as well as to the int int2, int4 types. It has higher peak memory bandwidth.
 相当于 load 一个数据和4个数据是一样的速度和代价
 
+### ldg()
+
 ### 精度
 float 提供了几乎7位小数粒度的精度，如果需要更高精度，就需要考虑 double, 有几乎 16 位精度
 
@@ -93,7 +98,7 @@ t - PCIe Rx and Tx throughput
 ## Execution Configuration
 首先如果一个函数是 cuda 的 kernel 函数，那需要用 `__global__` 来标识出来。其次执行时配置定义了 grid 和 blocks 上的维度。通过插入 `<<<DimGrid, DimBlock, NumSharedMem, stream>>>` 来做。
 
-对于 shared 的数组，不能在 global or device 函数里动态申明(on the fly), 所以需要静态分配(__shared__ tile[8][128])，或者在kernel 调用时传入大小
+对于 shared 的数组，不能在 global or device 函数里动态申明(on the fly), 所以需要静态分配(__shared__ tile[8][128])，或者在kernel 调用时传入大小，因为它是在 block 粒度的所有threads 里共享的，使用时，需要自己保证这里不会有并发修改同一个元素的问题。一般用法是加载时，各个线程分工去往里面搬东西，而各自算自己的，写入时也不会写到一个地方
 
 其中：
 
@@ -220,6 +225,7 @@ cuda-gdb 里集成了这个功能
 3. 使用 nvcc -g -G 来和 cuda-gdb 配合时，可能出现 too many resources requested for launch 的问题。可以用 -maxrregcount 开关
 
 ### Block 内部共享变量
+![](imgs/shared_memory_block_grid.png)
 `__shared__` Block 内部所有线程共享的空间，使用时要注意避免 race conditions。比如 A 和 B 同时 load 数据，而 A 要读取 B load 的数据，此时可能 B 还没有 load 完。
 
 `__syncthreads()` 一般用到 __shared__ 显存后，都需要用一个 barrier 来同步所有线程。比如上述场景，我们可以在 load 之后加入 barrier，这样所有人都 load 完，才接着去做读取的操作: 只有当 block 内部的线程都执行完 `__syncthreads()` 之后，
@@ -239,6 +245,9 @@ cuda-gdb 里集成了这个功能
 
 1. maxrregcount 来限制使用的寄存器数量，比如设置为40
 2. 在核函数申明时，使用 `__launch_bounds__` 来限制 kernel 的 `MAX_THREADS_PER_BLOCK`(自己用 k<<,threadsPerBlock>>() 写死也行), `MIN_BLOCKS_PER_MP`
+
+## `__ldg()`
+kernel里只用来读取，而不写入的数据，可以通过使用 `__ldg()`函数来读取(Read-Only Data Cache Load Function)。如果编译器检测到某些数据也是满足只读条件，就会使用 `__ldg()` 来读取。为了让编译器更容易确定，可以对此类数据使用 `const` 和 `__restrict__` 标识
 
 ### printf
 CUDA 2.0 之后开始支持在 kernel 函数(\__global\__) 里直接调用 [`printf`](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#formatted-output)。指 `-arch sm_20`
