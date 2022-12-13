@@ -137,6 +137,8 @@ Imagic: Text-Based Real Image Editing with Diffusion Models
 
 CLIP(Constrative Language-Image Pretraining), DALLE, Diffusion Model 之间的异同点？
 
+CLIP: Constrative Language-Image Pretraining(2021.1.5): [My Notes](papers/multimodal/CLIP.md), [Intro](papers/multimodal/CLIP-intro.md)
+
 ###  1.6. <a name='ObjectDetection'></a>Object Detection
 
 [Concepts](./papers/object-detection/concepts.md)
