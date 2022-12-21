@@ -301,6 +301,7 @@ Memory Efficient Pipeline-Parallel DNN Training(ICML 2021): 主要是提出了 P
 jiazhihao的，里面有一个模拟器，能预测出速度
 
 ###  1.14. <a name='Quantization'></a>Quantization 
+[8-bit inference with tensorrt(2017.5.8)](papers/quantization/8-bit-inference-with-TensorRT.md)
 
 And the bit goes down: Revisiting the quantization of neural networks. (ICLR 2020)
 
@@ -338,6 +339,9 @@ Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Note
 Few-Shot Learning: **Query** samples are never seen before. Query samples are from unknown classes.
 
 [PaLM](./papers/NLP/PaLM.md)(2022.4) [My Notes](papers/NLP/PaLM.md)
+
+InstructGPT(2022.1): 有论文
+ChatGPT: Optimizing Language Models for Dialogue(2022.11.30). 无论文。[My Notes](papers/NLP/chatgpt-intro.md)
 
 ### Recommenders 
 
