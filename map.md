@@ -127,6 +127,8 @@ High-Resolution Image Synthesis with Latent Diffusion Models(CVPR 2022, Stable D
 
 Stable Diffusion 代码：https://huggingface.co/CompVis/stable-diffusion 高质量数据集 LAION 的加持。 支持：txt2image, image+txt2image, erase and replace
 
+What are Diffusion Models? [My Notes](papers/AIGC/what-are-diffusion-modles.md)
+
 HuggingFace上对于Stable Diffusion 的介绍。 [My Notes](papers/AIGC/huggingface-stable-diffusion-intro.md)
 
 Imagen: Photorealistic Text-to-Image Diffusion Models with Deep Language Understanding(2022.5). DrawBench 上对 VG-GAN+CLIP, Latent Diffusion Models, DALL-E-2 等做了评价
