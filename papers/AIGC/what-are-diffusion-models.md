@@ -6,7 +6,7 @@ Diffusion models are inspired by non-equilibrium thermodynamics(非平衡热力�
 ### Forward diffusion process
 xi 代表从实际数据分布中采样出的数据点 x0 ~ q(x)，定义一个 forward 的 diffusion 过程：在T步骤里，逐步加入少量的高斯噪音，产出一系列带了噪音的采样点：x1,...,xT。step size 是通过一个在(0,1)之间的方差调度βt来控制:
 
-!()[imgs/data-sample-and-variance-schedule.png]
+![](imgs/data-sample-and-variance-schedule.png)
 
 从上图可见在xt-1采样下xt的采样是属于高斯分布的。而在x0 已知的情况下，剩余xi的分布是前者的乘积
 
