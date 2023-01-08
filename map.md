@@ -123,7 +123,7 @@ InstructPix2Pix（2022）: 给定输入图像和告诉模型需要做什么的�
 
 OpenAI DALLE2 和Google Imagen 都是半开源
 
-High-Resolution Image Synthesis with Latent Diffusion Models(CVPR 2022, Stable Diffusion模型的论文) runwayml 是背后参与的一家公司。可以做Erase and replace 的视频公司，AIGC 只是他们能力链条里的一部分. [My Notes](papers/AIGC/latent-diffusion-model.md)
+High-Resolution Image Synthesis with Latent Diffusion Models(CVPR 2022, Stable Diffusion模型的论文, v1.4) runwayml 是背后参与的一家公司。可以做Erase and replace 的视频公司，AIGC 只是他们能力链条里的一部分. [My Notes](papers/AIGC/latent-diffusion-model.md)
 
 Stable Diffusion 代码：https://huggingface.co/CompVis/stable-diffusion 高质量数据集 LAION 的加持。 支持：txt2image, image+txt2image, erase and replace
 
@@ -135,7 +135,13 @@ Imagen: Photorealistic Text-to-Image Diffusion Models with Deep Language Underst
 
 Prompt-to-Prompt Image Editing with Cross-Attention Control
 
+Classifier-Free Diffusion Guidance(2022.7.26)
+
 Imagic: Text-Based Real Image Editing with Diffusion Models
+
+Character-Aware Models Improve Visual Text Rendering(2022.12.20): 主要解决视觉拼写方面的问题，提高图像生成模型渲染高质量视觉文本的能力
+
+Muse: Text-To-Image Generation via Masked Generative Transformers: FID（quality/diversity) 和 CLIP(text-image alignment) 的分数很高；比其他模型快；一个模型支持 inpainting、outpainting [My Notes](papers/AIGC/muse.md
 
 CLIP(Constrative Language-Image Pretraining), DALLE, Diffusion Model 之间的异同点？
 
@@ -730,7 +736,7 @@ BMInf: An Efficient Toolkit for Big Model Inference and Tuning [My Notes]()
 Conan: 主要是给C和 C++ 项目加速开发和持续集成来设计并优化的。有二进制包的管理能力. [My Notes](./package-management/conan.md)
 
 ### Python
-[Python Coroutines]()
+[Python Coroutines](python/coroutines.md)
 
 Conda
 
