@@ -615,6 +615,9 @@ CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
 
 [CUDA Graphs: 可以用来节省传统 stream 方式下 cudaLaunchKernel 的时间，适合小的静态 kernel](./hardware/GPU/cuda-graphs.md)
 
+[Shared Memory in CUDA](hardware/GPU/shared-memory.md)
+
+[Global Memory in CUDA](hardware/GPU/global-memory.md)
 
 [Tensor Cores](./hardware/GPU/tensor-core.md): 它是什么，如何用，如何确定使用到了 TensorCore，启用 TC 的前提条件
 
@@ -737,6 +740,8 @@ Conan: 主要是给C和 C++ 项目加速开发和持续集成来设计并优化�
 
 ### Python
 [Python Coroutines](python/coroutines.md)
+
+[Python Developing with asyncio](python/asyncio-dev.md)
 
 Conda
 
