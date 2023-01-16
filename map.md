@@ -349,6 +349,7 @@ Few-Shot Learning: **Query** samples are never seen before. Query samples are fr
 [PaLM](./papers/NLP/PaLM.md)(2022.4) [My Notes](papers/NLP/PaLM.md)
 
 InstructGPT(2022.1): 有论文
+
 ChatGPT: Optimizing Language Models for Dialogue(2022.11.30). 无论文。[My Notes](papers/NLP/chatgpt-intro.md)
 
 ### Recommenders 
@@ -597,7 +598,11 @@ Optimizing Convolutitonal Layers: NV 官网的优化卷积运算的指南。[Not
 
 [Nsight Compute Notes](./hardware/GPU/nsight-compute.md)
 ### CUDA
-CUTLASS: [My Notes](./hardware/GPU/cutlass.md)
+CUTLASS: My Notes: [1](./hardware/GPU/cutlass.md), [2](./hardware/GPU/cutlass/cutlass.md)
+
+[Efficient GEMM in CUTLASS](hardware/GPU/efficient_gemm.md)
+
+
 
 cuBLAS: [My Notes](./hardware/GPU/cublas.md)
 
@@ -719,6 +724,12 @@ GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding
 [FasterMoE: Modeling and Optimizing Training of Large-Scale Dynamic Pre-Trained Models](papers/moe/faster-moe.md)
 
 [TUTEL: Adaptive Mixture-of-Experts at Scale(2022.6)](papers/moe/tutel.md)
+
+## Reinforcement Learning
+
+MINEDOJO: Building Open-Ended Embodied Agents with Internet-Scale Knowledge(NeurIPS 2022)
+
+DreamerV3: Mastering Diverse Domains through World Models
 
 ## Chips
 
