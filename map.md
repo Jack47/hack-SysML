@@ -604,6 +604,7 @@ CUTLASS: My Notes: [1](./hardware/GPU/cutlass.md), [2](./hardware/GPU/cutlass/cu
 
 [Efficient GEMM in CUTLASS](hardware/GPU/efficient_gemm.md)
 
+[DL Performance: Matrix Multiplication](hardware/GPU/dl-performance-matrix-multiplication.md)
 
 
 cuBLAS: [My Notes](./hardware/GPU/cublas.md)
