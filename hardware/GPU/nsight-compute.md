@@ -14,7 +14,16 @@ Shared: 在每个chip上，所以相比local或者global memory，有更高的�
 
 占用率，效率怎么算？
 
-shared 和 cache （L1/L2）不是一回事
+shared 和 cache （L1/L2）不是一回事? 在A100里，shared 和 L1 共享这部分
+
+
+在 GA100 里，L1TEX cache 的 global load pipeline，映射到 memory 表格里：
+
+![](imgs/hw-model-l1tex-ga100-global.png)
+
+L2 cache 的模型：
+
+![](imgs/hw-model-l2.png)
 
 ## GPU Speed Of Light
 
@@ -35,7 +44,7 @@ schedulers 发射指令的概览。每个 Scheduler 维护了一个warps的池�
 Issue Slot Utilization: 每个scheduler可以在每个周期里发射一个指令，但是这个kernel的每个调度器只能在每2.3个周期里发射一条指令。最大是每个调度器16个warps，而这个kernel分配了平均每个scheduler 7.48 个active warps，但每个周期里只有一个
 warps可用。Eligible warps 是active warps里的子集，已经准备好发射下一条指令。每个周期里没有可用warps会导致不发射指令，issued slot就没被用到。
 
-看下面Deformable Attention里的结果，更直观：
+看下面Deformable Attention里的结果，更直观y
 
 ![](imgs/warps-per-scheduler.png)
 
@@ -58,3 +67,4 @@ Warp Stall: 检查
 2. cache configuration 如何修改
 ## 资料
 1. [各种指标的含义](https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#metrics-reference)
+2. [Memory Tables](https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#memory-tables-smem)

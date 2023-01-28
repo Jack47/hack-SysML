@@ -635,6 +635,8 @@ CUDA API: [My Notes](./hardware/GPU/CUDA-API.md)
 
 [NCCL](./hardware/GPU/nccl.md)
 
+[NCCL Environments](./hardware/GPU/nccl/environments.md)
+
 [CUDA Scalable Parallel Programming(John Nickolls 2008)](https://web.stanford.edu/class/ee380/Abstracts/080227-Nickolls-CUDAScalableParallelProgramming.pdf)
 
 Google FastSocket & Reduction Server : [My Notes](hardware/GPU/nccl-fastsocket.md)

@@ -26,5 +26,15 @@ laion1B-nolang
 特定的，我们发布的这个数据：
 
 * 5.85 billion 的图片url对，对应的 metadata 在 laion2B-en，laion2B-multi, laion1B-nolang(800GB)
-* knn index，可以容许快速检索 laion5B 数据集(1.6TB)
+* knn index，可以容许快速检索 laion5B 数据集(1.6TB) . 应该是对 clip 之后的文本对做聚类？当然 clip-retrieval 是对文本或者图片都可以做检索的
+* Indices(or here) for laion2B-en, laion2B-multi, laion1B-nolang(2TB)
+* Web demo of image-text search on LAION-5B clip-retrieval
+* Safety tags at laion2B-en-safety, laion2B-multi-safety. laion1B-nolang-safety(50GB) (是否是安全的打分，推荐 0.5）
+* Watermark tags at laion2B-en-watermark laion2B-multi-watermark laion1B-nolang-watermark(50GB) （是否有水印的打分，推荐 0.8）
+
+所以也提供了是否有水印和是否nsfw的两个分类模型
+
+
+
+
 
