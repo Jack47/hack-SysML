@@ -279,7 +279,9 @@ MONet: Memory optimization for deep networks(ICLR 2021): 与DTR几乎同期，�
 1. MONeT: Memory Optimization for Deep Networks：https://github.com/utsaslab/MONeT
 ###  1.13. <a name='Parallelism'></a>Parallelism
 
-[Efficient Large-Scale Language Model Training on GPU Clusters](https://arxiv.org/pdf/2104.04473.pdf) (2021.4): 主要介绍了继 Megatron-LM 之后，如何结合多种并行方式，让特定 batchsize 的大transformer 模型，高通吐地运行起来。[阅读笔记](papers/efficient-large-scale-language-model-training.md)
+Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Parallelism (2020.3): [My Notes](papers/megatron-lm.md)
+
+[Efficient Large-Scale Language Model Training on GPU Clusters](https://arxiv.org/pdf/2104.04473.pdf) (2021.4 NVIDIA, Standford, Microsoft): 主要介绍了继 Megatron-LM 之后，如何结合多种并行方式，让特定 batchsize 的大transformer 模型，高通吐地运行起来。[阅读笔记](papers/efficient-large-scale-language-model-training.md)
 
 ####  1.13.1. <a name='DataParallel'></a>Data Parallel
 [PyTorch Distributed: Experiences on Accelerating Data Parallel Training](https://arxiv.org/pdf/2006.15704.pdf)(2020.6.28) [My Notes](papers/PyTorch%20Distributed-Data%20Parallel%20Training.md)
@@ -352,7 +354,11 @@ Few-Shot Learning: **Query** samples are never seen before. Query samples are fr
 
 InstructGPT(2022.1): 有论文
 
-ChatGPT: Optimizing Language Models for Dialogue(2022.11.30). 无论文。[My Notes](papers/NLP/chatgpt-intro.md)
+LaMBDA(DeepMind 2022):
+
+ChatGPT: Optimizing Language Models for Dialogue(OpenAI 2022.11.30). 无论文。[My Notes](papers/NLP/chatgpt-intro.md)
+
+通向 AGI 之路：大型语言模型(LLM)技术精要 [My Notes]()
 
 ### Recommenders 
 
@@ -729,6 +735,9 @@ GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding
 [FasterMoE: Modeling and Optimizing Training of Large-Scale Dynamic Pre-Trained Models](papers/moe/faster-moe.md)
 
 [TUTEL: Adaptive Mixture-of-Experts at Scale(2022.6)](papers/moe/tutel.md)
+
+SE-MoE: A **Scalable** And **Efficient** Mixture-of-Experts Distributed Training and Inference System(2022.5 Paddle) [My Notes](papers/moe/se-moe.md)
+
 
 ## Reinforcement Learning
 
