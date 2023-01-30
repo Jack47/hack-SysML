@@ -350,6 +350,8 @@ Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Note
 
 Few-Shot Learning: **Query** samples are never seen before. Query samples are from unknown classes.
 
+Language Models are Few-Shot Learners(GPT 3(Generative Pretrained Transformer)): OpenAI (2020)
+
 [PaLM](./papers/NLP/PaLM.md)(2022.4) [My Notes](papers/NLP/PaLM.md)
 
 InstructGPT(2022.1): 有论文
@@ -358,7 +360,7 @@ LaMBDA(DeepMind 2022):
 
 ChatGPT: Optimizing Language Models for Dialogue(OpenAI 2022.11.30). 无论文。[My Notes](papers/NLP/chatgpt-intro.md)
 
-通向 AGI 之路：大型语言模型(LLM)技术精要 [My Notes]()
+通向 AGI 之路：大型语言模型(LLM)技术精要 [My Notes](papers/NLP/go-to-agi-llm-abstract.md)
 
 ### Recommenders 
 
