@@ -283,6 +283,8 @@ Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Paralle
 
 [Efficient Large-Scale Language Model Training on GPU Clusters](https://arxiv.org/pdf/2104.04473.pdf) (2021.4 NVIDIA, Standford, Microsoft): 主要介绍了继 Megatron-LM 之后，如何结合多种并行方式，让特定 batchsize 的大transformer 模型，高通吐地运行起来。[阅读笔记](papers/efficient-large-scale-language-model-training.md)
 
+Reducing Activation Recompution in Large Transformer Models(Megatron-v3: 2022.5.10) [My Notes](./papers/megatron-v3-reducing-activation-in-large-transformer-models.md)
+
 ####  1.13.1. <a name='DataParallel'></a>Data Parallel
 [PyTorch Distributed: Experiences on Accelerating Data Parallel Training](https://arxiv.org/pdf/2006.15704.pdf)(2020.6.28) [My Notes](papers/PyTorch%20Distributed-Data%20Parallel%20Training.md)
 
@@ -350,7 +352,13 @@ Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Note
 
 Few-Shot Learning: **Query** samples are never seen before. Query samples are from unknown classes.
 
-Language Models are Few-Shot Learners(GPT 3(Generative Pretrained Transformer)): OpenAI (2020)
+(GPT-1(Generative Pretrained Transformer))(2018.6): 0.117B, 5GB data
+
+(GPT-2(Generative Pretrained Transformer))(2019.2): 1.5B, 40GB data
+
+ Language Models are Few-Shot Learners(GPT-3(Generative Pretrained Transformer))(2020.5): 175B, 45TB data
+
+(GPT 3(Generative Pretrained Transformer))(2020)
 
 [PaLM](./papers/NLP/PaLM.md)(2022.4) [My Notes](papers/NLP/PaLM.md)
 

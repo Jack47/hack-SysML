@@ -1,4 +1,10 @@
-Efficient Large-Scale Language Model Training on GPU Clusters
+1. 在解决的是什么问题？给定大模型的 batchsize 情况下，如何结合3种并行技术来最大化吞吐，同时保证严格的优化器语义
+2. 为何成功，标志/准是什么？训练吞吐更高
+3. 在前人基础上的关键创新是什么？ 
+4. 关键结果有哪些？
+5. 有哪些局限性？如何优化？
+6. 这个工作可能有什么深远的影响？
+
 
 大语言模型在多个任务上有了业内领先的准确率。然而训练起来有两大挑战：
 
@@ -7,6 +13,7 @@ Efficient Large-Scale Language Model Training on GPU Clusters
 
 本文介绍如何组合多种并行方式：tensor，pipeline，和 data 并行。探讨了多种 pipeline 的实现，提出了一个调度，可以增加 10% 的吞吐。我们量化分析了 tensor，pipeline，data parallelism 上的折衷，提供了如何配置分布式大模型训练的直觉。
 
+神奇的是，它就不用ZeRO，单纯靠TP、PP、DP来获得比ZeRO更高的训练效率
 ## 1. 介绍
 基于 Transformer 的语言模型，在 NLP 里有非常迅速的发展。同时，近期工作伸缩门大的语言模型是 zero  和 few-shot 场景下的高效学习者。
 
@@ -23,23 +30,25 @@ GPT3 在 512个 V100 上需要7个月
 
 数据并行通常工作良好，但是会有两个限制：
 
-1. 因为数据总量恒定，所以随着机器数量增加，每个 GPU 上的 batch size 会变特别小，减少了 GPU 利用率，增加了通信开销
-2. 最大可用的设备（GPU）数量是 batch size 个
+1. 因为数据总量恒定，所以随着机器数量增加，超过一定值之后，每个 GPU 上的 batch size 会变特别小，减少了 GPU 利用率，增加了通信开销(allreduce 梯度的 group 太大了?）
+2. 最大可用的设备（GPU）数量有上限：是 batch size 个(此时每个卡上就一个输入数据了），所以大概几千甚至上万就到头了
 
-### layer 内部的模型并行：
+### Tensor Parallel:(**layer 内部**的模型并行)
 
 Tensor(layer 内部）模型并行：每个transformer 层内部的矩阵乘法会被划分到多个 GPU 上，可以用来克服上述数据并行的限制。尽管这种方法在模型最大到200亿参数，在 NV A100 服务器上正常工作，但是在更大模型上就不行了。因为需要划分到多个节点上，会导致两个问题：
 
-1. all-reduce 通信代价在垮主机情况下急剧下降（相比同主机内部 NVLink 直连）
-2. 这种并行维度越高，会产生更多更小的 矩阵乘法(GEMMs)，会降低 GPU 使用率
+1. TP所需的 all-reduce 通信代价在垮主机情况下急剧上升（相比同主机内部 NVLink 直连）
+2. TP并行维度越高，会产生更多更小的矩阵乘法(GEMMs)，会降低 GPU 使用率
+
+所以建议 2<=TP粒度<=4
 
 类似 Tensor IntraLayer Parallelism：
 
 1. Mesh-TensorFlow
 2. Megatron-LM: Training Multi-Billion Parameter Language Models using GPU Model Parallelism
 
-### 流水线模型并行
-不同的层分配到了多个 GPU 上。一个 batch 切分到更小的 microbatch 上(流水线上，batch越小，越能容纳更多，效率更高)，执行流是在这些microbatches 上进行流式处理的。Layers 可以有多种方式分配到 worker 上，不同的调度方法来做 forward 和backward。这些不同的选择会有不同的性能结果。为了保证严格的优化器语义，优化器步骤需要多设备间同步，会导致每个batch最后会进行 **pipeline flush**。此时无法执行新的 microbatch，只允许同一个 batch 里的 microbatch 完成。最大情况下，50%的时间会花在 pipeline flush。microbatche 的数量和流水线大小的比率越大，pipeline flush的时间越少。所以为了更高的效率，经常用**更大的 batch size**。
+### 流水线模型并行(Pipeline model parallelism)
+不同的层分配到了多个 GPU 上。一个 batch 切分到更小的 microbatch 上(流水线上，batch越小，越能容纳更多，效率更高)，执行流是在这些microbatches 上进行流式处理的。Layers 可以有多种方式分配到 worker 上，不同的调度方法来做 forward 和backward。这些不同的选择会有不同的性能结果。为了保证严格的优化器语义，优化器步骤需要多设备间同步，会导致每个batch最后会进行 **pipeline flush**。此时无法执行新的 microbatch，只允许同一个 batch 里的 microbatch 完成。最大情况下，50%的时间会花在 pipeline flush。microbatche 的数量和流水线大小的比率越大，**pipeline flush**的时间越少。所以为了更高的效率，经常用**更大的 batch size**。因此为了效率高，尽量会用更大的batch。本文里，引入了一个新的 pipeline 调度，提高了小batch下的pipeline调度效率
 
 DAPPLE: A Pipelined Data Parallel Approach for Training Large Mode （2021）
 
