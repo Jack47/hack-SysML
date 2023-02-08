@@ -791,6 +791,9 @@ Conda
 
 [What every computer scientist should know about floating-point arithmetric](https://dl.acm.org/doi/10.1145/103162.10316)
 
+## System Tuning
+AMD 2nd Gen EPYC CPU Tuning Guide for InfiniBand HPC. [My Notes]()
+
 ## Image Steganography
 StegaStamp: Invisible Hyperlinks in Physical Photographs(2019 Berkeley) [My notes](papers/stegastamp.md)
 
