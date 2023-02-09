@@ -23,6 +23,17 @@ NPS=1，意思是 CPU 都在单个 domain下（所有的核和所有的memory ch
 使用 NPS=1 或2比较好，因为此时memory channels 比较大（更大 memory channels = 更大带宽）
 
 ## IOMMU
+
+PCI Access Control Services(ACS)
+
+IO 虚拟化（也叫做 VT-d or IOMMU) 会干烧 GPU Direct，因为会重定向所有点对点的流量到 CPU root complex，导致明显的性能下降甚至是 hang。遇到性能问题时，可以尝试关闭 ACS
+
+![](imgs/MMU_and_IOMMU.png)
+
+IOMMU groups:
+
+![](imgs/iommu-groups.png)
+
 NBIO -> IOMMU = Disabled
 
 ## Relaxed Ordering
