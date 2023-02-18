@@ -362,6 +362,8 @@ Few-Shot Learning: **Query** samples are never seen before. Query samples are fr
 
 [PaLM](./papers/NLP/PaLM.md)(2022.4) [My Notes](papers/NLP/PaLM.md)
 
+Language Models are unsupervised Multitask Learners(2018)
+
 Language Models are Few-Shot Learners(2020.7.22) [My Notes](papers/NLP/language-models-are-few-shot-learners.md)
 
 InstructGPT(2022.1): 有论文
