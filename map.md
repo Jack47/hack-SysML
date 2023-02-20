@@ -685,6 +685,8 @@ JAX: Compiling machine learning programs via high-level tracing(2011?), [My Note
 
 [TensorRT](./hardware/GPU/tensorrt.md)
 
+[TensorRT Model Accuracy](./hardware/GPU/tensorrt/tensorrt-model-accuracy.md)
+
 [TensorRT Performance Best Practices](./hardware/GPU/tensorrt/performance-best-practices.md)
 
 DeepSpeed Inference: Enabling Efficient Inference of Transformer Models at Unprecedented Scale(2022.6) [My Notes](papers/inference/deepspeed-inference.md)
