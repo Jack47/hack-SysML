@@ -352,9 +352,9 @@ Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Note
 
 Few-Shot Learning: **Query** samples are never seen before. Query samples are from unknown classes.
 
-(GPT-1(Generative Pretrained Transformer))(2018.6): 0.117B, 5GB data
+(GPT-1(Generative Pretrained Transformer))(2018.6): 0.117B, 5GB data，Generative 这种有用
 
-(GPT-2(Generative Pretrained Transformer))(2019.2): 1.5B, 40GB data
+(GPT-2(Generative Pretrained Transformer))(2019.2): 1.5B, 40GB data，泛化性不错
 
  Language Models are Few-Shot Learners(GPT-3(Generative Pretrained Transformer))(2020.5): 175B, 45TB data
 
@@ -371,6 +371,8 @@ InstructGPT(2022.1): 有论文
 LaMBDA(DeepMind 2022):
 
 ChatGPT: Optimizing Language Models for Dialogue(OpenAI 2022.11.30). 无论文。[My Notes](papers/NLP/chatgpt-intro.md)
+
+LLaMA: Open and Efficient Foundation Language Models: 无须私有的数据集，用开源的就可以训出 13B 上比 175B 好的效果
 
 通向 AGI 之路：大型语言模型(LLM)技术精要 [My Notes](papers/NLP/go-to-agi-llm-abstract.md)
 
