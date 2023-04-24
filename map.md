@@ -513,6 +513,7 @@ OneFlow: Redesign the Distributed Deep Learning Framework from Scratch。主要�
 
  [Pytorch CUDA Memory Caching Allocator](./frameworks/pytorch/memory-caching-allocator.md)
 
+ [PyTorch debug 方法合集](./frameworks/pytorch/debug.md)
 ####  5.5.1. <a name='JIT'></a>JIT
 
 ![](https://github.com/pytorch/tvm/blob/master/pt_execution.png?raw=true)
@@ -776,6 +777,12 @@ The Deep Learning Revolution and Its Implications for Computer Architecture and 
 
 ## Large Model Inference 
 BMInf: An Efficient Toolkit for Big Model Inference and Tuning [My Notes]()
+
+[ModelMesh](frameworks/kserve/model-mesh.md)
+
+[ModelMesh and KServe Bring exteeme scale standized model inferencing on Kubernetes](frameworks/kserve/modelmesh-and-kserve-bring-extreme-scale-standardized-model-inferencing-on-kubernetes.md)
+
+
 ## Dependency and Package Management
 
 ### C/C++ Dependency and Package Manager
