@@ -149,6 +149,7 @@ CLIP(Constrative Language-Image Pretraining), DALLE, Diffusion Model 之间的�
 
 CLIP: Constrative Language-Image Pretraining(2021.1.5): [My Notes](papers/multimodal/CLIP.md), [Intro](papers/multimodal/CLIP-intro.md)
 
+Speed Is All You Need: On-Device Acceleration of Large DIffusion Models via GPU-Aware Optimizations: [My Notes]()
 ###  1.6. <a name='ObjectDetection'></a>Object Detection
 
 [Concepts](./papers/object-detection/concepts.md)
