@@ -782,7 +782,7 @@ BMInf: An Efficient Toolkit for Big Model Inference and Tuning [My Notes]()
 
 [ModelMesh](frameworks/kserve/model-mesh.md)
 
-[ModelMesh and KServe Bring exteeme scale standized model inferencing on Kubernetes](frameworks/kserve/modelmesh-and-kserve-bring-extreme-scale-standardized-model-inferencing-on-kubernetes.md)
+[ModelMesh and KServe Bring extreme scale standized model inferencing on Kubernetes](frameworks/kserve/modelmesh-and-kserve-bring-extreme-scale-standardized-model-inferencing-on-kubernetes.md)
 
 
 ## Dependency and Package Management

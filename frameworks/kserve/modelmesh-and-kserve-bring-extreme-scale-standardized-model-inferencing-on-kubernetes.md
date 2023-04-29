@@ -1,5 +1,5 @@
 
-![](.imgs/model-mesh-arch.png)
+![](.imgs/model-mesh-and-kserve-arch.png)
 
 ## Core Components
 [ModelMesh Serving](https://github.com/kserve/modelmesh-serving): 是 model serving 的 controller (Go)
