@@ -149,7 +149,8 @@ CLIP(Constrative Language-Image Pretraining), DALLE, Diffusion Model 之间的�
 
 CLIP: Constrative Language-Image Pretraining(2021.1.5): [My Notes](papers/multimodal/CLIP.md), [Intro](papers/multimodal/CLIP-intro.md)
 
-Speed Is All You Need: On-Device Acceleration of Large DIffusion Models via GPU-Aware Optimizations: [My Notes](papers/multimodal/speed-is-all-you-need.md) (Google 2023 4.21)
+### Segmentation
+Segment Anything(2023.4.5) [My Notes](papers/segmentation/segment-anything.md)
 
 ###  1.6. <a name='ObjectDetection'></a>Object Detection
 
@@ -269,7 +270,6 @@ Binaryconnect: Training deep neural networks with binary weights during propagat
 [ZeRO Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning]()(2021.4.16), [My Notes](./memory-efficiency/ZeRO-Infinity.md) : 在 ZeRO 基础上，把显存交换扩展到了 NVMe 硬盘上。ZeRO 系列的好处是不需要改用户的代码。ZeRO 系列主要解决内存问题（Memory wall)
 
 PatrickStar: Parallel Training of Pre-trained Models via Chunk-based Memory Management: 实现基于 Transformer 的 NLP 里预训练场景下，高效的 swap 实现机制，让模型训练更高效，能够最大程度复用不会同时存在的 chunks [My Notes](./memory-efficiency/patrickstar.md)， [Source Code Notes](./frameworks/patrick-star.md)
-
 ###  1.12. <a name='Compression'></a>Compression
 
 Deep compression: Compressing deep nerual networks with pruning, trained quantization and huffman coding. (ICLR, 2016 Song Han)
@@ -355,9 +355,9 @@ Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Note
 
 Few-Shot Learning: **Query** samples are never seen before. Query samples are from unknown classes.
 
-(GPT-1(Generative Pretrained Transformer))(2018.6): 0.117B, 5GB data，Generative 这种有用
+(GPT-1(Generative Pretrained Transformer))(2018.6): 0.117B, 5GB data
 
-(GPT-2(Generative Pretrained Transformer))(2019.2): 1.5B, 40GB data，泛化性不错
+(GPT-2(Generative Pretrained Transformer))(2019.2): 1.5B, 40GB data
 
  Language Models are Few-Shot Learners(GPT-3(Generative Pretrained Transformer))(2020.5): 175B, 45TB data
 
@@ -365,22 +365,14 @@ Few-Shot Learning: **Query** samples are never seen before. Query samples are fr
 
 [PaLM](./papers/NLP/PaLM.md)(2022.4) [My Notes](papers/NLP/PaLM.md)
 
-Language Models are unsupervised Multitask Learners(2018)
-
-Language Models are Few-Shot Learners(2020.7.22) [My Notes](papers/NLP/language-models-are-few-shot-learners.md)
-
 InstructGPT(2022.1): 有论文
 
 LaMBDA(DeepMind 2022):
 
 ChatGPT: Optimizing Language Models for Dialogue(OpenAI 2022.11.30). 无论文。[My Notes](papers/NLP/chatgpt-intro.md)
 
-LLaMA: Open and Efficient Foundation Language Models: 无须私有的数据集，用开源的就可以训出 13B 上比 175B 好的效果
-
 通向 AGI 之路：大型语言模型(LLM)技术精要 [My Notes](papers/NLP/go-to-agi-llm-abstract.md)
 
-### Checkpoint
-Microsoft CheckFreq : [My Notes](papers/
 ### Recommenders 
 
 PERSIA: An Open, Hybrid System Scaling Deep Learning-based Recommenders up to 100 Trillion Parameters(2021) [Notes](./papers/recommender/persia.md), [Siyu Wang's Notes](./papers/recommender/Persia_note_siyuwang.md)
@@ -518,7 +510,6 @@ OneFlow: Redesign the Distributed Deep Learning Framework from Scratch。主要�
 
  [Pytorch CUDA Memory Caching Allocator](./frameworks/pytorch/memory-caching-allocator.md)
 
- [PyTorch debug 方法合集](./frameworks/pytorch/debug.md)
 ####  5.5.1. <a name='JIT'></a>JIT
 
 ![](https://github.com/pytorch/tvm/blob/master/pt_execution.png?raw=true)
@@ -693,8 +684,6 @@ JAX: Compiling machine learning programs via high-level tracing(2011?), [My Note
 
 [TensorRT](./hardware/GPU/tensorrt.md)
 
-[TensorRT Model Accuracy](./hardware/GPU/tensorrt/tensorrt-model-accuracy.md)
-
 [TensorRT Performance Best Practices](./hardware/GPU/tensorrt/performance-best-practices.md)
 
 DeepSpeed Inference: Enabling Efficient Inference of Transformer Models at Unprecedented Scale(2022.6) [My Notes](papers/inference/deepspeed-inference.md)
@@ -782,12 +771,6 @@ The Deep Learning Revolution and Its Implications for Computer Architecture and 
 
 ## Large Model Inference 
 BMInf: An Efficient Toolkit for Big Model Inference and Tuning [My Notes]()
-
-[ModelMesh](frameworks/kserve/model-mesh.md)
-
-[ModelMesh and KServe Bring extreme scale standized model inferencing on Kubernetes](frameworks/kserve/modelmesh-and-kserve-bring-extreme-scale-standardized-model-inferencing-on-kubernetes.md)
-
-
 ## Dependency and Package Management
 
 ### C/C++ Dependency and Package Manager
@@ -799,8 +782,6 @@ Conan: 主要是给C和 C++ 项目加速开发和持续集成来设计并优化�
 [Python Developing with asyncio](python/asyncio-dev.md)
 
 Conda
-
-[pytest-explanation](python/pytest-explanation.md)
 
 ##  16. <a name='Misc'></a>Misc
 [The Modern Histry of Object Recognition -- Infographic](https://medium.com/@nikasa1889/the-modern-history-of-object-recognition-infographic-aea18517c318)
