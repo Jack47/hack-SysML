@@ -151,9 +151,6 @@ CLIP: Constrative Language-Image Pretraining(2021.1.5): [My Notes](papers/multim
 
 Speed Is All You Need: On-Device Acceleration of Large DIffusion Models via GPU-Aware Optimizations: [My Notes](papers/multimodal/speed-is-all-you-need.md) (Google 2023 4.21)
 
-### Segmentation
-Segment Anything(2023.4.5) [My Notes](papers/segmentation/segment-anything.md)
-
 ###  1.6. <a name='ObjectDetection'></a>Object Detection
 
 [Concepts](./papers/object-detection/concepts.md)
@@ -283,6 +280,12 @@ MONet: Memory optimization for deep networks(ICLR 2021): 与DTR几乎同期，�
 
 [MONeT: Memory optimization for deep networks](https://openreview.net/pdf?id=bnY0jm4l59)(ICLR 2021) : 发在了 Learning Representation 上，说明不是系统的改进，是算法的改进。[My Notes](./memory-efficiency/monet.md)
 1. MONeT: Memory Optimization for Deep Networks：https://github.com/utsaslab/MONeT
+### Elastic Training
+Elan: Towards Generic and Efficient Elastic Training for Deep Learning(2020) [My Notes]()
+
+### Generative AI
+Generative Agents: Interactive Simulacra of Human Behavior(2023.4.7) [My Notes](papers/elastic-training/elan-towards-generic-and-efficient-elastic-training-for-deep-learning.md)
+
 ###  1.13. <a name='Parallelism'></a>Parallelism
 
 Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Parallelism (2020.3): [My Notes](papers/megatron-lm.md)
