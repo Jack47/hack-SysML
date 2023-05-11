@@ -574,6 +574,8 @@ Related research papers: [PipeDream: General Pipeline Parallelism for DNN Traini
 
 [Pathways: Aschronous Distributed Dataflow for ML](./papers/pathways.md)(MLSys 2022)
 
+Analyzing and Mitigating Data Stalls in DNN Training(2021.1.19) [My Notes](./papers/analyzing-and-mitigating-data-stalls-in-dnn-training.md)
+
 ### NumPy
 The NumPy array: a structure for efficient numerical computation(IEEE Computing in Science and Engineering, 2011) [My Notes](./frameworks/numpy-array.md)
 
