@@ -642,6 +642,7 @@ CUTLASS: My Notes: [1](./hardware/GPU/cutlass.md), [2](./hardware/GPU/cutlass/cu
 
 [DL Performance: Matrix Multiplication](hardware/GPU/dl-performance-matrix-multiplication.md)
 
+PyTorch Lightning Profiler. [My Notes](frameworks/lightning/profiler.md)
 
 cuBLAS: [My Notes](./hardware/GPU/cublas.md)
 
