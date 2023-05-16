@@ -151,6 +151,7 @@ CLIP: Constrative Language-Image Pretraining(2021.1.5): [My Notes](papers/multim
 
 Speed Is All You Need: On-Device Acceleration of Large DIffusion Models via GPU-Aware Optimizations: [My Notes](papers/multimodal/speed-is-all-you-need.md) (Google 2023 4.21)
 
+Q-Diffusion: Quantizing Diffusion Models (2023.2.10) [My Notes](papers/q-diffusion_quantizing-diffusion-models.md)
 ###  1.6. <a name='ObjectDetection'></a>Object Detection
 
 [Concepts](./papers/object-detection/concepts.md)

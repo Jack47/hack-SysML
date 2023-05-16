@@ -127,7 +127,12 @@ Model-mesh 使用 gRPC 并基于三个逻辑上的服务 APIs 和两个逻辑上
    - 由内部的“model runtime”容器来实现，自动、透明地被外部的 model-mesh 服务暴露出去
 ## Internal SPI
 
+modelSize(modelId): 返回之前加载的模型，消耗的显存
+
+loadModel()
+
 ## Internal SPI 的要求和保证
+
 要求：
 * 必须支持并发（多线程）的 API 请求 # 不再是强要求 -- 查看 “基于延迟的 autoscaling
 * 必须能相对精确地测量加载的模型的大小 # 目的是尽量放更多的模型在一个卡上
@@ -231,18 +236,26 @@ Model-mesh 使用 gRPC 并基于三个逻辑上的服务 APIs 和两个逻辑上
 
 ## 实现细节 - 后台任务
 * Janitor
-- 每个实例里，每隔6分钟运行一次
-- cross-references and reconciles 本地的cache 和 model registry
-- Scales-down model copies as/when appropriate
+
+  - 每个实例里，每隔6分钟运行一次
+
+  - cross-references and reconciles 本地的cache 和 model registry
+
+  - Scales-down model copies as/when appropriate
 
 * Rate Tracker
-- 每10s在每个实例里运行一次
-- 处理自上次以来运行的模型，有需要就触发扩容
+
+  - 每10s在每个实例里运行一次
+
+  - 处理自上次以来运行的模型，有需要就触发扩容
 
 * Reaper
-- 在选出的单个 leader 上，每7分钟执行一次
-- 跟踪”缺失“的，在MR里的实例引用，清理孤儿注册
-- 如果集群里有空闲的空间，就触发主动的模型加载，或者其他最近使用，但是没有被加载的模型
+
+  - 在选出的单个 leader 上，每7分钟执行一次
+
+  - 跟踪”缺失“的，在MR里的实例引用，清理孤儿注册
+
+  - 如果集群里有空闲的空间，就触发主动的模型加载，或者其他最近使用，但是没有被加载的模型
 
 ## 实现细节 - etcd registry
 * etcd 里有三个表 - models, vmodels, instances
