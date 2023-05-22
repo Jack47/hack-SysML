@@ -151,6 +151,9 @@ CLIP: Constrative Language-Image Pretraining(2021.1.5): [My Notes](papers/multim
 
 Speed Is All You Need: On-Device Acceleration of Large DIffusion Models via GPU-Aware Optimizations: [My Notes](papers/multimodal/speed-is-all-you-need.md) (Google 2023 4.21)
 
+ImageBind: One Embedding Space To Bind Them All(2023.5.9) [My Notes](papers/multimodal/imagebind.md)
+
+
 Q-Diffusion: Quantizing Diffusion Models (2023.2.10) [My Notes](papers/q-diffusion_quantizing-diffusion-models.md)
 ###  1.6. <a name='ObjectDetection'></a>Object Detection
 
@@ -682,6 +685,10 @@ Google FastSocket & Reduction Server : [My Notes](hardware/GPU/nccl-fastsocket.m
 [Triton vs Numba vs Taichi](hardware/GPU/triton-vs-numba-vs-taichi.md)
 
 [cudnn benchmark 的详解](hardware/GPU/cudnn-benchmark.md)
+## Segmentation
+Segment Anything Model(2023.4) [My Notes](papers/segmentation/segment-anything.md)
+
+DINOv2: State-of-the-art computer vision models with self-supervised learning(2023.4.17)[My Notes](papers/segmantation/DINOv2-State-of-the-art-cv-models-with-self-supervised-learning.md)
 ##  10. <a name='MLCompilers'></a>ML Compilers
 
 JAX: Compiling machine learning programs via high-level tracing(2011?), [My Notes](./papers/compiler/compiling-machine-learning-programs-via-high-level-tracing.md). JAX 相当于可以用非常易用的 Python 来连接了研究员和 XLA 的加速能力
