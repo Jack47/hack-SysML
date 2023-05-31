@@ -39,7 +39,9 @@ janitorTask：（有个 rateTrackingTask）
 
 ​	cacheChanged、loadLocal（是cache miss之后的逻辑）、invokeModel、CacheEntry、handleInstanceTableChange（instanceTable变更触发）、establishBackgroundTasks()
 
-​	扩容策略：按照 当前rpm来等比例扩容
+​	扩容策略：按照 当前rpm来等比例扩容，那扩容时选择哪些节点？
+
+怎么知道当前GPU上空闲了多少容量？模型的运行时开销怎么预估的？
 
 
 

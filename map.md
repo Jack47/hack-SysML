@@ -247,6 +247,8 @@ Gist: Efficient data encoding for deep neural network training 2018
 
 [ZeRO]()：大模型训练的标配，把 DDP 模式下冗余的显存都给分片了，需要时从别人那里要过来 [My Notes](./papers/ZeRO.md)
 
+FSDP in fairscale: lightning used this[](frameworks/fairscale/fsdp.md)
+
 [ZeRO-offload]() 2021.1.18 [My Notes](./papers/ZeRO-Offload.md) : 基于 ZeRO-2，把 NLP中 Adam 优化器实现在了 CPU 上，这样能 offload 优化器的内存和计算，这个是大头
 
 [Capuchin: Tensor-based GPU Memory Management for Deep Learning]()(2020 ASPLOS) , [My notes](./papers/capuchin.md): 目标是为了节省内存，能训更大的 batchsize。内存管理到了 tensor 级别，而且是模型/计算图无关。在运行时 profile 出来是 swap 合适还是 recompute 合适。有 prefetch / evict 机制。但是不支持动态图(dynamic model)和 dynamic shape
@@ -685,6 +687,9 @@ Google FastSocket & Reduction Server : [My Notes](hardware/GPU/nccl-fastsocket.m
 [Triton vs Numba vs Taichi](hardware/GPU/triton-vs-numba-vs-taichi.md)
 
 [cudnn benchmark 的详解](hardware/GPU/cudnn-benchmark.md)
+
+## Triton inference server
+python_backend [My Notes]()
 ## Segmentation
 Segment Anything Model(2023.4) [My Notes](papers/segmentation/segment-anything.md)
 

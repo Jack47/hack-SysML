@@ -1,0 +1,262 @@
+;; -*- mode: emacs-lisp; lexical-binding:t; coding: utf-8-emacs; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Mon May 29 08:40:10 2023
+;; Desktop file format version 208
+;; Emacs version 28.2
+
+;; Global section:
+(setq desktop-saved-frameset [frameset 1 (25715 62570 842415 0) (desktop . "208") "chenshengdong@CN1414002200M.local" nil nil ((((minibuffer . t) (fontsize . 0) (font . "-*-Menlo-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 0) (child-frame-border-width) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars) (horizontal-scroll-bars) (foreground-color . "Black") (background-color . "White") (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (undecorated) (ns-appearance) (ns-transparent-titlebar) (z-group) (no-focus-on-map) (no-accept-focus) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (scroll-bar-height . 15) (alpha) (fullscreen) (display-type . color) (background-mode . light) (cursor-color . "black") (scroll-bar-foreground . "black") (last-focus-update) (tabs (current-tab (name . "map.md") (explicit-name))) (frameset--id . "2707-D873-E6BF-7145") (frameset--mini t) (height . 46) (width . 187) (modeline . t) (unsplittable) (left . 75) (top . 325) (icon-name) (visibility . t) (display . "CN1414002200M.local") (explicit-name) (tool-bar-position . top)) ((min-height . 8) (min-width . 10) (min-height-ignore . 4) (min-width-ignore . 5) (min-height-safe . 2) (min-width-safe . 2) (min-pixel-height . 112) (min-pixel-width . 70) (min-pixel-height-ignore . 56) (min-pixel-width-ignore . 35) (min-pixel-height-safe . 28) (min-pixel-width-safe . 14)) vc (pixel-width . 1325) (pixel-height . 630) (total-width . 189) (total-height . 45) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (pixel-width . 1325) (pixel-height . 308) (total-width . 189) (total-height . 22) (normal-height . 0.5) (normal-width . 1.0) (buffer "segment-anything.md" (selected) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 0 t nil 0 t nil) (vscroll . 0) (dedicated) (point . 265) (start . 79)) (prev-buffers ("*eshell*" 11779 13488) ("q-diffusion_quantizing-diffusion-models.md" 1 344) ("magit-diff: hack-SysML" 1 1) ("README.md" 1 1) ("map.md" 8219 9291) ("profiler.md" 2479 2664))) (leaf (last . t) (pixel-width . 1325) (pixel-height . 322) (total-width . 189) (total-height . 23) (normal-height . 0.5) (normal-width . 1.0) (buffer "map.md" (selected) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 0 t nil 0 t nil) (vscroll . 0) (dedicated) (point . 9176) (start . 8761)) (prev-buffers ("*eshell*" 11648 15151) ("magit: hack-SysML" 1 1)))) (((minibuffer . t) (fontsize . 0) (font . "-*-Menlo-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (child-frame-border-width) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars) (horizontal-scroll-bars) (foreground-color . "Black") (background-color . "White") (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (undecorated) (ns-appearance) (ns-transparent-titlebar) (z-group) (no-focus-on-map) (no-accept-focus) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (scroll-bar-height . 15) (alpha) (fullscreen) (display-type . color) (background-mode . light) (cursor-color . "black") (scroll-bar-foreground . "black") (environment) (last-focus-update . t) (tabs (current-tab (name . "model-mesh.md") (explicit-name))) (frameset--id . "2E3B-85DA-9E28-0547") (frameset--mini t . t) (height . 30) (width . 137) (modeline . t) (unsplittable) (left . 187) (top . 403) (icon-name) (visibility . t) (display . "CN1414002200M.local") (explicit-name) (tool-bar-position . top)) ((min-height . 4) (min-width . 10) (min-height-ignore . 2) (min-width-ignore . 5) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 56) (min-pixel-width . 70) (min-pixel-height-ignore . 28) (min-pixel-width-ignore . 35) (min-pixel-height-safe . 14) (min-pixel-width-safe . 14)) leaf (pixel-width . 975) (pixel-height . 406) (total-width . 139) (total-height . 29) (normal-height . 1.0) (normal-width . 1.0) (buffer "python_backend.md" (selected . t) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 0 t nil 0 t nil) (vscroll . 0) (dedicated) (point . 1149) (start . 631)) (prev-buffers ("*eshell*" 14218 15151) ("map.md" 39729 39911))))])
+(setq comint-input-ring nil)
+(setq desktop-missing-file-warning nil)
+(setq dired-regexp-history nil)
+(setq extended-command-history '("magit" "eshell" "magit" "eshell" "evil-mode" "revert-buffer" "evil-mode" "eshell" "revert-buffer" "eshell" "magit" "eshell" "magit" "evil-mode"))
+(setq face-name-history nil)
+(setq file-name-history '("~/go-workspace/src/github.com/hack-SysML/frameworks/triton-inference-server/" "~/go-workspace/src/github.com/hack-SysML/frameworks/triton-inference-server/python_backend.md" "~/go-workspace/src/github.com/hack-SysML/papers/segmentation/DINOv2-State-of-the-art-cv-models-with-self-supervised-learning.md" "~/go-workspace/src/github.com/hack-SysML/papers/multimodal/imagebind-blog.md" "~/go-workspace/src/github.com/hack-SysML/papers/multimodal/imagebind.md" "~/go-workspace/src/github.com/hack-SysML/papers/segmentation/segment-anything.md" "~/go-workspace/src/github.com/hack-SysML/papers/data/analyzing-and-mitigating-data-stalls-in-dnn-training.md" "~/go-workspace/src/github.com/hack-SysML/papers/README.md" "~/go-workspace/src/github.com/hack-SysML/papers/AIGC/q-diffusion_quantizing-diffusion-models.md" "~/go-workspace/src/github.com/hack-SysML/frameworks/lightning/profiler.md" "~/go-workspace/src/github.com/hack-SysML/papers/README.md" "~/go-workspace/src/github.com/hack-SysML/papers/data/analyzing-and-mitigating-data-stalls-in-dnn-training.md" "~/go-workspace/src/github.com/hack-SysML/frameworks/kserve/model-mesh.md" "~/go-workspace/src/github.com/hack-SysML/papers/README.md" "~/go-workspace/src/github.com/hack-SysML/papers/generative/generative-agents.md" "~/go-workspace/src/github.com/hack-SysML/papers/README.md" "~/go-workspace/src/github.com/hack-SysML/papers/elastic-training/elan-towards-generic-and-efficient-elastic-training-for-deep-learning.md" "~/go-workspace/src/github.com/hack-SysML/papers/segmentation/segment-anything.md" "~/go-workspace/src/github.com/hack-SysML/papers/multimodal/speed-is-all-you-need.md" "~/go-workspace/src/github.com/hack-SysML/papers/checkpoint/checkfreq.md" "~/go-workspace/src/github.com/hack-SysML/frameworks/kserve/model-mesh.md" "~/go-workspace/src/github.com/hack-SysML/python/pytest-explanation.md" "~/go-workspace/src/github.com/hack-SysML/map.md" "~/go-workspace/src/github.com/hack-SysML/frameworks/kserve/modelmesh-and-kserve-bring-extreme-scale-standardized-model-inferencing-on-kubernetes.md" "~/go-workspace/src/github.com/hack-SysML/frameworks/kserve/model-mesh.md" "~/go-workspace/src/github.com/hack-SysML/map.md" "~/go-workspace/src/github.com/hack-SysML/papers/README.md" "~/go-workspace/src/github.com/hack-SysML/papers/multimodal/speed-is-all-you-need.md" "~/go-workspace/src/github.com/hack-SysML/frameworks/pytorch/debug.md" "~/go-workspace/src/github.com/hack-SysML/map.md"))
+(setq grep-find-history nil)
+(setq grep-history nil)
+(setq ido-buffer-history nil)
+(setq ido-last-directory-list nil)
+(setq ido-work-directory-list nil)
+(setq ido-work-file-list nil)
+(setq minibuffer-history '("d" "a"))
+(setq query-replace-history nil)
+(setq read-expression-history nil)
+(setq regexp-history nil)
+(setq regexp-search-ring '(#("cache" 0 5 (isearch-case-fold-search t)) #("\\<ServingRuntime\\>" 0 18 (isearch-case-fold-search t))))
+(setq register-alist '((48 . #("Segment Anything Model(2023.4) [My Notes](papers/segmentation/segment-anything.md)\n" 0 31 (fontified t yank-handler (evil-yank-line-handler nil t)) 31 32 (face markdown-markup-face font-lock-multiline t rear-nonsticky t invisible markdown-markup fontified t yank-handler (evil-yank-line-handler nil t)) 32 40 (face markdown-link-face help-echo "papers/segmentation/segment-anything.md" font-lock-multiline t mouse-face markdown-highlight-face keymap (keymap (mouse-2 . markdown-follow-thing-at-point) (follow-link . mouse-face)) fontified t yank-handler (evil-yank-line-handler nil t)) 40 41 (face markdown-markup-face font-lock-multiline t rear-nonsticky t invisible markdown-markup fontified t yank-handler (evil-yank-line-handler nil t)) 41 42 (face markdown-markup-face font-lock-multiline t rear-nonsticky t invisible markdown-markup fontified t yank-handler (evil-yank-line-handler nil t)) 42 81 (face markdown-url-face font-lock-multiline t mouse-face markdown-highlight-face invisible markdown-markup keymap (keymap (mouse-2 . markdown-follow-thing-at-point) (follow-link . mouse-face)) fontified t yank-handler (evil-yank-line-handler nil t)) 81 82 (face markdown-markup-face font-lock-multiline t rear-nonsticky t invisible markdown-markup fontified t yank-handler (evil-yank-line-handler nil t)) 82 83 (fontified t yank-handler (evil-yank-line-handler nil t))))))
+(setq search-ring '(#("triton" 0 6 (isearch-regexp-function nil isearch-case-fold-search t)) #("seg" 0 3 (isearch-regexp-function nil isearch-case-fold-search t)) #("multimod" 0 8 (isearch-case-fold-search t isearch-regexp-function nil)) #("modal" 0 5 (isearch-regexp-function nil isearch-case-fold-search t)) #("multi-m" 0 7 (isearch-regexp-function nil isearch-case-fold-search t)) #("segment" 0 7 (isearch-regexp-function nil isearch-case-fold-search t)) #("anything" 0 8 (isearch-regexp-function nil isearch-case-fold-search t)) #("imagebind" 0 9 (isearch-regexp-function nil isearch-case-fold-search t)) #("stall" 0 5 (isearch-regexp-function nil isearch-case-fold-search t)) #("stable" 0 6 (isearch-regexp-function nil isearch-case-fold-search t)) #("q-diff" 0 6 (isearch-regexp-function nil isearch-case-fold-search t)) #("profile" 0 7 (isearch-regexp-function nil isearch-case-fold-search t)) #("pytorch" 0 7 (isearch-regexp-function nil isearch-case-fold-search t)) #("framework" 0 9 (isearch-regexp-function nil isearch-case-fold-search t)) #("data" 0 4 (isearch-case-fold-search t isearch-regexp-function nil)) #("torch" 0 5 (isearch-regexp-function nil isearch-case-fold-search t))))
+(setq shell-command-history nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/frameworks/triton-inference-server/python_backend.md"
+  "python_backend.md"
+  'markdown-mode
+  '(eldoc-mode)
+  1149
+  '(630 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25715 62570 345364 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/map.md"
+  "map.md"
+  'markdown-mode
+  '(eldoc-mode)
+  39911
+  '(40132 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25709 28068 875213 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring (40198 40112 40102 9174 47466 7820 40200 40200 36106 35221 35221 9291 9249 43531 38514 38481))))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/papers/segmentation/DINOv2-State-of-the-art-cv-models-with-self-supervised-learning.md"
+  "DINOv2-State-of-the-art-cv-models-with-self-supervised-learning.md"
+  'markdown-mode
+  '(eldoc-mode)
+  184
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25706 50135 765276 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring (291))))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/papers/multimodal/imagebind-blog.md"
+  "imagebind-blog.md"
+  'markdown-mode
+  '(eldoc-mode)
+  157
+  '(157 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25706 49730 874559 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring (100 157 245 158 245 158 245 158 100 157 100 157 245 159 20))))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/papers/multimodal/imagebind.md"
+  "imagebind.md"
+  'markdown-mode
+  '(eldoc-mode)
+  1
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25706 48952 777434 0) (overwrite-mode))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/frameworks/kserve/model-mesh.md"
+  "model-mesh.md"
+  'markdown-mode
+  '(eldoc-mode)
+  7122
+  '(7122 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25706 48856 302199 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring (7064 8098 5243 5048 5044 4993 4802 8462 8435 8435 5051 4720 2744 2785 2750 8525))))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/papers/segmentation/segment-anything.md"
+  "segment-anything.md"
+  'markdown-mode
+  '(eldoc-mode)
+  265
+  '(239 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25706 48670 608132 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring (249 359 356 404 328 98))))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/papers/AIGC/q-diffusion_quantizing-diffusion-models.md"
+  "q-diffusion_quantizing-diffusion-models.md"
+  'markdown-mode
+  '(eldoc-mode)
+  344
+  '(344 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25706 48588 221459 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring (1 1 1 14 356 130 344))))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/papers/README.md"
+  "README.md"
+  'markdown-mode
+  '(eldoc-mode)
+  1
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25698 55047 686320 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring (99 1 99 99 99 99 99 1 98 99 99 99 50 99 99))))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/papers/data/analyzing-and-mitigating-data-stalls-in-dnn-training.md"
+  "analyzing-and-mitigating-data-stalls-in-dnn-training.md"
+  'markdown-mode
+  '(eldoc-mode)
+  231
+  '(231 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25698 55024 177442 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring (920 920 231 231 1))))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/frameworks/lightning/profiler.md"
+  "profiler.md"
+  'markdown-mode
+  '(eldoc-mode)
+  2664
+  '(2664 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25698 54887 982725 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring (2664 2677 2555 2601 2555 2601 2555 2601 2555 2601 2555 2601 2555 2601 2555 2601))))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/frameworks/kserve/modelmesh-and-kserve-bring-extreme-scale-standardized-model-inferencing-on-kubernetes.md"
+  "modelmesh-and-kserve-bring-extreme-scale-standardized-model-inferencing-on-kubernetes.md"
+  'markdown-mode
+  '(eldoc-mode)
+  383
+  '(34 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25688 37871 110096 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/papers/generative/generative-agents.md"
+  "generative-agents.md"
+  'markdown-mode
+  '(eldoc-mode)
+  98
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25688 20015 942594 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/papers/elastic-training/elan-towards-generic-and-efficient-elastic-training-for-deep-learning.md"
+  "elan-towards-generic-and-efficient-elastic-training-for-deep-learning.md"
+  'markdown-mode
+  '(eldoc-mode)
+  295
+  '(295 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25688 19706 39273 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring (295 1))))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/papers/multimodal/speed-is-all-you-need.md"
+  "speed-is-all-you-need.md"
+  'markdown-mode
+  '(eldoc-mode)
+  881
+  '(881 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25684 20607 92645 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring (979 979 734 231 471 1 766))))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/papers/checkpoint/checkfreq.md"
+  "checkfreq.md"
+  'markdown-mode
+  '(eldoc-mode)
+  593
+  '(593 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25683 4476 2055 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring (532 257))))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/Downloads/silod-a-co-design-of-caching-and-scheduling-for-deep-learning-clusters.bib"
+  "silod-a-co-design-of-caching-and-scheduling-for-deep-learning-clusters.bib"
+  'bibtex-mode
+  nil
+  2144
+  '(2144 nil)
+  nil
+  nil
+  '((buffer-display-time 25683 3507 734716 0) (buffer-file-coding-system . undecided-unix) (overwrite-mode))
+  '((mark-ring (2144 2144))))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/python/pytest-explanation.md"
+  "pytest-explanation.md"
+  'markdown-mode
+  '(eldoc-mode)
+  98
+  '(98 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25679 30221 241119 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Users/chenshengdong/go-workspace/src/github.com/hack-SysML/frameworks/pytorch/debug.md"
+  "debug.md"
+  'markdown-mode
+  '(eldoc-mode)
+  1054
+  '(1054 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 25672 34009 987350 0) (buffer-file-coding-system . utf-8-unix) (overwrite-mode))
+  '((mark-ring (537 231 452 225 225))))
+

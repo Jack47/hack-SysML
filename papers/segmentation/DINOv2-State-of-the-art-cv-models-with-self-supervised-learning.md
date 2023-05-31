@@ -2,7 +2,7 @@ DINOv2 比第一代更准确（性能好），而且无须 fine-tuning，可以�
 
 实验发现在分类，分隔，图片召回上都有很强能力。
 
-## 客服 image-text 预训练里的限制
+## 克服 image-text 预训练里的限制
 从 DINO 到 DINOv2 需要克服以下困难：
 
 1. 创建大的 curated 的训练数据集
