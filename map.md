@@ -155,6 +155,10 @@ ImageBind: One Embedding Space To Bind Them All(2023.5.9) [My Notes](papers/mult
 
 
 Q-Diffusion: Quantizing Diffusion Models (2023.2.10) [My Notes](papers/q-diffusion_quantizing-diffusion-models.md)
+
+Decompose and Realign: Tackling Condition Misaglignment in Text-to-Image Diffusion Models(6.26 2023)
+
+
 ###  1.6. <a name='ObjectDetection'></a>Object Detection
 
 [Concepts](./papers/object-detection/concepts.md)
@@ -819,6 +823,8 @@ Conan: 主要是给C和 C++ 项目加速开发和持续集成来设计并优化�
 [Python Coroutines](python/coroutines.md)
 
 [Python Developing with asyncio](python/asyncio-dev.md)
+
+[Python error handling](python/error-handling.md)
 
 Conda
 
