@@ -395,6 +395,17 @@ LLaMA: Open and Efficient Foundation Language Models: 无须私有的数据集�
 
 通向 AGI 之路：大型语言模型(LLM)技术精要 [My Notes](papers/NLP/go-to-agi-llm-abstract.md)
 
+MetaGPT: Multi-Agent Meta Programming Framework(Assign different roles to GPTs to form a collaborative software entity for complex tasks.)
+
+Auto-GPT: An experimental open-source attempt to make GPT-4 fully autonomous.
+
+QLoRA: Efficient Finetuning of Quantized LLMs(2023 5.23): 是一个高效的 finetuning 方法，显著减少了显存的使用：可以在一个 48G 的 GPU 上微调一个 65B 参数的模型，同时保留了 16-bit 的微调任务性能。
+
+
+[LMQL: is a programming language for language model interaction](https://lmql.ai/): [My Notes](frameworks/LLM/lmql.md)
+
+Guidance(Microsoft): constrained prompting, 让模型更稳定地按照特定的格式进行输出
+
 ### Checkpoint
 Microsoft CheckFreq : [My Notes](papers/
 ### Recommenders 
