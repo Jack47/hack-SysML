@@ -154,10 +154,11 @@ Speed Is All You Need: On-Device Acceleration of Large DIffusion Models via GPU-
 ImageBind: One Embedding Space To Bind Them All(2023.5.9) [My Notes](papers/multimodal/imagebind.md)
 
 
-Q-Diffusion: Quantizing Diffusion Models (2023.2.10) [My Notes](papers/q-diffusion_quantizing-diffusion-models.md)
+Q-Diffusion: Quantizing Diffusion Models (2023.2.10) [My Notes](papers/AIGC/q-diffusion_quantizing-diffusion-models.md)
 
 Decompose and Realign: Tackling Condition Misaglignment in Text-to-Image Diffusion Models(6.26 2023)
 
+RAPHAEL: Text-to-Image Generation via Large Mixture of Diffusion Paths(2023.5.29) [My Notes](papers/AIGC/raphael.md)
 
 ###  1.6. <a name='ObjectDetection'></a>Object Detection
 
