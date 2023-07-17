@@ -159,6 +159,8 @@ Q-Diffusion: Quantizing Diffusion Models (2023.2.10) [My Notes](papers/AIGC/q-di
 
 Decompose and Realign: Tackling Condition Misaglignment in Text-to-Image Diffusion Models(6.26 2023)
 
+Tune-A-Video: One-Shot Tuning of Image Diffusion Models for Text-to-Video Generation (2023.3.17) [My Notes](papers/AIGC/tune-a-video.md)
+
 RAPHAEL: Text-to-Image Generation via Large Mixture of Diffusion Paths(2023.5.29) [My Notes](papers/AIGC/raphael.md)
 
 ###  1.6. <a name='ObjectDetection'></a>Object Detection
