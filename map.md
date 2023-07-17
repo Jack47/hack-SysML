@@ -107,6 +107,7 @@ Competition-Level Code Generation with AlphaCode. [My Notes](./papers/transforme
 
 FLASHATTENTION: Fast and Memory-Efficient Exact Attention with IO-Awareness. (2022) [My Notes](./papers/transformer/flash-attention.md)
 
+SimA: Simple Softmax-free Attention for Vision Transoformers: 
 ###  1.4. <a name='AttributeRecognition'></a>Attribute Recognition
 [Hierarchical Feature Embedding for Attribute Recognition]() (2020.5.23) [My Notes](./papers/attribute-recognition/hierarchical-feature-embedding-for-attribute-recognition.md)
 
@@ -402,11 +403,11 @@ Auto-GPT: An experimental open-source attempt to make GPT-4 fully autonomous.
 
 QLoRA: Efficient Finetuning of Quantized LLMs(2023 5.23): 是一个高效的 finetuning 方法，显著减少了显存的使用：可以在一个 48G 的 GPU 上微调一个 65B 参数的模型，同时保留了 16-bit 的微调任务性能。
 
-
 [LMQL: is a programming language for language model interaction](https://lmql.ai/): [My Notes](frameworks/LLM/lmql.md)
 
 Guidance(Microsoft): constrained prompting, 让模型更稳定地按照特定的格式进行输出
 
+llama.cpp: 把 Facebook 的 LLaMA 模型使用 C/C++ 进行移植：[My Notes](frameworks/LLM/llama.cpp.md)
 ### Checkpoint
 Microsoft CheckFreq : [My Notes](papers/
 ### Recommenders 
