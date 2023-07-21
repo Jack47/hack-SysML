@@ -108,6 +108,9 @@ Competition-Level Code Generation with AlphaCode. [My Notes](./papers/transforme
 FLASHATTENTION: Fast and Memory-Efficient Exact Attention with IO-Awareness. (2022) [My Notes](./papers/transformer/flash-attention.md)
 
 SimA: Simple Softmax-free Attention for Vision Transoformers: 
+
+FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning [My Notes](./papers/transformer/flash-attention-2.md)
+
 ###  1.4. <a name='AttributeRecognition'></a>Attribute Recognition
 [Hierarchical Feature Embedding for Attribute Recognition]() (2020.5.23) [My Notes](./papers/attribute-recognition/hierarchical-feature-embedding-for-attribute-recognition.md)
 
@@ -162,6 +165,10 @@ Decompose and Realign: Tackling Condition Misaglignment in Text-to-Image Diffusi
 Tune-A-Video: One-Shot Tuning of Image Diffusion Models for Text-to-Video Generation (2023.3.17) [My Notes](papers/AIGC/tune-a-video.md)
 
 RAPHAEL: Text-to-Image Generation via Large Mixture of Diffusion Paths(2023.5.29) [My Notes](papers/AIGC/raphael.md)
+
+ControlNet 1.1 [My Notes](frameworks/controlnet/controlnet1.1.md)
+
+TryOnDiffusion: A Tale of Two UNets() [My Notes](papers/AIGC/try-on-diffusion.md)
 
 ###  1.6. <a name='ObjectDetection'></a>Object Detection
 
@@ -410,6 +417,10 @@ QLoRA: Efficient Finetuning of Quantized LLMs(2023 5.23): 是一个高效的 fin
 Guidance(Microsoft): constrained prompting, 让模型更稳定地按照特定的格式进行输出
 
 llama.cpp: 把 Facebook 的 LLaMA 模型使用 C/C++ 进行移植：[My Notes](frameworks/LLM/llama.cpp.md)
+
+vLLM: Easy, Fast, and Cheap LLM Serving with **PagedAttention** [My Notes](frameworks/LLM/vLLM.md)
+
+[Hugging Face Text Generation Inference](https://github.com/huggingface/text-generation-inference/tree/main) [My Notes](frameworks/LLM/text-generation-inference.md)
 ### Checkpoint
 Microsoft CheckFreq : [My Notes](papers/
 ### Recommenders 
@@ -845,6 +856,13 @@ Conda
 
 [pytest-explanation](python/pytest-explanation.md)
 
+httpx
+
+[gunicorn](python/gunicorn.md)
+
+[Asynchronous vs Synchronus programming](python/aschronous-vs-synchronous.md)
+
+[httpx](python/httpx.md)
 ##  16. <a name='Misc'></a>Misc
 [The Modern Histry of Object Recognition -- Infographic](https://medium.com/@nikasa1889/the-modern-history-of-object-recognition-infographic-aea18517c318)
 
