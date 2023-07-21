@@ -170,6 +170,14 @@ ControlNet 1.1 [My Notes](frameworks/controlnet/controlnet1.1.md)
 
 TryOnDiffusion: A Tale of Two UNets() [My Notes](papers/AIGC/try-on-diffusion.md)
 
+苹果的 Stable Diffusion with Core ML:  https://github.com/apple/ml-stable-diffusion [My Notes](frameworks/coreml/stable-diffusion-with-coreml.md)
+
+[端侧设备的 MISC](hardware/device.md)
+
+[高通的技术栈](hardware/device/qualcomm-stack.md)
+
+mlc-llm: Enable everyone to develop, optimize and deploy AI models natively on everyone's devices.
+
 ###  1.6. <a name='ObjectDetection'></a>Object Detection
 
 [Concepts](./papers/object-detection/concepts.md)

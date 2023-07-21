@@ -8,6 +8,13 @@
 
 ![](.imgs/schematic-rep-ofthe-stable-diffusion.png)
 
+## 摘要
+我们提出了一些列优化方法，是目前截止最快的：512x512 的图，20 steps，无须 int8 量化可以跑到 12 秒。在 Samsung S23 Ultra 上 是 11.5 秒
+
+Samsung S23 里使用的是 OpenCL，而设备是 QUALCOMM Andreno：
+
+Compute Units 6, Maximum Frequence 1 MHz，设备显存是 5.40 GB
+
 **设备侧的模型推理加速**
 softmax： 有多种方法。
 Winograd Convolution: 减少了乘法的次数，计算更快
