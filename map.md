@@ -172,9 +172,11 @@ TryOnDiffusion: A Tale of Two UNets() [My Notes](papers/AIGC/try-on-diffusion.md
 
 苹果的 Stable Diffusion with Core ML:  https://github.com/apple/ml-stable-diffusion [My Notes](frameworks/coreml/stable-diffusion-with-coreml.md)
 
-[端侧设备的 MISC](hardware/device.md)
+[端侧设备的 MISC](hardware/device/device.md)
 
 [高通的技术栈](hardware/device/qualcomm-stack.md)
+
+[Stable Diffusion on 高通](hardware/device/sd-on-qualcomm-ai-stack.md)
 
 mlc-llm: Enable everyone to develop, optimize and deploy AI models natively on everyone's devices.
 
