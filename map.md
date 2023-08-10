@@ -430,6 +430,8 @@ llama.cpp: 把 Facebook 的 LLaMA 模型使用 C/C++ 进行移植：[My Notes](f
 
 vLLM: Easy, Fast, and Cheap LLM Serving with **PagedAttention** [My Notes](frameworks/LLM/vLLM.md)
 
+How continuous batching enables 23x throughput in LLM inference while reducing p50 latency(2023 6.23) [My Notes](frameworks/LLM/continuous-batching.md)
+
 [Hugging Face Text Generation Inference](https://github.com/huggingface/text-generation-inference/tree/main) [My Notes](frameworks/LLM/text-generation-inference.md)
 ### Checkpoint
 Microsoft CheckFreq : [My Notes](papers/
