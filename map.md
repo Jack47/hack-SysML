@@ -905,3 +905,6 @@ Circuit Training: An open-source framework for generating chip floor plans with 
 
 ## Text-Image Synthesis
 空前的照相现实主义和深度语言理解 [Introduction](papers/text-image-synthesis/imagen.md), [My Notes](./papers/text-image-synthesis/photorealistic-text-to-image-diffusion-models-with-deep-language-understanding.md)
+
+## High Availaiblity
+[Netflix Hystrix](frameworks/hystrix/intro.md)
