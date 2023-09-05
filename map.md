@@ -301,6 +301,8 @@ Binaryconnect: Training deep neural networks with binary weights during propagat
 
 PatrickStar: Parallel Training of Pre-trained Models via Chunk-based Memory Management: 实现基于 Transformer 的 NLP 里预训练场景下，高效的 swap 实现机制，让模型训练更高效，能够最大程度复用不会同时存在的 chunks [My Notes](./memory-efficiency/patrickstar.md)， [Source Code Notes](./frameworks/patrick-star.md)
 
+ZeRO++: Extremely Efficient Collective Communication for Giant Model Training(2023.6.16)[My Notes](./papers/communication/ZeROPlusPlus.md)
+
 ###  1.12. <a name='Compression'></a>Compression
 
 Deep compression: Compressing deep nerual networks with pruning, trained quantization and huffman coding. (ICLR, 2016 Song Han)
