@@ -316,6 +316,8 @@ MONet: Memory optimization for deep networks(ICLR 2021): 与DTR几乎同期，�
 ### Elastic Training
 Elan: Towards Generic and Efficient Elastic Training for Deep Learning(2020) [My Notes]()
 
+### Agents
+LLM Powered Autonomous Agents [My Notes](frameworks/LLM/llm-powered-automous-agents.md)
 ### Generative AI
 Generative Agents: Interactive Simulacra of Human Behavior(2023.4.7) [My Notes](papers/elastic-training/elan-towards-generic-and-efficient-elastic-training-for-deep-learning.md)
 
