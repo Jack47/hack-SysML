@@ -61,12 +61,17 @@ compute = 2flops*2*nlayers*dmodel^2 / 312e12
 
 
 ### capacity
- kv cache 的存储代价，模型权重的存储代价，对于性能而言，capacity 意味着什么
- 
+kv cache 的存储代价，模型权重的存储代价，对于性能而言，capacity 意味着什么
+
 对于A100，有40G or 80G的显存。给定参数的数量，可以简单乘以2来获得字节数。所以 52B的模型，大小为 52e12 * 2bytes = 104GB，显然放不下，需要至少3台 A100 40G。这样只有 120-104 = 16 GB的空闲。这个足够吗？回到等式里，再看一个 52B 的模型的 kv cache memory per token：
 ```
 2*2*nlayers*nhead*dhead = 4*64*8192 = 0.002GB
 ```
+
+那么16GB的空闲显存里，可以放得下 16/0.002 = 8000 个 tokens，或者我们可以做 bs 为 4，每个请求最大 2048 token
+
+这很糟糕，因为我们希望能做更高的 batch size，而不是受限于显存。更高的 bs 收益更大，因为处理同样的请求，bs增大后 GPU 耗时并没有增加多少。另外如果 bs 这么低，那我们就受限于显存，那么就没必要使用 kv cache
+
 
 
 ### model parallelism
