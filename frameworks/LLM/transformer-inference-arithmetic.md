@@ -16,7 +16,7 @@
 ```
 2*2*nlayers*nheads*dhead
 ```
-相当于每个 k or v 的维度是 [nheads, dhead] # 那 dhead = seq_len*features?
+相当于每个 k or v 的维度是 [nheads, dhead] # 那 nheads\*dhead = seq_len*features? -> 应该是  features，seq_len 代表了有 seq_len 个token
 
 > 如何计算一个矩阵乘的 flops？
 > 1. 对于矩阵(m,n)和向量(n)，是 2mn
@@ -24,7 +24,7 @@
 > mn 意味着很多，而2倍来自于一个矩阵乘法是由两个算子组成：乘法和加法的操作
 
 
-在 token embeddings 里乘起来的权重是 Wk, Wv 属于 R(dmodelxdmodel)，因此每个 token embeddings 是 te 属于 R(1xdmodel)。所以计算所有层的 k 和 v 的 flops 是：
+在 token embeddings 里乘起来的权重是 Wk, Wv 属于 R(dmodelxdmodel) {这里有疑问，Wk并不一定两个维度都相等，应该是 [len(token embeddings), dmodel]}，因此每个 token embeddings 是 te 属于 R(1xdmodel)。所以计算所有层的 k 和 v 的 flops 是：
 
 (dmodel 就是上文里的 features？）
 ```
@@ -37,25 +37,25 @@
 2*2*64*8192^2 = 17,179,869,184
 ```
 
-如果我们有 A100 的 GPU，它的每秒运算次数是：312e12 flops/seconds，而显存带宽是 1.5e12 bytes/seconds。下面的数字是给 kv 权重和计算用的：
+如果我们有 A100 的 GPU，它的每秒运算次数是：312e12 flops/seconds，而显存带宽是 1.5e12 bytes/seconds。下面的数字是给 **kv 权重显存加载**和计算用的：
 
 ```
-memory = 2bytes*2*nlayers*dmodel^2 / 1.5e12
+memory = 2bytes*2*nlayers*dmodel^2 / 1.5e12 # k的权重 shape : [dmodel, dmodel], 一份权重给所有的 k 的输入用
 compute = 2flops*2*nlayers*dmodel^2 / 312e12
 ```
 
 
-此时模型的结构就不重要了 -- 我们在给定 A100 硬件的情况下，得到了特定的比例: 312/1.5 = 208。意味着我们给一个 token 计算一次 kv，会和计算 208 个 token 的KV耗时相当(读取一个 token后，计算一次和计算208次耗时一样的)。在这个线之下，是受限于显存带宽，之上，是受限于计算
+此时模型的结构就不重要了 -- 我们在给定 A100 硬件的情况下，得到了特定的比例: 312/1.5 = 208。意味着我们给一个 token 计算一次 kv，会和计算 208 个 token 的KV耗时相当(因为这批token想要乘的权重只需要读取一次，然后计算一次和计算208次耗时一样的，因为算力没有吃满)。在这个线之下，是受限于显存带宽，之上，是受限于计算。如果使用余下层的权重来计算一个完整的 fwd （执行剩余的 transformer），也是 208（因为分子和分母都增加了一个因子 6）。
 
 对于一个 52 B 的模型，完整的 fwd 里:
 
-1. 208 tokens 的情况下，读取数据所需耗时 `12*2*nlayers*dmodel^2/1.5e12=69 ms`(为什么是6*2？）（实践中，会使用4个 GPU 并行地做，所以实际是 69/4= 17ms）
+1. 208 tokens 的情况下，读取权重数据所需耗时 `12*2*nlayers*dmodel^2/1.5e12=69 ms`(为什么是6*2？）（实践中，会使用4个 GPU 并行地做，所以实际是 69/4= 17ms）
 2. 如果有416（翻倍）的上下文 tokens，那么会花费两倍的代价
 3. 312 个 tokens ，会花费 312/208 = 1.5 倍耗时
 
 计算一个 kv cache 里 token 的代价是把这个 token传入到模型里进行计算的代价的 1/6。简言之，fwd 过程很轻量，因为并行度相比把每个token的权重读取出来然后做回归的高很多。（没懂，权重是给每个 token 使用的吧，并不是每个token都有对应的权重
 
-这并不意味着节省了 1/6 的时间。假设我们是 flops 受限制。在每个 sample 开始时，节省了 2*2*ntokens*nlayers*dmodel^2 / 312e12 ，而解码时花费 2*12*nlayers*dmodel^2/312e12。因此每个步骤里，节省了1/6 * ntokens 数量的 flops 耗时。即当随着 tokens 数量变大，收益变大。假设没有 kv cache，采样会是 O(n^2)的时间复杂度，而n是 token 数量
+这并不意味着节省了 1/6 的时间。假设我们是 flops 受限制。在每个 sample 开始时，节省了 `2*2*ntokens*nlayers*dmodel^2 / 312e12` ，而解码时花费 `2*12*nlayers*dmodel^2/312e12`(解码指 decode？)。因此每个步骤里，节省了 `1/6 * ntokens` 数量的 flops 耗时( 2/12? 为什么这俩对比？)。即当随着 tokens 数量变大，收益变大。假设没有 kv cache，采样(q=x*wq)会是 O(n^2)的时间复杂度，而n是 token 数量(seq_len)
 
 并不是全部。当使用小的 bs，就是内存受限，此时都不需要使用 past cache 来节省时间，开心地重计算。
 
