@@ -16,7 +16,7 @@
 ```
 2*2*nlayers*nheads*dhead
 ```
-相当于每个 k or v 的维度是 [nheads, dhead] # 那 nheads\*dhead = seq_len*features? -> 应该是  features，seq_len 代表了有 seq_len 个token
+相当于每个 k or v 的维度是 [nheads, dhead] # 那 nheads\*dhead = seq_len*features? -> 应该是  features(dmodel)，seq_len 代表了有 seq_len 个token
 
 > 如何计算一个矩阵乘的 flops？
 > 1. 对于矩阵(m,n)和向量(n)，是 2mn
@@ -44,10 +44,11 @@ memory = 2bytes*2*nlayers*dmodel^2 / 1.5e12 # k的权重 shape : [dmodel, dmodel
 compute = 2flops*2*nlayers*dmodel^2 / 312e12
 ```
 
+> Flops vs Memory Boundedness : 假设我们在加载权重时，就已经可以开始计算了
 
-此时模型的结构就不重要了 -- 我们在给定 A100 硬件的情况下，得到了特定的比例: 312/1.5 = 208。意味着我们给一个 token 计算一次 kv，会和计算 208 个 token 的KV耗时相当(因为这批token想要乘的权重只需要读取一次，然后计算一次和计算208次耗时一样的，因为算力没有吃满)。在这个线之下，是受限于显存带宽，之上，是受限于计算。如果使用余下层的权重来计算一个完整的 fwd （执行剩余的 transformer），也是 208（因为分子和分母都增加了一个因子 6）。
+此时模型的结构就不重要了 -- 我们在给定 A100 硬件的情况下，得到了特定的比例: 312/1.5 = 208。意味着我们给一个 token 计算一次 kv，会和计算 208 个 token 的KV耗时相当(因为这批token想要乘的权重只需要读取一次，然后计算一次和计算208次耗时一样的，因为算力没有吃满)。在这个线之下，是受限于显存带宽，之上，是受限于计算。如果使用剩余的权重来计算一个完整的 fwd （执行 transformer 里剩余的部分），也是 208（因为分子和分母都增加了一个因子 6）(没太懂为什么）。在未来的章节里会推理。
 
-对于一个 52 B 的模型，完整的 fwd 里:
+对于一个 52 B 的模型，完整的一次 fwd 里:
 
 1. 208 tokens 的情况下，读取权重数据所需耗时 `12*2*nlayers*dmodel^2/1.5e12=69 ms`(为什么是6*2？）（实践中，会使用4个 GPU 并行地做，所以实际是 69/4= 17ms）
 2. 如果有416（翻倍）的上下文 tokens，那么会花费两倍的代价
@@ -65,17 +66,29 @@ kv cache 的存储代价，模型权重的存储代价，对于性能而言，ca
 
 对于A100，有40G or 80G的显存。给定参数的数量，可以简单乘以2来获得字节数。所以 52B的模型，大小为 52e12 * 2bytes = 104GB，显然放不下，需要至少3台 A100 40G。这样只有 120-104 = 16 GB的空闲。这个足够吗？回到等式里，再看一个 52B 的模型的 kv cache memory per token：
 ```
-2*2*nlayers*nhead*dhead = 4*64*8192 = 0.002GB
+2*2*nlayers*nhead*dhead = 4*64*8192 = 0.002GB # dmodel(nhead*dhead=features) = 8192 , 一个 token 在 52B 模型下需要的k、v cache 大小是 2MB
 ```
 
-那么16GB的空闲显存里，可以放得下 16/0.002 = 8000 个 tokens，或者我们可以做 bs 为 4，每个请求最大 2048 token
+那么16GB的空闲显存里，可以放得下 16/0.002 = 8000 个 tokens，或者我们可以把bs从1提到4，那每个请求最大 2048 token
 
 这很糟糕，因为我们希望能做更高的 batch size，而不是受限于显存。更高的 bs 收益更大，因为处理同样的请求，bs增大后 GPU 耗时并没有增加多少。另外如果 bs 这么低，那我们就受限于显存，那么就没必要使用 kv cache
 
+对于4个 GPU的情况，我们有 56(为什么不是 16*4=64？）/0.002 = 23000 个 tokens。
 
+在中间计算过程中也有空间占用，但可以忽略不计
 
 ### model parallelism
 解释 TP 来清楚地描绘通信的代价
+
+不会介绍完整的细节。只会讲能帮助我们理解在性能和计算通信方面的开销。
+
+模型并行的结果，是需要把权重都传递一份，而 flops 是被均分（加速器的数量）
+
+我们假设使用 tensor parallel：把模型从中间切分开。每个加速器使用它自己的那份权重来计算，然后和其他人同步。更简单的方法是 pipeline 并行，每一个GPU 里面都只保留了部分的层。这样做能把权重加载的开销均分，但是会有GPU的空闲。训练时可以使用microbatch。 Pipeline 也并不能用掉内存带宽，如果是 flops bound（大 batch）就也还好。pipeline 的好处是通信代价小。只需要每个 GPU 通信 dmodel, 而模型并行里需要 每个layer 里需要 N*dmodel 的通信，其中N是GPU个数。
+
+接下来介绍最后一个 A100 GPU 下的常量：通信带宽是 300GB/s。文档虽然写了 600GB/s，但是 NV 是把每个 chip 上的输入 300GB/s 和 输出 300GB/s 算到了一起，而不是使用一个双向的带宽（我们计算时更需要这个）
+
+
 
 ### latency 计算
 给推理速度计算出了天花板
