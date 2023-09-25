@@ -84,10 +84,21 @@ kv cache 的存储代价，模型权重的存储代价，对于性能而言，ca
 
 模型并行的结果，是需要把权重都传递一份，而 flops 是被均分（加速器的数量）
 
-我们假设使用 tensor parallel：把模型从中间切分开。每个加速器使用它自己的那份权重来计算，然后和其他人同步。更简单的方法是 pipeline 并行，每一个GPU 里面都只保留了部分的层。这样做能把权重加载的开销均分，但是会有GPU的空闲。训练时可以使用microbatch。 Pipeline 也并不能用掉内存带宽，如果是 flops bound（大 batch）就也还好。pipeline 的好处是通信代价小。只需要每个 GPU 通信 dmodel, 而模型并行里需要 每个layer 里需要 N*dmodel 的通信，其中N是GPU个数。
+我们假设使用 tensor parallel：把模型从中间切分开。每个加速器使用它自己的那份权重来计算，然后和其他人同步。更简单的方法是 pipeline 并行，每一个GPU 里面都只保留了部分的层。这样做能把权重加载的开销均分，但是会有GPU的空闲。训练时可以使用microbatch。 Pipeline 也并不能用掉内存带宽，如果是 flops bound（大 batch）就也还好。pipeline 的好处是通信代价小。只需要每个 GPU 通信 dmodel, 而模型并行里需要 每个layer 里需要 N*dmodel 的通信(把并行的结果聚合到一起），其中N是GPU个数。
 
 接下来介绍最后一个 A100 GPU 下的常量：通信带宽是 300GB/s。文档虽然写了 600GB/s，但是 NV 是把每个 chip 上的输入 300GB/s 和 输出 300GB/s 算到了一起，而不是使用一个双向的带宽（我们计算时更需要这个）
 
+![](imgs/model_parallel.png)
+
+在上面的这个图里，从黄色的 token embedding 开始。紫色框是说明权重如何被切分到多个 GPU 上，使用了非常小的模型，方便可以把所有东西画到一幅图里。通用的思路是对于两个矩阵 X 和 Y，可以把他们都分片，然后做乘积。然后把乘积算回来，然后合并为最后的结果
+
+对于 Attention 部分，大部分不需要通信，因为 attention heads 本来也是拼接到一起然后乘以 Wo。当乘以v之后，拿着结果乘以 Wo 的分片，拿到了 Os [dmodel, nheads/N] 。然后加速器需要和其他peer 之间互传结果，即需要 （N-1)*dmodel/N 的开销（allreduce）
+
+而 MLP 也是类似
+
+![](imgs/Megatron-LM-tensor-parallel.png)
+
+所以最终我们会做4*(N-1)dmodel/N bytes 的通信。kv cache 会被切分到 GPU 上
 
 
 ### latency 计算

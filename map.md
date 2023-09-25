@@ -439,8 +439,6 @@ How continuous batching enables 23x throughput in LLM inference while reducing p
 [Hugging Face Text Generation Inference](https://github.com/huggingface/text-generation-inference/tree/main) [My Notes](frameworks/LLM/text-generation-inference.md)
 
 Numbers every LLM Developer should known [My Notes](frameworks/LLM/numbers-every-llm-developer-should-known.md)
-
-Transformer Inference Arithmetic(2022.3.30) [My Notes](frameworks/LLM/transformer-inference-arithmetic.md)
 ### Checkpoint
 Microsoft CheckFreq : [My Notes](papers/
 ### Recommenders 
