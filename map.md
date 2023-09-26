@@ -441,6 +441,8 @@ How continuous batching enables 23x throughput in LLM inference while reducing p
 Numbers every LLM Developer should known [My Notes](frameworks/LLM/numbers-every-llm-developer-should-known.md)
 
 Llama 2: Open Foundation and Fine-Tuned Chat Models(2023.7.18) [My Notes](./papers/NLP/llama2.md)
+
+An Initial Exploration of Theoretical Support for Language Model Data Engineering Part1 [My Notes](./papers/NLP/an-initial-exploration-of-theoretical-support-for-language-model-data.md)
 ### Checkpoint
 Microsoft CheckFreq : [My Notes](papers/
 ### Recommenders 
