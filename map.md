@@ -321,6 +321,17 @@ LLM Powered Autonomous Agents [My Notes](frameworks/LLM/llm-powered-automous-age
 ### Generative AI
 Generative Agents: Interactive Simulacra of Human Behavior(2023.4.7) [My Notes](papers/elastic-training/elan-towards-generic-and-efficient-elastic-training-for-deep-learning.md)
 
+### Large Multimodal Models(LMM)
+
+BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models
+
+MiniGPT-4: Enhancing Vision-Language Understanding with Advanced Large Language Models
+
+相关库：
+LAVIS(BLIP, Salesforcee): A Python deep learning library for LAnguage-and-VISion intelligence research and applications
+
+LLaVA(火山、岩浆）：Large Language and Vision Assistant. Visual Instruction tuning towards large language and vision models with GPT-4 level capabilities（微软和 Wisconsin-Madison）。在 [github 首页](https://github.com/haotian-liu/LLaVA)上有很多相关的论文和 notes 可以看。[My Notes]()
+
 ###  1.13. <a name='Parallelism'></a>Parallelism
 
 Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Parallelism (2020.3): [My Notes](papers/megatron-lm.md)
@@ -388,7 +399,7 @@ The Lottery Ticket Hypothesis: Finding Sparse, Trainable Neural Networks(ICLR �
 
  [My Notes](./papers/fasterMoe/SmartScheduling.md)
 
-### NLP
+### LLM
 
 Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Notes](,/papers/NLP/scale-efficiently_insights-from-pretraining-and-fine-tuning-transformers.md)
 
@@ -443,8 +454,14 @@ Numbers every LLM Developer should known [My Notes](frameworks/LLM/numbers-every
 Llama 2: Open Foundation and Fine-Tuned Chat Models(2023.7.18) [My Notes](./papers/NLP/llama2.md)
 
 An Initial Exploration of Theoretical Support for Language Model Data Engineering Part1 [My Notes](./papers/NLP/an-initial-exploration-of-theoretical-support-for-language-model-data.md)
+#### Inference
+[概览](frameworks/LLM/methods.md)
+
+#### Eval
+[概览](frameworks/LLM/eval-methods.md)
 ### Checkpoint
-Microsoft CheckFreq : [My Notes](papers/
+Microsoft CheckFreq : [My Notes](papers/)
+
 ### Recommenders 
 
 PERSIA: An Open, Hybrid System Scaling Deep Learning-based Recommenders up to 100 Trillion Parameters(2021) [Notes](./papers/recommender/persia.md), [Siyu Wang's Notes](./papers/recommender/Persia_note_siyuwang.md)
@@ -452,6 +469,7 @@ PERSIA: An Open, Hybrid System Scaling Deep Learning-based Recommenders up to 10
 #### DataSet
 [TaoBao AD](https://www.kaggle.com/pavansanagapati/ad-displayclick-data-on-taobaocom) [Notes](./papers/recommender/datasets/taobao-ad.md)
 
+MMIC: 医疗影像的数据集
 Bamboo: [Notes](./datasets/bamboo.md)
 
 ##  2. <a name='NetworkOperators'></a>Network Operators
@@ -742,6 +760,7 @@ Google FastSocket & Reduction Server : [My Notes](hardware/GPU/nccl-fastsocket.m
 
 ## Triton inference server
 python_backend [My Notes]()
+
 ## Segmentation
 Segment Anything Model(2023.4) [My Notes](papers/segmentation/segment-anything.md)
 
