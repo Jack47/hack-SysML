@@ -330,8 +330,9 @@ MiniGPT-4: Enhancing Vision-Language Understanding with Advanced Large Language 
 相关库：
 LAVIS(BLIP, Salesforcee): A Python deep learning library for LAnguage-and-VISion intelligence research and applications
 
-LLaVA(火山、岩浆）：Large Language and Vision Assistant. Visual Instruction tuning towards large language and vision models with GPT-4 level capabilities（微软和 Wisconsin-Madison）。在 [github 首页](https://github.com/haotian-liu/LLaVA)上有很多相关的论文和 notes 可以看。[My Notes]()
+ Visual Instruction Tuning(2023.4 Microsoft)[My Notes](papers/multimodal/visual-instruction-tuning.md). 模型叫：LLaVA(火山、岩浆）：Large Language and Vision Assistant. Visual Instruction tuning towards large language and vision models with GPT-4 level capabilities（微软和 Wisconsin-Madison）。在 [github 首页](https://github.com/haotian-liu/LLaVA)上有很多相关的论文和 notes 可以看。
 
+Qwen-VL: A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond(2023.9.14)
 ###  1.13. <a name='Parallelism'></a>Parallelism
 
 Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Parallelism (2020.3): [My Notes](papers/megatron-lm.md)
@@ -601,6 +602,9 @@ OneFlow: Redesign the Distributed Deep Learning Framework from Scratch。主要�
  [Pytorch CUDA Memory Caching Allocator](./frameworks/pytorch/memory-caching-allocator.md)
 
  [PyTorch debug 方法合集](./frameworks/pytorch/debug.md)
+ 
+ 
+[Accelerate(hugging face)](./frameworks/pytorch/accelerate.md)
 ####  5.5.1. <a name='JIT'></a>JIT
 
 ![](https://github.com/pytorch/tvm/blob/master/pt_execution.png?raw=true)
