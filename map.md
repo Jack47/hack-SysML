@@ -455,6 +455,8 @@ Numbers every LLM Developer should known [My Notes](frameworks/LLM/numbers-every
 Llama 2: Open Foundation and Fine-Tuned Chat Models(2023.7.18) [My Notes](./papers/NLP/llama2.md)
 
 An Initial Exploration of Theoretical Support for Language Model Data Engineering Part1 [My Notes](./papers/NLP/an-initial-exploration-of-theoretical-support-for-language-model-data.md)
+#### LLM Attacks
+Universal and Transferable Adversarial Attacks on Aligned Language Models [My Notes](./papers/NLP/universal-and-transferable-adversarial-attacks-on-aligned-language-models.md): 需要开源模型的checkpoint
 #### Inference
 [概览](frameworks/LLM/methods.md)
 
