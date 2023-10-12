@@ -322,6 +322,7 @@ LLM Powered Autonomous Agents [My Notes](frameworks/LLM/llm-powered-automous-age
 Generative Agents: Interactive Simulacra of Human Behavior(2023.4.7) [My Notes](papers/elastic-training/elan-towards-generic-and-efficient-elastic-training-for-deep-learning.md)
 
 ### Large Multimodal Models(LMM)
+Flamingo: a Visual Language Model for Few-Shot Learning(2022.4): 类似多模态领域的 GPT3 时刻，结合预训练好的视觉和语言两个模型，使用文本数据训练后，就可以有 few shot 能力。有开源的版本。DeepMind 博客里介绍的标题是：Tackling multiple tasks with a single visual language model
 
 BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models
 
@@ -334,7 +335,8 @@ LAVIS(BLIP, Salesforcee): A Python deep learning library for LAnguage-and-VISion
 
 Qwen-VL: A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond(2023.9.14 Alibaba)
 
-Shikra: Unleashing Multimodal LLM's Referential Dialogue Magic（sensetime 2023, 7）: 非常简单，没有加额外的词表，位置编码前后检测模块。所有输入输出都是自研语言的格式
+Shikra: Unleashing Multimodal LLM's Referential Dialogue Magic（sensetime 2023, 7）: 非常简单，没有加额外的词表，位置编码前后检测模块。所有输入输出都是自研语言的格式。比较好奇里面的位置是如何训练和计算的。数据集里有带了 box 的数据
+
 ###  1.13. <a name='Parallelism'></a>Parallelism
 
 Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Parallelism (2020.3): [My Notes](papers/megatron-lm.md)
@@ -370,6 +372,7 @@ Memory Efficient Pipeline-Parallel DNN Training(ICML 2021): 主要是提出了 P
 ####  1.13.3. <a name='ParallelizationStrategies'></a>Parallelization Strategies
 [Beyond Data and Model Parallelism for Deep Neural Networks](https://arxiv.org/pdf/1807.05358.pdf)(2018)
 > Defined a more comprehensive search space of parallelization strategies for DNNs called SOAP, which includes strategies to parallelize a DNN in the Sample, Operation, Attribute, and Parameter dimesions. Proposed FlexFlow, a deep learning framework that uses guided randomized search of the SOAP spaceto find a fast parallelization strategy for a specific parallel machine. To accelerate this search, FlexFlow introduces a novel execution simulator that can accurately predict a parallelizaiton strategy's performance.
+
 jiazhihao的，里面有一个模拟器，能预测出速度
 
 ###  1.14. <a name='Quantization'></a>Quantization 
@@ -432,6 +435,12 @@ ChatGPT: Optimizing Language Models for Dialogue(OpenAI 2022.11.30). 无论文�
 
 LLaMA: Open and Efficient Foundation Language Models: 无须私有的数据集，用开源的就可以训出 13B 上比 175B 好的效果
 
+下面都是基于 LLaMA，在 chatgpt 标注出的语言指令追随数据上 Finetune 的:
+
+Vicuna: An open-source chatbot impressing gpt-4 with 90% chatgpt quality
+
+Stanford alpaca: An instruction-following llama model
+
 通向 AGI 之路：大型语言模型(LLM)技术精要 [My Notes](papers/NLP/go-to-agi-llm-abstract.md)
 
 MetaGPT: Multi-Agent Meta Programming Framework(Assign different roles to GPTs to form a collaborative software entity for complex tasks.)
@@ -457,6 +466,13 @@ Numbers every LLM Developer should known [My Notes](frameworks/LLM/numbers-every
 Llama 2: Open Foundation and Fine-Tuned Chat Models(2023.7.18) [My Notes](./papers/NLP/llama2.md)
 
 An Initial Exploration of Theoretical Support for Language Model Data Engineering Part1 [My Notes](./papers/NLP/an-initial-exploration-of-theoretical-support-for-language-model-data.md)
+
+
+[concepts.md](./papers/NLP/concepts.md)
+
+### Support Chinese
+Efficient and Effective Text Encoding for Chinese LLAMA and Alpaca [My notes](./papers/NLP/efficient-and-effective-text-encoding-for-chinese-llama-and-alpaca.md)
+
 #### LLM Attacks
 Universal and Transferable Adversarial Attacks on Aligned Language Models [My Notes](./papers/NLP/universal-and-transferable-adversarial-attacks-on-aligned-language-models.md): 需要开源模型的checkpoint
 

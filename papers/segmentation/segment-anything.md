@@ -6,7 +6,7 @@
 6. 这个工作可能有什么深远的影响？
 
 SAM(Segment Anything Model) 是一个新的 AI 模型，可以从任意图片里，剪切出任意的对象，只需要点击一下。它是 promptable segmentation 系统，有着 zero-shot 的泛化能力，可以到不熟悉的
-对象和图片上，而不需要额外的训练
+对象和图片上，而不需要额外的训练; 挺神奇的，box 是怎么产出的呢？训练集里是11M图片和1.1B mask
 
 ![](imgs/model-arch.png)
 
@@ -34,7 +34,7 @@ SAM(Segment Anything Model) 是一个新的 AI 模型，可以从任意图片里
 * prompt encoder 和 mask encoder 花费大约 50ms 的 CPU 在浏览器里 SIMD 执行的时间
 
 ### 模型如何产生 mask 标签？
-模型不支持，只能预测出 mask，无法产生标签
+模型不支持，只能预测出 mask(轮廓），无法产生标签(类别信息）
 
 ### 训练需要花多久？
 256 A100 上，需要3-5天
