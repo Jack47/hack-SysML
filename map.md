@@ -332,7 +332,9 @@ LAVIS(BLIP, Salesforcee): A Python deep learning library for LAnguage-and-VISion
 
  Visual Instruction Tuning(2023.4 Microsoft)[My Notes](papers/multimodal/visual-instruction-tuning.md). 模型叫：LLaVA(火山、岩浆）：Large Language and Vision Assistant. Visual Instruction tuning towards large language and vision models with GPT-4 level capabilities（微软和 Wisconsin-Madison）。在 [github 首页](https://github.com/haotian-liu/LLaVA)上有很多相关的论文和 notes 可以看。
 
-Qwen-VL: A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond(2023.9.14)
+Qwen-VL: A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond(2023.9.14 Alibaba)
+
+Shikra: Unleashing Multimodal LLM's Referential Dialogue Magic（sensetime 2023, 7）: 非常简单，没有加额外的词表，位置编码前后检测模块。所有输入输出都是自研语言的格式
 ###  1.13. <a name='Parallelism'></a>Parallelism
 
 Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Parallelism (2020.3): [My Notes](papers/megatron-lm.md)
@@ -457,6 +459,10 @@ Llama 2: Open Foundation and Fine-Tuned Chat Models(2023.7.18) [My Notes](./pape
 An Initial Exploration of Theoretical Support for Language Model Data Engineering Part1 [My Notes](./papers/NLP/an-initial-exploration-of-theoretical-support-for-language-model-data.md)
 #### LLM Attacks
 Universal and Transferable Adversarial Attacks on Aligned Language Models [My Notes](./papers/NLP/universal-and-transferable-adversarial-attacks-on-aligned-language-models.md): 需要开源模型的checkpoint
+
+#### Representation Engineering (RepE)
+Representation Engineering: A Top-Down Approach to AI Transparency
+
 #### Inference
 [概览](frameworks/LLM/methods.md)
 

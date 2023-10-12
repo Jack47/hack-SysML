@@ -5,3 +5,5 @@
 5. 有哪些局限性？如何优化？
 6. 这个工作可能有什么深远的影响？
 
+
+[Example of Jailbreaking LLaMA-2](https://github.com/llm-attacks/llm-attacks/blob/main/demo.ipynb)
