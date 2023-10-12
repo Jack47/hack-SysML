@@ -180,6 +180,7 @@ TryOnDiffusion: A Tale of Two UNets() [My Notes](papers/AIGC/try-on-diffusion.md
 
 mlc-llm: Enable everyone to develop, optimize and deploy AI models natively on everyone's devices.
 
+DALL*E3 [Intro](papers/AIGC/dall-e-3-intro.md)
 ###  1.6. <a name='ObjectDetection'></a>Object Detection
 
 [Concepts](./papers/object-detection/concepts.md)
@@ -335,7 +336,9 @@ LAVIS(BLIP, Salesforcee): A Python deep learning library for LAnguage-and-VISion
 
 Qwen-VL: A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond(2023.9.14 Alibaba)
 
-Shikra: Unleashing Multimodal LLM's Referential Dialogue Magic（sensetime 2023, 7）: 非常简单，没有加额外的词表，位置编码前后检测模块。所有输入输出都是自研语言的格式。比较好奇里面的位置是如何训练和计算的。数据集里有带了 box 的数据
+Kosmos-2:(Microsoft 2023): 主要是支持了 boudning box 和 grounding text
+
+Shikra: Unleashing Multimodal LLM's Referential Dialogue Magic（sensetime 2023, 7）: 非常简单，没有加额外的词表，位置编码前后检测模块。所有输入输出都是自研语言的格式。比较好奇里面的位置是如何训练和计算的。数据集里有带了 box 的数据 [My Notes](papers/multimodal/shikra.md)
 
 ###  1.13. <a name='Parallelism'></a>Parallelism
 
