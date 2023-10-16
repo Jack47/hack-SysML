@@ -350,6 +350,8 @@ Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Paralle
 
 Reducing Activation Recompution in Large Transformer Models(Megatron-v3: 2022.5.10) [My Notes](./papers/NLP/megatron-v3-reducing-activation-in-large-transformer-models.md)
 
+LightSeq: Sequence Level Parallelism for Districuted Training of Long Context Transformers(2023.10.5) [My Notes](./papers/NLP/lightseq-sequence-level-parallelism.md)
+
 ####  1.13.1. <a name='DataParallel'></a>Data Parallel
 [PyTorch Distributed: Experiences on Accelerating Data Parallel Training](https://arxiv.org/pdf/2006.15704.pdf)(2020.6.28) [My Notes](papers/PyTorch%20Distributed-Data%20Parallel%20Training.md)
 
