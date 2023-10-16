@@ -33,3 +33,7 @@ Selective checkpoint 目的是只重计算 attention 模块，因为它需要的
 ![](imgs/sequence-parallelism-in-lightseq.png)
 
 ![](imgs/fwd-pass-lightseq.png)
+
+** Communication and memory analysis** : Megatron-LM 里每个 worker 需要执行 6次 all-gather 和 4次 reduce-scatter，在 (N/P)*d size tensor 上，因此通信总共是10 Nd。
+
+而 DISTATTN 里，每个 worker 需要拿取 (N/P)/d 大小的 key 和 value，所以对应通信量是 2*(N/P)*dxP = 2Nd。而因果关系语言模型里，一半的key和value 是不参与通信的，所以 fwd 过程里的通信量是 Nd。在 backward 时，2Nd。所以总共是3Nd。
