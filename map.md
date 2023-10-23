@@ -319,6 +319,9 @@ Elan: Towards Generic and Efficient Elastic Training for Deep Learning(2020) [My
 
 ### Agents
 LLM Powered Autonomous Agents [My Notes](frameworks/LLM/llm-powered-automous-agents.md)
+
+MemGPT(Berkeley):
+
 ### Generative AI
 Generative Agents: Interactive Simulacra of Human Behavior(2023.4.7) [My Notes](papers/elastic-training/elan-towards-generic-and-efficient-elastic-training-for-deep-learning.md)
 
@@ -327,7 +330,11 @@ Flamingo: a Visual Language Model for Few-Shot Learning(2022.4): 类似多模态
 
 BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models
 
-MiniGPT-4: Enhancing Vision-Language Understanding with Advanced Large Language Models
+MiniGPT-4: Enhancing Vision-Language Understanding with Advanced Large Language Models(KAUST)
+
+InstructBLIP(Salesforce)
+
+VisualGLM(智谱 AI)
 
 相关库：
 LAVIS(BLIP, Salesforcee): A Python deep learning library for LAnguage-and-VISion intelligence research and applications
@@ -342,6 +349,7 @@ Kosmos-2:(Microsoft 2023): 主要是支持了 boudning box 和 grounding text
 
 Shikra: Unleashing Multimodal LLM's Referential Dialogue Magic（sensetime 2023, 7）: 非常简单，没有加额外的词表，位置编码前后检测模块。所有输入输出都是自研语言的格式。比较好奇里面的位置是如何训练和计算的。数据集里有带了 box 的数据 [My Notes](papers/multimodal/shikra.md)
 
+NExt-GPT: Any-to-Any Multimodal LLM(2023.9.11) [My Notes](papers/multimodal/next-GPT.md)
 ###  1.13. <a name='Parallelism'></a>Parallelism
 
 Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Parallelism (2020.3): [My Notes](papers/megatron-lm.md)
