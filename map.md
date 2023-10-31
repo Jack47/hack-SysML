@@ -775,6 +775,10 @@ CUTLASS: My Notes: [1](./hardware/GPU/cutlass.md), [2](./hardware/GPU/cutlass/cu
 
 PyTorch Lightning Profiler. [My Notes](frameworks/lightning/profiler.md)
 
+PyTorch 里的几种 Profiler 方式：[My Notes](frameworks/pytorch/profiler.md)
+
+Hotline Profiler(2023): Automatic Annotation and A Multi-Scale Timeline for Visualizing Time-Use in DNN Training. [My Notes](frameworks/hotline-profiler.md)
+
 cuBLAS: [My Notes](./hardware/GPU/cublas.md)
 
 [pytorch cuda api](./hardware/GPU/pytorch-cuda.md)
