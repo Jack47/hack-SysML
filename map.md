@@ -111,6 +111,10 @@ SimA: Simple Softmax-free Attention for Vision Transoformers:
 
 FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning [My Notes](./papers/transformer/flash-attention-2.md)
 
+FlashDecoding for long-context inference (2023.10) [My Notes](./papers/transformer/flash-decoding.md)
+
+FlashDecoding++(2023.11) [My Notes](./papers/transformer/flash-decoding++.md)
+
 ###  1.4. <a name='AttributeRecognition'></a>Attribute Recognition
 [Hierarchical Feature Embedding for Attribute Recognition]() (2020.5.23) [My Notes](./papers/attribute-recognition/hierarchical-feature-embedding-for-attribute-recognition.md)
 
@@ -855,7 +859,7 @@ DeepSpeed Inference: Enabling Efficient Inference of Transformer Models at Unpre
 
 TensorRT-LLM 系列：
 
-TensorRT-LLM Architecture [My Notes](frameworks/LLM/
+TensorRT-LLM Architecture [My Notes](frameworks/LLM/tensorrt-llm.md)
 
 训练相关的：
 
