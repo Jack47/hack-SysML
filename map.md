@@ -761,7 +761,8 @@ NVIDIA Automatic Mixed Precision training [My Notes](./hardware/GPU/mixed-precis
 [fp16](./hardware/GPU/fp16.md)
 
 [int8: A100 里带的](./hardware/GPU/a100.md)
-[fp8: Hopper 里带的](./hardware/GPU/hopper-100.md)
+[fp8: Hopper 里带的](./hardware/GPU/hopper-100.md) [FP8论文：FP8 Formats for Deep Learning](2022.9) [My Notes](papers/fp8-formats-for-deep-learning.md)
+
 
 Fractional GPUs: Software-based Compute and Memory Bandwidth Reservation for GPUs: 实现了比 NV 自己的 MPS 更好的划分GPU ，跑多个 程序的方式。 之前腾讯的Gaia Stack 里实现有一些限制，本质是限制了调用次数，比如 kernel 得发射很多，才比较有效，而且多个程序之间没有物理隔离。[开源了实现](https://github.com/sakjain92/Fractional-GPUs). [My Notes](./hardware/GPU/fractional-GPUs)
 
