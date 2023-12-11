@@ -354,6 +354,9 @@ Kosmos-2:(Microsoft 2023): 主要是支持了 boudning box 和 grounding text
 Shikra: Unleashing Multimodal LLM's Referential Dialogue Magic（sensetime 2023, 7）: 非常简单，没有加额外的词表，位置编码前后检测模块。所有输入输出都是自研语言的格式。比较好奇里面的位置是如何训练和计算的。数据集里有带了 box 的数据 [My Notes](papers/multimodal/shikra.md)
 
 NExt-GPT: Any-to-Any Multimodal LLM(2023.9.11) [My Notes](papers/multimodal/next-GPT.md)
+
+Gemini: A Family of Highly Capable Multimodal Models(2023.12.11) [My Notes](papers/multimodal/gemini.md)
+
 ###  1.13. <a name='Parallelism'></a>Parallelism
 
 Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Parallelism (2020.3): [My Notes](papers/megatron-lm.md)
@@ -512,6 +515,16 @@ Representation Engineering: A Top-Down Approach to AI Transparency
 
 #### Eval
 [概览](frameworks/LLM/eval-methods.md)
+
+#### Quantization
+AWQ: Activation-aware **Weight Quantization** for LLM Compression and Acceleration(Han Song 2023.6)
+
+INT8 SmoothQuant(W8A8)(Accurate and Efficient Post-Training Quantization for Large Language Models)(Song Han 2022.11)：需要提前对权重做预处理。TensorRT-LLM 里包含了脚本来做上述处理
+
+INT4 and INT8 Weight-Only(W4A16 and W8A16)
+
+GPTQ: Accurate Post-Training *Quantization* for *Generative Pre-trained Transformers* (Han Song 2022.10)
+
 ### Checkpoint
 Microsoft CheckFreq : [My Notes](papers/)
 
