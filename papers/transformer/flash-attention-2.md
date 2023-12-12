@@ -26,4 +26,8 @@ FA-2 比 FA 快2倍，意味着用同样的在 8k 上下文上训练代价，我
 未来准备支持更多设备比如 H100，AMD，支持更多数据类型比如 FP8.而且准备使用新的硬件特性(TMA，第4代 Tensor Cores，fp8）。
 
 ## 致谢
-基于 CUTLASS 3.x 的版本，实现了 FA-2，因为里面提供了干净的抽象，更强大的 building blocks
+基于 CUTLASS 3.x 的版本，实现了 FA-2，因为里面提供了干净的抽象，更强大的 building blocks: [CuTe](https://github.com/NVIDIA/cutlass/blob/main/media/docs/cute/00_quickstart.md)
+
+## 参考资料
+1. [图文并茂，很简短：FlashAttention-2](https://princeton-nlp.github.io/flash-atttention-2/)
+2. [PyTorch 下的实现(教育用途)](https://github.com/kyegomez/FlashAttention20)
