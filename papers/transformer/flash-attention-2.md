@@ -20,5 +20,10 @@ A100 上 FP16、BF16 matmul 能达到最大的理论吞吐是 312 TFLOPs/s，而
 
 ## 新特性：head 支持到 256，多 query attention
 
+## 5 讨论和未来方向
+FA-2 比 FA 快2倍，意味着用同样的在 8k 上下文上训练代价，我们可以训练 16k 的上下文
 
+未来准备支持更多设备比如 H100，AMD，支持更多数据类型比如 FP8.而且准备使用新的硬件特性(TMA，第4代 Tensor Cores，fp8）。
 
+## 致谢
+基于 CUTLASS 3.x 的版本，实现了 FA-2，因为里面提供了干净的抽象，更强大的 building blocks
