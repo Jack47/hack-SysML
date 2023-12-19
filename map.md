@@ -321,6 +321,7 @@ MONet: Memory optimization for deep networks(ICLR 2021): 与DTR几乎同期，�
 ### Elastic Training
 Elan: Towards Generic and Efficient Elastic Training for Deep Learning(2020) [My Notes]()
 
+TRANSFORM: An Efficient Fault-Tolerant System for Training LLMs(2023.10) [My Notes](./)
 ### Agents
 LLM Powered Autonomous Agents [My Notes](frameworks/LLM/llm-powered-automous-agents.md)
 
