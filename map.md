@@ -495,6 +495,11 @@ An Initial Exploration of Theoretical Support for Language Model Data Engineerin
 
 PyTorch Accelerating Generative AI with PyTorch II: GPT, Fast (2023.11.30) [My Notes](./frameworks/pytorch/accelerating-generative-ai-ii.md)
 
+
+#### Context Scaling(Longer Context)
+
+Understanding data influence on context scaling: a close look at baseline solution(fuyao, 2023.12): 主要探讨的最基础的扩大上下文的方案里，数据相关的东西对语言模型上下文 scaling 的影响。 [My Notes](papers/NLP/understanding-data-influence-on-context-scaling.md)
+
 [concepts.md](./papers/NLP/concepts.md)
 
 #### Context Length
