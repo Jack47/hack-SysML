@@ -157,6 +157,8 @@ CLIP(Constrative Language-Image Pretraining), DALLE, Diffusion Model 之间的�
 
 CLIP: Constrative Language-Image Pretraining(2021.1.5): [My Notes](papers/multimodal/CLIP.md), [Intro](papers/multimodal/CLIP-intro.md)
 
+EVA-CLIP: Improved Training Techniques for CLIP at Scale(2023.3.27)
+
 Speed Is All You Need: On-Device Acceleration of Large DIffusion Models via GPU-Aware Optimizations: [My Notes](papers/multimodal/speed-is-all-you-need.md) (Google 2023 4.21)
 
 ImageBind: One Embedding Space To Bind Them All(2023.5.9) [My Notes](papers/multimodal/imagebind.md)
@@ -737,6 +739,9 @@ The NumPy array: a structure for efficient numerical computation(IEEE Computing 
 ### XLA
 
 [XLA concepts](frameworks/XLA/concepts.md)
+
+## Storage
+[JuiceFS Intro](storage/juicefs/intro.md)
 
 ##  6. <a name='CharacterizingMLTrainingWorkloads'></a>Characterizing ML Training Workloads
 [Characterizing Deep Learning Training Workloads on Alibaba-PAI](https://arxiv.org/pdf/1910.05930)(2019-10-14): 主要看看他们是用什么方法来profile的，是否有借鉴意义
