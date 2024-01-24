@@ -512,6 +512,9 @@ Understanding data influence on context scaling: a close look at baseline soluti
 
 [Extending Context Window of Large Language Models via Positional Interpolation](https://arxiv.org/abs/2306.15595)(Meta Yuandong Tian 6.28)
 
+DeepSpeed Ulysses: System Optimizations for Enabling Training of Extreme Long Sequence Transformer Models(2023.8) [My Notes](frameworks/LLM/deepspeed-ulysses.md)
+
+
 #### Support Chinese
 Efficient and Effective Text Encoding for Chinese LLAMA and Alpaca [My notes](./papers/NLP/efficient-and-effective-text-encoding-for-chinese-llama-and-alpaca.md)
 
