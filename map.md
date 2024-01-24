@@ -396,6 +396,8 @@ Memory Efficient Pipeline-Parallel DNN Training(ICML 2021): 主要是提出了 P
 
 [torochpipe](https://github.com/kakaobrain/torchgpipe)
 
+Zero Bubble Pipeline Parallelism (2023.11.30) [My Notes](papers/parallelism/zero-bubble-pipeline-parallelism.md)
+
 ####  1.13.3. <a name='ParallelizationStrategies'></a>Parallelization Strategies
 [Beyond Data and Model Parallelism for Deep Neural Networks](https://arxiv.org/pdf/1807.05358.pdf)(2018)
 > Defined a more comprehensive search space of parallelization strategies for DNNs called SOAP, which includes strategies to parallelize a DNN in the Sample, Operation, Attribute, and Parameter dimesions. Proposed FlexFlow, a deep learning framework that uses guided randomized search of the SOAP spaceto find a fast parallelization strategy for a specific parallel machine. To accelerate this search, FlexFlow introduces a novel execution simulator that can accurately predict a parallelizaiton strategy's performance.
