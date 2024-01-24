@@ -310,6 +310,7 @@ PatrickStar: Parallel Training of Pre-trained Models via Chunk-based Memory Mana
 
 ZeRO++: Extremely Efficient Collective Communication for Giant Model Training(2023.6.16)[My Notes](./papers/communication/ZeROPlusPlus.md)
 
+Fast, Flexible Allocation for NVIDIA CUDA with RAPIDS Memory Manager(2020.12.8) [My Notes](./papers/memory-efficiency/RMM.md)
 ###  1.12. <a name='Compression'></a>Compression
 
 Deep compression: Compressing deep nerual networks with pruning, trained quantization and huffman coding. (ICLR, 2016 Song Han)
