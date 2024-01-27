@@ -749,7 +749,10 @@ The NumPy array: a structure for efficient numerical computation(IEEE Computing 
 [XLA concepts](frameworks/XLA/concepts.md)
 
 ## Storage
+
 [JuiceFS Intro](storage/juicefs/intro.md)
+
+[磁盘读写速度测试](storage/disk-speed.md)
 
 ##  6. <a name='CharacterizingMLTrainingWorkloads'></a>Characterizing ML Training Workloads
 [Characterizing Deep Learning Training Workloads on Alibaba-PAI](https://arxiv.org/pdf/1910.05930)(2019-10-14): 主要看看他们是用什么方法来profile的，是否有借鉴意义
