@@ -362,6 +362,8 @@ NExt-GPT: Any-to-Any Multimodal LLM(2023.9.11) [My Notes](papers/multimodal/next
 Gemini: A Family of Highly Capable Multimodal Models(2023.12.11) [My Notes](papers/multimodal/gemini.md)
 
 
+#### dataset
+webdataset [My Notes](datasets/webdataset.md)
 ###  1.13. <a name='Parallelism'></a>Parallelism
 
 Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Parallelism (2020.3): [My Notes](papers/megatron-lm.md)
