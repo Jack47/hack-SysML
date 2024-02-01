@@ -372,7 +372,7 @@ Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Paralle
 
 [Efficient Large-Scale Language Model Training on GPU Clusters](https://arxiv.org/pdf/2104.04473.pdf) (2021.4 NVIDIA, Standford, Microsoft): 主要介绍了继 Megatron-LM 之后，如何结合多种并行方式，让特定 batchsize 的大transformer 模型，高通吐地运行起来。[阅读笔记](papers/efficient-large-scale-language-model-training.md)
 
-Reducing Activation Recompution in Large Transformer Models(Megatron-v3: 2022.5.10) [My Notes](./papers/NLP/megatron-v3-reducing-activation-in-large-transformer-models.md)
+Reducing Activation Recompution in Large Transformer Models(Megatron-v3: 2022.5.10) [My Notes](./papers/NLP/megatron-v3-reducing-activation-in-large-transformer-models.md): 里面有详细的各种并行情况下激活值的计算，介绍了 sp 和 selective recomputation
 
 LightSeq: Sequence Level Parallelism for Districuted Training of Long Context Transformers(2023.10.5) [My Notes](./papers/NLP/lightseq-sequence-level-parallelism.md)
 
