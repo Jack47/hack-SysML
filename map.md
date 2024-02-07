@@ -155,7 +155,7 @@ Muse: Text-To-Image Generation via Masked Generative Transformers: FID（quality
 
 CLIP(Constrative Language-Image Pretraining), DALLE, Diffusion Model 之间的异同点？
 
-CLIP: Constrative Language-Image Pretraining(2021.1.5): [My Notes](papers/multimodal/CLIP.md), [Intro](papers/multimodal/CLIP-intro.md)
+CLIP: Constrative Language-Image Pretraining(2021.1.5): [My Notes](papers/multimodal/CLIP.md), [Intro](papers/multimodal/CLIP-intro.md) : Leanrning **Transferable** Visual Models From **Natural Language** Supervision
 
 EVA-CLIP: Improved Training Techniques for CLIP at Scale(2023.3.27)
 
