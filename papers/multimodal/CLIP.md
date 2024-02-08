@@ -120,6 +120,21 @@ BiT 是迁移学习里 few shot 的典型之作。
 6. clip 数据集里就有偏见：宗教
 7. 虽然论文再强调泛化性，但是很多任务和视觉概念很难用语言去描述，这种情况下需要 few shot，但可惜 clip 不是为了这个场景而提出的。所以 CLIP 在有些 few shot 下反而不如 zero shot。反直觉，跟人的行为不一致。所以可以研究怎么让 CLIP 即在 zero shot 下表现好，也在 fewshot 下表现好
 
+```
+model, preprocess = clip.load("ViT-B/32", device=device)
+
+image = preprocess(Image.open("CLIP.png")).unsqueeze(0).to(device)
+text = clip.tokenize(["a diagram", "a dog", "a cat"]).to(device)
+
+with torch.no_grad():
+    image_features = model.encode_image(image)
+    text_features = model.encode_text(text)
+    
+    logits_per_image, logits_per_text = model(image, text)
+    probs = logits_per_image.softmax(dim=-1).cpu.numpy()
+    
+print("Label probs:", probs) # prints: [[0.99279 0.0042 0.00299]]
+```
 ## 9 总结
 动机是希望把 NLP 领域的**任务无关**和互联网级别的预训练方法(革命性成功）迁移到 CV 里：利用文本提示做迁移学习
 
