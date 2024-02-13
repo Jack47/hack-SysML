@@ -446,9 +446,9 @@ Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Note
 
 Few-Shot Learning: **Query** samples are never seen before. Query samples are from unknown classes.
 
-(GPT-1(Generative Pretrained Transformer))(2018.6): 0.117B, 5GB data，Generative 这种有用 [./papers/NLP/gpt1.md]
+(GPT-1(Improving Language Understanding by **Generative Pre-Training**))(2018.6): 0.117B, 5GB data，Generative 这种有用 [./papers/NLP/gpt1.md]：子任务上提供了一些少数样本，发现能极大提升性能
 
-(GPT-2(Generative Pretrained Transformer))(2019.2): 1.5B, 40GB data，泛化性不错
+(GPT-2(Language Models are Unsupervised Multitask Learners))(2019.2): 1.5B, 40GB data，泛化性不错 => 不需要下游标签，直接在子任务上做预训练模型的预测
 
  Language Models are Few-Shot Learners(GPT-3(Generative Pretrained Transformer))(2020.5): 175B, 45TB data
 
