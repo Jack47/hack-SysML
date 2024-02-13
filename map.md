@@ -446,7 +446,7 @@ Scale Efficiently: Insights from Pre-training and Fine-tuning Transformers [Note
 
 Few-Shot Learning: **Query** samples are never seen before. Query samples are from unknown classes.
 
-(GPT-1(Generative Pretrained Transformer))(2018.6): 0.117B, 5GB data，Generative 这种有用
+(GPT-1(Generative Pretrained Transformer))(2018.6): 0.117B, 5GB data，Generative 这种有用 [./papers/NLP/gpt1.md]
 
 (GPT-2(Generative Pretrained Transformer))(2019.2): 1.5B, 40GB data，泛化性不错
 
