@@ -450,9 +450,13 @@ Few-Shot Learning: **Query** samples are never seen before. Query samples are fr
 
 (GPT-2(Language Models are Unsupervised Multitask Learners))(2019.2): 1.5B, 40GB data，泛化性不错 => 不需要下游标签，直接在子任务上做预训练模型的预测
 
- Language Models are Few-Shot Learners(GPT-3(Generative Pretrained Transformer))(2020.5): 175B, 45TB data
+Language Models are Few-Shot Learners(GPT-3(Generative Pretrained Transformer))(2020.5): 175B, 45TB data
 
 (GPT 3(Generative Pretrained Transformer))(2020)
+
+Evaluating Large Language Models Trained on Code(Codex: openai 的 )(2021.7.14)
+
+Competition-Level Code Generation with AlphaCode(2022.2.19):生成更长的代码和文档
 
 [PaLM](./papers/NLP/PaLM.md)(2022.4) [My Notes](papers/NLP/PaLM.md)
 
