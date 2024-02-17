@@ -66,15 +66,15 @@ I_f = image_encoder(I) #[n, d_i]
 T_f = text_encoder(T) #[n, d_t]
 
 # joint multimodal embedding [n, d_e]
-I_e = l2_normalize(np.dot(I_f, W_i), axis=1)
-T_e = l2_normalize(np.dot(T_f, W_t), axis=1)
+I_e = l2_normalize(np.dot(I_f, W_i), axis=1) # 图像特征到图像 embedding
+T_e = l2_normalize(np.dot(T_f, W_t), axis=1) # 文本特征到文本 embedding
 
 # scaled pairwise cosine similarities [n, n]
-logits = np.dot(I_e, T_e.T) * np.exp(t) #
+logits = np.dot(I_e, T_e.T) * np.exp(t) # 文本和图像之间只有一个简单的 linear
 
 # symmetric loss function
 labels = np.arange(n)
-loss_i = cross_entropy_loss(logits, labels, axis=0) # 交叉熵是什么意思？
+loss_i = cross_entropy_loss(logits, labels, axis=0) # 让已有的图像文本对在空间上拉的更近；让不是一个对的图像文本，在空间上距离尽量远
 loss_t = cross_entropy_loss(logits, labels, axis=1) # 
 loss = (loss_i + loss_t)/2
 ```
@@ -141,3 +141,5 @@ print("Label probs:", probs) # prints: [[0.99279 0.0042 0.00299]]
 CLIP 最大的革命性：打破了之前固定种类的范式：收集数据集，训练模型的时候，不需要像 imagnet 那样做 1000 类，只需要文本对即可，这样不仅收集数据、训练、推理的时候都更方便了。
 
 CLIP 想解决的问题：分类问题，而且是用 zero-shot 的方式去解决。而且其他领域（检索、分割、多模态）都可以用 CLIP，然后稍微去做适配。
+
+CLIP 对图像文本匹配，图像文本检索的任务非常有用，因为效果好，而且非常高效！但对 VAQ、VR、VE 这些任务并不高效
