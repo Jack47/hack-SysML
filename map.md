@@ -334,6 +334,8 @@ MemGPT(Berkeley):
 Generative Agents: Interactive Simulacra of Human Behavior(2023.4.7) [My Notes](papers/elastic-training/elan-towards-generic-and-efficient-elastic-training-for-deep-learning.md)
 
 ### Large Multimodal Models(LMM)
+ALBEF(ALign the image and text representations BEfore Fusing): Align before Fuse: Vision and Language Representation Learning with Momentum Distillation(Salesforce Research)2021.10) [My Notes](./papers/multimodal/ALBEF.md)
+
 Flamingo: a Visual Language Model for Few-Shot Learning(2022.4): 类似多模态领域的 GPT3 时刻，结合预训练好的视觉和语言两个模型，使用文本数据训练后，就可以有 few shot 能力。有开源的版本。DeepMind 博客里介绍的标题是：Tackling multiple tasks with a single visual language model
 
 BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models
