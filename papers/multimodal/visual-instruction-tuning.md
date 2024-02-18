@@ -5,6 +5,8 @@
 5. 有哪些局限性？如何优化？
 6. 这个工作可能有什么深远的影响？
 
+Large Multimodal Models that Follows Human's Intent，我们想解决的问题是：如何创建一个可以跟随人类意图的多模态模型？
+
 ## 摘要
 使用机器生成的追随指令数据，能用来提高 LLM 在 zero-shoft 场景下新任务上的能力，但是这个思路很少在多模态领域里使用。在本文里，我们会第一次使用 GPT-4 纯语言模型来产生多模态的语言-图片指令追随数据。通过在这种数据上进行指令调优(instruction tuning)，我们做出了 LLaVA：Large Language and Vision Assistant，一个端到端训练过的大多模态模型，可以把视觉encoder和LLM结合起来做通用的视觉和语言理解。 Science QA 上 fine-tuned 之后，效果更佳。
 
@@ -18,7 +20,8 @@ AI 领域的核心抱负之一是开发一个通用的助手，可以高效跟�
 在本文里，我们提出了视觉的指令追随，第一次尝试把指令调优(instruct tuning)扩展到多模态空间。主要贡献：
 
 * 多模态指令追随的数据。一个挑战是缺乏多模态指令追随的数据。我们提出了使用 ChatGPT、GPT-4 来把图片-文本对转换到合适的指令追随数据的方法
-* 大的多模态模型：把开集视觉编码器和语言解码器 LLaMA 结合到一起，然后再上述产生的指令追随数据集上精调。
+* 大的多模态模型：把开集视觉编码器和语言解码器 Vicuna 结合到一起，然后再上述产生的指令追随数据集上精调。
+* 多模态指令跟随的 benchmark
 * 开源
 
 ## 2 相关工作
@@ -45,7 +48,9 @@ LLaVA network arch:
 
 ![](imgs/LLaVA-network-arch.png)
 
-如图可见，只是简单通过 一个 Projection 矩阵来把 Vision Encoder 里输出的 token 转换到语言的 embedding tokens Hq 上面。其他更复杂（计算开销更高）的方法有：gated cross-attention in Flamingo 和 Q-former in BLIP-2，其他视觉编码器如 SAM 提供对象级别的特性。未来工作里可以探索这些复杂架构
+如图可见，只是简单通过 一个 Projection 矩阵来把 Vision Encoder 里输出的 token 转换到语言的 embedding tokens Hq 上面。其他更复杂（计算开销更高）的方法有：gated cross-attention in Flamingo 和 Q-former in BLIP-2，其他视觉编码器如 SAM 提供对象级别的特性。未来工作里可以探索这些复杂架构。
+
+这个结构就和 B 站 多模态论文精度上文里提到的 ALBEF 里的思路不一样了，并不是双塔，而是金字塔结构(先视觉 encoder，再 vl connector，最后是 lm decoder）？而且视觉部分并不比语言部分大，语言部分使用的是 decoder，而非 encoder。模态融合部分也不大，只是一个 linear。
 
 ### 4.2 Training
 

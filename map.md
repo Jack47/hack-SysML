@@ -349,9 +349,9 @@ VisualGLM(智谱 AI)
 相关库：
 LAVIS(BLIP, Salesforcee): A Python deep learning library for LAnguage-and-VISion intelligence research and applications
 
- Visual Instruction Tuning(2023.4 Microsoft)[My Notes](papers/multimodal/visual-instruction-tuning.md). 模型叫：LLaVA(火山、岩浆）：Large Language and Vision Assistant. Visual Instruction tuning towards large language and vision models with GPT-4 level capabilities（微软和 Wisconsin-Madison）。在 [github 首页](https://github.com/haotian-liu/LLaVA)上有很多相关的论文和 notes 可以看。
+ Visual Instruction Tuning(2023.4 Wisconsin-Madison & Microsoft)[My Notes](papers/multimodal/visual-instruction-tuning.md). 模型叫：LLaVA(火山、岩浆）：Large Language and Vision Assistant. Visual Instruction tuning towards large language and vision models with GPT-4 level capabilities（微软和 Wisconsin-Madison）。在 [github 首页](https://github.com/haotian-liu/LLaVA)上有很多相关的论文和 notes 可以看。
  
-Improved Baselines with Visual Instruction Tuning (2023 10.5): LLaVA2, 在一的基础上做了简单修改，使用公开数据集，在一台A100机器上训练一天就能达到很好的效果
+Improved Baselines with Visual Instruction Tuning (2023 10.5): LLaVA 1.5 [My Notes](papers/multimodal/improved-baselines-with-visual-instruction-tuning.md)。 在一的基础上做了简单修改，使用公开数据集，在一台A100机器上训练一天就能达到很好的效果
 
 Qwen-VL: A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond(2023.9.14 Alibaba)
 
