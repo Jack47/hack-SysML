@@ -52,6 +52,10 @@ LLaVA network arch:
 
 这个结构就和 B 站 多模态论文精度上文里提到的 ALBEF 里的思路不一样了，并不是双塔，而是金字塔结构(先视觉 encoder，再 vl connector，最后是 lm decoder）？而且视觉部分并不比语言部分大，语言部分使用的是 decoder，而非 encoder。模态融合部分也不大，只是一个 linear。
 
+简化版见这个：
+
+![](imgs/llava-arch-simplified.png)
+
 ### 4.2 Training
 
 两阶段：
