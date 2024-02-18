@@ -363,6 +363,7 @@ NExt-GPT: Any-to-Any Multimodal LLM(2023.9.11) [My Notes](papers/multimodal/next
 
 Gemini: A Family of Highly Capable Multimodal Models(2023.12.11) [My Notes](papers/multimodal/gemini.md)
 
+Sora(2024.2.15) [My Notes](papers/multimodal/sora.md)
 
 #### dataset
 webdataset [My Notes](datasets/webdataset.md)

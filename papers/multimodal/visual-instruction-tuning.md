@@ -69,3 +69,4 @@ LLaVA network arch:
 只把视觉编码器锁住，继续更新 projection layer和LLM。
 
 为什么效果就比 BLIP-2，OpenFlamingo 效果好呢？
+
