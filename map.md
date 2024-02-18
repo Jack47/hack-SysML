@@ -456,6 +456,8 @@ Language Models are Few-Shot Learners(GPT-3(Generative Pretrained Transformer))(
 
 (GPT 3(Generative Pretrained Transformer))(2020)
 
+GPT 4 (2023) [My Notes](papers/multimodal/gpt4.md)
+
 Evaluating Large Language Models Trained on Code(Codex: openai 的 )(2021.7.14)
 
 Competition-Level Code Generation with AlphaCode(2022.2.19):生成更长的代码和文档
