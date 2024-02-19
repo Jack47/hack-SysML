@@ -780,6 +780,8 @@ Faster Neural Network Training with Data Echoing(2020) 如果数据这块 I/O �
 
 The Deep Learning Revolution and Its Implications for Computer Architecture and Chip Design(Jeff Dean): 里面介绍了很多 ML 在各领域的应用，也介绍了为啥做专用硬件
 
+Let's build GPT: from scratch, in code, spelled out (2023.1.18) [My Notes](videos/build-gpt-from-scratch.md)
+
 ##  9. <a name='Hardware'></a>Hardware
 
 ### TPU
