@@ -333,6 +333,11 @@ MemGPT(Berkeley):
 ### Generative AI
 Generative Agents: Interactive Simulacra of Human Behavior(2023.4.7) [My Notes](papers/elastic-training/elan-towards-generic-and-efficient-elastic-training-for-deep-learning.md)
 
+#### Video Generation
+Language Model beats Diffusion -- Tokenizer is Key to Visual Generation(MAGVIT-v2)(2023.10.9 Google) [My Notes](papers/): 是一个共用图片视频和文本 vocabulary 的 tokenizer
+。第一次让 LLM 在 video generation 也能打了
+
+Sora(2024.2.15) [My Notes](papers/multimodal/sora.md)
 ### Large Multimodal Models(LMM)
 ALBEF(ALign the image and text representations BEfore Fusing): Align before Fuse: Vision and Language Representation Learning with Momentum Distillation(Salesforce Research)2021.10) [My Notes](./papers/multimodal/ALBEF.md)
 
@@ -363,7 +368,7 @@ NExt-GPT: Any-to-Any Multimodal LLM(2023.9.11) [My Notes](papers/multimodal/next
 
 Gemini: A Family of Highly Capable Multimodal Models(2023.12.11) [My Notes](papers/multimodal/gemini.md)
 
-Sora(2024.2.15) [My Notes](papers/multimodal/sora.md)
+
 
 #### dataset
 webdataset [My Notes](datasets/webdataset.md)
