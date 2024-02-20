@@ -343,7 +343,7 @@ ALBEF(ALign the image and text representations BEfore Fusing): Align before Fuse
 
 Flamingo: a Visual Language Model for Few-Shot Learning(2022.4): 类似多模态领域的 GPT3 时刻，结合预训练好的视觉和语言两个模型，使用文本数据训练后，就可以有 few shot 能力。有开源的版本。DeepMind 博客里介绍的标题是：Tackling multiple tasks with a single visual language model
 
-BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models
+BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models [My Notes](papers/multimodal/blip2.md): 在 Flaminggo 基础上，
 
 MiniGPT-4: Enhancing Vision-Language Understanding with Advanced Large Language Models(KAUST)
 
@@ -374,13 +374,15 @@ Gemini: A Family of Highly Capable Multimodal Models(2023.12.11) [My Notes](pape
 webdataset [My Notes](datasets/webdataset.md)
 ###  1.13. <a name='Parallelism'></a>Parallelism
 
-Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Parallelism (2020.3): [My Notes](papers/megatron-lm.md)
+Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Parallelism (2020.3): [My Notes](papers/NLP/megatron-lm.md)
 
 [Megatron 当前状态跟踪](frameworks/megatron.md)
 
+[Megatron 源码解读](frameworks/megatron-lm/source-code.md)
+
 [Efficient Large-Scale Language Model Training on GPU Clusters](https://arxiv.org/pdf/2104.04473.pdf) (2021.4 NVIDIA, Standford, Microsoft): 主要介绍了继 Megatron-LM 之后，如何结合多种并行方式，让特定 batchsize 的大transformer 模型，高通吐地运行起来。[阅读笔记](papers/efficient-large-scale-language-model-training.md)
 
-Reducing Activation Recompution in Large Transformer Models(Megatron-v3: 2022.5.10) [My Notes](./papers/NLP/megatron-v3-reducing-activation-in-large-transformer-models.md): 里面有详细的各种并行情况下激活值的计算，介绍了 sp 和 selective recomputation
+Reducing Activation Recompution in Large Transformer Models(Megatron-v3: 2022.5.10) [My Notes](./papers/NLP/megatron-v3-reducing-activation-in-large-transformer-models.md): 里面有详细的各种并行情况下激活值的计算，介绍了 sp 和 selective recomputation, 核心目的是进一步减少 Transformer 里的激活值内存
 
 LightSeq: Sequence Level Parallelism for Districuted Training of Long Context Transformers(2023.10.5) [My Notes](./papers/NLP/lightseq-sequence-level-parallelism.md)
 
