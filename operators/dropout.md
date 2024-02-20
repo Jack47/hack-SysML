@@ -1,10 +1,13 @@
 
 ## dropout 实现
+下面的 mask 是保存本次当前元素到底是置为 0 还是保持原样
+
 ```
 mask = (torch.rand(X.shape) > dropout).float() # 1 or 0, 对于随机出来的数字，大于  dropout 概率的才保留，否则乘积后为0
 keep_prob = 1.0-dropout_prob
-return mask*X / keep_prob
+return mask*X / keep_prob # 为什么这里还需要除 keep_prob? 下面解答了，希望数值的期望不变
 ```
+
 假设总共有 n 个 neurons, p = 1-dropout 是保留的比例。那么原本期望是 x，用了 dropout 之后，期望是 `p*x`，所以为了保证期望不变，需要 mask*X / p
 
 ### Backprop
@@ -15,6 +18,8 @@ backward(input, grad_out, output)
  mask = ctx.saved
  return grad_out*mask/keep_prob # 让梯度通过不为0的 neuron 传递回去
 ```
+
+一句话总结：它只是按照设定的概率，把当前输入里的某些元素置为0
 
 ## droppath 实现
 ```
@@ -27,7 +32,7 @@ return x.div(keep_prop)*mask
 ## 差异
 DropPath 是丢掉 batch 里整个采样(batch 里的某一个sample 直接丢弃掉)
 
-Dropout 是丢掉输入 tensor 里的某些元素
+Dropout 是丢掉输入 tensor 里的某些元素，是最后一维
 
 ## 问题
 1. 没看出上述实现的差异点: mask 都是0或者1。都是 X.div(keep_prop)*mask

@@ -1,3 +1,5 @@
+![](imgs/gelu-vs-relu.png)
+
 ## relu
 ```
 def ReLU(x):
@@ -8,6 +10,6 @@ def dReLU(x):
 ```
 
 ## gelu
-backward 和 forward 比较复杂
+可以画个图，对比 gelu。relu 是不连续的(0点那里），而 gelu 是让它连续起来
 
-```
+backward 和 forward 比较复杂，是对

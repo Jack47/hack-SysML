@@ -1,5 +1,5 @@
 1. 在解决的是什么问题？减少激活值 recomputation
-2. 为何成功，标志/准是什么？
+2. 为何成功，标志/准是什么？显著减少了激活值，但是有没有额外带来通信代价
 3. 在前人基础上的关键创新是什么？ sequence parallelism 和 selective activation recomputation. 结合 TP 之后，这些技术几乎消除了重算激活值的需求。
 4. 关键结果有哪些？1T 模型上，减少5倍激活值，而且重算减少了90%。比如GPT-3上的530B 参数，花了2240个A100，我们达到了 54.2%的模型Flops，比用之前纯计算的42.1%要快 29%！
 5. 有哪些局限性？如何优化？
@@ -16,7 +16,7 @@ Pipeline 并行需要存储多个 microbatches 里的激活值来减少气泡。
 
 nvidia-nemo is built on top of PyTorch and PyTorch Lightning
 
- 在本论文里展示了可以帮助缓解激活值压力的创新技术，减少了重新计算激活值的开销。这两个技术是特定对 transformer 架构的，而且实现简单，没有或者**对计算效率有很小**的影响。我们将会在第二部分里详细描述其他减少大模型训练显存需求的技术，比如在 data parallel ranks 之间分片各种数据(ZeRO) 或者把数据 offload 到 cpu 内存。这些技术是对这里展示的补充，可以用来做更大的显存节省。但是总体而言有更高与本论文介绍的方法相比，实现代价高，对计算效率有更大的影响。分析、比较这些技术不在本论文范围里，是未来工作。
+ 在本论文里展示了可以帮助 **缓解激活值压力** 的创新技术，减少了重新计算激活值的开销。这两个技术是特定对 transformer 架构的，而且实现简单，没有或者**对计算效率有很小**的影响。我们将会在第二部分里详细描述其他减少大模型训练显存需求的技术，比如在 data parallel ranks 之间分片各种数据(ZeRO) 或者把数据 offload 到 cpu 内存。这些技术是对这里展示的补充，可以用来做更大的显存节省。但是总体而言有更高与本论文介绍的方法相比，实现代价高，对计算效率有更大的影响。分析、比较这些技术不在本论文范围里，是未来工作。
 
 我们首先做一个简要的transformer架构的回顾，然后构建出一个 transformer 模型对存储激活值的近似公式。使用这个公式，可以研究不同的模型并行对激活值的大小影响。我们在 tensor parallelism的基础上引入 sequence parallelism 来对 **不利于**标准的tensor 并行的冗余激活值降低存储。展示了通过**选择**保存哪些激活值，哪些要重算，可以消除大部分的计算代价，而同时对与不额外计算的部分，只需要少部分显存。
 
@@ -31,14 +31,22 @@ nvidia-nemo is built on top of PyTorch and PyTorch Lightning
 
 模型并行的代替是与数据并行结合一些训练技术来训大模型。技术是基于在dp ranks之间切分优化器状态(OS)、梯度(G)、参数(P)。而且最近有插件可以使用 CPU off-loading 技术在少量机器上训练万亿模型。和模型并行相比，这些技术基于数据并行，没有那么高效(**为什么？**)，而且也**无法scale到大量的GPU**上([13], TODO1 里的？），因此更适合在资源受限的环境里做finetuning模型。本文只聚焦在模型并行优化上。分析这些技术不在本论文scope里
 
+Megatron 里 TP 的手段是把 Linear OP 的权重进行行或者列拆分，这样能减少 Linear 的权重和激活值大小，
+
 除此之外，Megatron-LM(19) 引入的 TP 可以帮助一定程度减少激活值显存。但是 transformer layer 里有一些不能在 tp ranks 之间切分的激活值。[9] 里提出的 sp 是可以把激活值在 sequence 纬度进行切分的，但是它和 ddp 类似，需要参数和激活值状态都在所有的设备上复制一份。而 Sagemaker， GSPMD 提出的显存高效的的 tp 版本可以把网络里的激活值在 hidden dimension 纬度上进行拆分，但主要劣势是其中的 layernorm 垮了多个设备，效率不高。S 里在每个 transformer layer 里需要做4次 reduce-scatter 通信。
 
 
 
 我们的技术，把 tensor 和 seq 并行结合到一起，显著减少了激活值，而不需要额外的计算，通信和显存开销(神奇啊）
 ## 3
+input tokens [b, s] 被输入到 [v, h] 的 word embedding, [s, h] 的 positional embedding, 两者结合起来（怎么做的？）后输出大小为 [b, s, h]，最终输出会被 output layer 转换到 [b, s, v]，然后和当前句子的下一个 token 算 cross-entropy loss。文里假设了 embedding 和 output layer 的权重是共享的
 
 ![](imgs/transformer-arch.png)
+
+## 4 激活值
+
+本文里只考虑近似值，比如 sbh+2sb，由于 h >> 2，所以简化为 sbh
+
 
 ## TODO
 1. 看如何结合两类模型并行(tp, mp)就做到训练1T的: Efficient large-scale language model training on gpu clusters using megatron-lm (2021，貌似就是megatron-lm？）

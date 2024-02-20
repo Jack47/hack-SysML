@@ -578,6 +578,15 @@ Bamboo: [Notes](./datasets/bamboo.md)
 [Dropout vs Droppath](operators/dropout.md)
 
 [Conv](operators/conv.md)
+
+[SyncBN](operators/sync-bn.md)
+
+[LayerNorm](operators/layer-norm.md)(2016.7)
+
+[Softmax](operators/softmax.md)
+
+[Embedding](operators/embedding.md)
+
 ##  3. <a name='Course'></a>Course：
 [CS294-AI-Sys](https://ucbrise.github.io/cs294-ai-sys-sp19/)(UC Berkely)
 
