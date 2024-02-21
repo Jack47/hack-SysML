@@ -47,7 +47,35 @@ input tokens [b, s] 被输入到 [v, h] 的 word embedding, [s, h] 的 positiona
 
 本文里只考虑近似值，比如 sbh+2sb，由于 h >> 2，所以简化为 sbh
 
+#### 4.2.2 Sequence Parallelism
+TP 是针对 Linear 的，所以 Transformer 里的 Layer-norm 和 dropout 都是完整的，所以他们是在 TP group 里是一样的。所以上述等式2 里的 10bsh 就是这部分激活值，他们没法享受被 t 整除。
+
+注意到非 tp 模式下，dropout 和 layernorm 都是对 (b,s,h)里最后一维进行操作的，所以跟 s 纬度无关。所以可以把这部分区域沿着 sequence 纬度切分。这种切分只会减少激活值。需要在 sp 和 tp 之间通过通信原语来转换。
+
+![](imgs/transformer-sp-tp.png)
 
 ## TODO
 1. 看如何结合两类模型并行(tp, mp)就做到训练1T的: Efficient large-scale language model training on gpu clusters using megatron-lm (2021，貌似就是megatron-lm？）
 2. 实现了 CPU offload 的插件，可以少量机器训万亿：Zero-infinity: breaking the GPU memory wall for extreme scale deep learning.
+
+## 关于 all-gather , reduce-scatter, all-reduce
+假设有 n 个人参与
+
+all-reduce: 使用场景：大家手里都有一份梯度，现在希望对这些梯度进行求和
+
+reduce-scatter: 去中心化计算上述求和过程：选出多个队长(t)，让他们各自分片负责自己区域的求和。队员把数据通过 ring 的方式接力棒式传给下游。此时除了队长是**接收**一次数据，其他人都是**发送**一次数据（类似接力赛）
+
+all-gather: 队长负责把数据交换给其他队员：队长需要 **发送** 给 n-1 个队员，每个队员接收一次。
+
+所以队员：发送和接收一次 M/t 大小的数据，而队长发送 `(n-1)*M/t` 数据，接收一次 M/t 大小数据 => `n*M/t` 数据
+
+可以看下面的图：
+
+![](../communication/imgs/workflow-of-allreduce.png)
+
+![](../../../frameworks/fairscale/imgs/FSDP-graph-2a.png)
+
+## 问题
+1. tp 和 tp & sp 情况下使用的通信方式有什么不一样？ all-reduce vs reduce-scatter & all-gather 的差别；另外 tp 是对参数做拆分，所以不影响梯度；sp 是对输入做了拆分（跟 ddp 的 B 纬度做拆分类似），所以需要做[梯度 allreduce(layernorm, dropout 不需要)](https://github.com/NVIDIA/Megatron-LM/blob/5f9c870f9f24b482509699d206a9dbb00958f6fc/megatron/core/distributed/finalize_model_grads.py#L138), 而且给 module setattr(self.weight, 'sequence_parallel' 了）
+
+2. transformer 输入里(Fig 6)，输入切分是在哪里做的？答：第一层 transformer 是在 embedding 过程中，如果是 sp，那就对 embedding 在 h 纬度切分(不需要通信，split 即可）；如果是其他层，是在 MLP 里计算 dropout 前切分
