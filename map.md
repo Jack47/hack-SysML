@@ -93,11 +93,21 @@ Deformable Convolutional Networks (ICCV 2017) [Notes](./papers/deformable-convol
 ###  1.3. <a name='Transformers'></a>Transformers
 [Attention is All you need](https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf) (Google Brain 2017) [My Notes](./papers/transformer/attention-is-all-you-need.md)
 
-ViT: Vision Transformer: [An Image is worth 16x16 Words: Transformers for Image Recognition at Scale]() (2021.6.3) [My Notes](./papers/transformer/vit-an-image-is-worth-16x16-words.md)
+ViT: Vision Transformer: [An Image is worth 16x16 Words: Transformers for Image Recognition at Scale]() (2021.6.3) [My Notes](./papers/transformer/vit-an-image-is-worth-16x16-words.md)。影响力巨大，可以看到后续 CV，多模态都用 ViT 了，非常好的挖坑之作
+
+ViT FRCNN(2021.12): 运用到检测上
+
+SETR(2021.12): 运用到分割上
+
+DETR: ViT 在目标检测上的应用
+
+Scaling Vision Transformer: 把 ViT 的参数量搞大
+
+SwinTransformer：多尺度的 transformer，更适合做视觉领域
 
 lightseq: Accelerated Training for Transformer-based Models on GPUs(2021.10): 从工程角度出发实现 transformer 的训练和推理加速。[My Notes](./papers/transformer/lightseq.md) [源码阅读分析](./frameworks/lightseq/source-code.md)
 
-Masked Autoencoders Are Scalable Vision Learners [My Notes](./papers/transformer/Masked-AutoEncoders-Are-Scalable Vision Learners.md)
+Masked Autoencoders Are Scalable Vision Learners [My Notes](./papers/transformer/Masked-AutoEncoders-Are-Scalable Vision Learners.md)：第一次在分类任务上，让生成式模型比判别式模型要好。
 
 Self-Attention Does Not Need O(n^2) Memory(2021.12) [My Notes](./papers/transformer/Self-Attention-Does-Not-Need-Memory.md)
 
