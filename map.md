@@ -810,6 +810,8 @@ The Deep Learning Revolution and Its Implications for Computer Architecture and 
 
 Let's build GPT: from scratch, in code, spelled out (2023.1.18) [My Notes](videos/build-gpt-from-scratch.md)
 
+Let's build the GPT Tokenizer (2023.2.21) [My Notes](videos/build-gpt-tokenizer.md)
+
 ##  9. <a name='Hardware'></a>Hardware
 
 ### TPU
