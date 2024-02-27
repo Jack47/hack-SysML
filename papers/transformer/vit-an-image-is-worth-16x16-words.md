@@ -32,19 +32,21 @@ Transformer 缺乏一些归纳性的偏见(inductive biases，即先验的知识
 
 一张 224^2 的图片，假设 patch size 是 16x16，那 224^2/16^2 = 196 个 图像块，每个图像块是 `16*16*3` = 768 。所以是一张大图 224x224x3 -> 196x[16x16x3] 196张小图
 
-而 Linear Projection of Flattented Patches 就是一个 embedding：[768, 768]，即输入是图片的纬度，输出是后面的 transformer 里 hidden size(768，可变） 的纬度
+而 Linear Projection of Flattented Patches 就是一个 embedding：[768, 768]，即输入是一个 patch 图片的纬度(16\*16\*3)，输出是后面的 transformer 里 hidden size(768，可变） 的纬度。目的是把一个 patch 表示为一个 768 的向量
 
-所以：输入的 embedded patches 是 (196+1)\*768，而通过最后的全连接层（768\*768） -> 197*768。而由于用的多头注意力，比如 base 里是12，那 q、k、v 就是 768/12 = 64 
+所以：输入 transformer 的 embedded patches 是 (196+1)\*768，而通过网络最后的全连接层 MLP（768\*768） -> 197*768。而由于用的多头注意力，比如 base 里是12，那 q、k、v 就是 768/12 = 64 
 
-而 embedded patches 里面其实是三步骤：
-1. 图片的 Patch embedding ：是一个全连接层（为什么没用 embedding？）
-2. + Position embedding。两者是相加的关系，而非 concat 。而这个位置编码下面有说明（图里是紫色和灰色相邻，实际运算是相加)
+而 embedded patches 里面其实是三步骤(即上图里右下角其实是图里 transformer encoder 下面的那几部分组成：
+1. Patch embedding(顾名思义是对一个 patch(16\*16\*3 这部分是拉平的？) 做 embedding) ：是一个全连接层，为什么没用 embedding？因为这里是图片，它是连续的数据，而非文字那样离散的域。这里主要是想把一个 patch 变成一个 768(transformer 的输入）的向量，embedding 做不到这个，embedding 的输入得是一个 scalar，
+2. Position embedding。两者是相加的关系，而非 concat 。而这个位置编码下面有说明（图里是紫色和灰色相邻，实际运算是相加)
 3. Learnable class(ViT 想解决分类问题） embedding：这个是在 seq 这个纬度上多了一个 token。不像上面是影响最后的 hidden size 那个纬度里的值
 
 上图里 cls token 只有一个，即 shape 是 1x768。
 
 图里的位置编码里的1，2 这些都只是一个序号，实际不会填入这些数字让模型来学习。而是一样有一个类似 embedding 的表格，每个的纬度是 768
 ## 实现
+
+![](imgs/vit-params.png)
 
 参考的 timm 中 vit 实现：
 

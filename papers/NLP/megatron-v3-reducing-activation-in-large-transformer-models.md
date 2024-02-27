@@ -47,6 +47,31 @@ input tokens [b, s] 被输入到 [v, h] 的 word embedding, [s, h] 的 positiona
 
 本文里只考虑近似值，比如 sbh+2sb，由于 h >> 2，所以简化为 sbh
 
+### 4.1 每个 Transformer Layer 的激活值占用情况
+
+(下面都是字节为单位算的，计算的都是某个 op 它的输入和中间算梯度所需的东西，比如 mask）
+
+** Attention block **: 
+Q,K,V 矩阵乘：他们的共同输入是 2*sbh
+
+Q\*K 矩阵乘：需要保存 Q和K：2\*2bsh = 4sbh # [b, s, h] * [h, bs] -> 
+
+Softmax: 输出的是 2as^2b # 这里算不清楚了
+
+Softmax dropout: 只需要 as^2b 的 mask
+
+Attention over Values (V) : 需要记录上一步 droput 的结果：2as^2b 和输入 value: 2bsh
+
+上述总共是 11sbh(我算出来是8，不知道其他3个从哪里来的） + 5as^b
+
+** MLP**
+两个 linear 各自的输入是 2sbh 和 8sbh。 GeLU 的输入是 8sbh，droput 里需要 sbh。总共 19sbh。
+
+** Layer Norm**
+输入是 2sbh，总共有两个，所以是 4sbh
+
+这样把上述三类加起来：每个层需要的激活值：sbh(32+5*as/h)
+
 #### 4.2.2 Sequence Parallelism
 TP 是针对 Linear 的，所以 Transformer 里的 Layer-norm 和 dropout 都是完整的，所以他们是在 TP group 里是一样的。所以上述等式2 里的 10bsh 就是这部分激活值，他们没法享受被 t 整除。
 

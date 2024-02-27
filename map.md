@@ -111,7 +111,7 @@ Masked Autoencoders Are Scalable Vision Learners [My Notes](./papers/transformer
 
 Self-Attention Does Not Need O(n^2) Memory(2021.12) [My Notes](./papers/transformer/Self-Attention-Does-Not-Need-Memory.md)
 
-[Deformable DETR: Deformable Transformers for End to End Object Detections(ICLR 2021)](papers/transformer/deformable-detr_deformable-transformers.md)
+[Deforma2ble DETR: Deformable Transformers for End to End Object Detections(ICLR 2021)](papers/transformer/deformable-detr_deformable-transformers.md)
 
 Competition-Level Code Generation with AlphaCode. [My Notes](./papers/NLP/alpha-code.md)
 
@@ -287,7 +287,7 @@ Sys Papers:
 
 Gist: Efficient data encoding for deep neural network training 2018
 
-[ZeRO]()：大模型训练的标配，把 DDP 模式下冗余的显存都给分片了，需要时从别人那里要过来 [My Notes](./papers/ZeRO.md)
+[ZeRO]()：大模型训练的标配，把 DDP 模式下冗余的显存都给分片了，需要时从别人那里要过来 [My Notes](./papers/ZeRO.md)。里面建模了参数量为t下，adam这类优化器需要 12(4*3)t 的显存。激活值计算可以参考 megatron v3。
 
 FSDP in fairscale: lightning used this[](frameworks/fairscale/fsdp.md)
 
@@ -392,7 +392,7 @@ Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Paralle
 
 [Efficient Large-Scale Language Model Training on GPU Clusters](https://arxiv.org/pdf/2104.04473.pdf) (2021.4 NVIDIA, Standford, Microsoft): 主要介绍了继 Megatron-LM 之后，如何结合多种并行方式，让特定 batchsize 的大transformer 模型，高通吐地运行起来。[阅读笔记](papers/efficient-large-scale-language-model-training.md)
 
-Reducing Activation Recompution in Large Transformer Models(Megatron-v3: 2022.5.10) [My Notes](./papers/NLP/megatron-v3-reducing-activation-in-large-transformer-models.md): 里面有详细的各种并行情况下激活值的计算，介绍了 sp 和 selective recomputation, 核心目的是进一步减少 Transformer 里的激活值内存
+Reducing Activation Recompution in Large Transformer Models(Megatron v3: 2022.5.10) [My Notes](./papers/NLP/megatron-v3-reducing-activation-in-large-transformer-models.md): 里面有详细的各种并行情况下**激活值的计算**，介绍了 sp 和 selective recomputation, 核心目的是进一步减少 Transformer 里的激活值内存
 
 LightSeq: Sequence Level Parallelism for Districuted Training of Long Context Transformers(2023.10.5) [My Notes](./papers/NLP/lightseq-sequence-level-parallelism.md)
 
@@ -492,7 +492,7 @@ LaMBDA(DeepMind 2022):
 
 ChatGPT: Optimizing Language Models for Dialogue(OpenAI 2022.11.30). 无论文。[My Notes](papers/NLP/chatgpt-intro.md)
 
-LLaMA: Open and Efficient Foundation Language Models: 无须私有的数据集，用开源的就可以训出 13B 上比 175B 好的效果
+LLaMA: Open and Efficient Foundation Language Models: 无须私有的数据集，用开源的就可以训出 13B 上比 175B 好的效果。[My Notes](papers/NLP/LLaMA.md)
 
 下面都是基于 LLaMA，在 chatgpt 标注出的语言指令追随数据上 Finetune 的:
 
