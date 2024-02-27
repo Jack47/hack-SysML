@@ -1,3 +1,44 @@
+## Self Attention
+先实现了一版用均等的权重去做自己和之前每个token的和。后面想演化成权重不是均等的，而是数据决定的
+
+Q: what i am looking for
+K: what do i contain
+
+```
+x = torch.rand(B,T,C)
+head_size = 16
+key = nn.Linear(C, head_size, bias=False)
+query = nn.Linear(C, head_size, bias=False)
+value = nn.Linear(C, head_size, bias=False)
+
+k = key(x)
+q = query(x)
+wei = q@k.transpose(-2, -1) # (B,T,head_size) @(B,head_size,T) -> (B,T, T)
+tri = torch.tril(torch.ones(T,T)) # todo: torch.tril
+wei = wei.masked_fill(tri==0, float('-inf')) # 这一步提前做能提高效率吗？
+wei = F.softmax(wei, dim=-1) # 这样就学到了关联关系
+v = value(x) 
+out = wei @ value
+
+```
+
+value # private information on this token, get aggregated on 
+
+Q@K 之后就是那个wei # affinities and connections
+
+note1: attention as communication mechanism. 每个 token 都有前面的 token 指向它
+
+note2: attention 没有空间的概念，它只作用于一个集合上，所以需要 positonal encode
+
+note3: no communication across batch dimension
+
+note4: encoder block 里是没有 tril 的，所以未来的 token 可以和之前的 token 之前有关系。上面的代码就是 decoder 模式
+
+cross attention：key 和 value 来自其他地方(比如encoder），只有 q 是来自 x。而 self attention 里 key 和 value 都来自 x
+
+note5: 为什么实现时 q@k/sqr_root(head_size) ? 是为了控制结果的 variance 不要太大，否则过完 softmax（它自身特性）值会偏大
+
+
 ## 问题
 1. 那些用到的函数，以及对数据做的变换
 2. 51:31 这里没太看懂 a 为什么就变成平均了？
