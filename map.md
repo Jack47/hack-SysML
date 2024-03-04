@@ -125,6 +125,8 @@ FlashDecoding for long-context inference (2023.10) [My Notes](./papers/transform
 
 FlashDecoding++(2023.11) [My Notes](./papers/transformer/flash-decoding++.md)
 
+Blockwise Parallel Transformer for Large Context Models [My Notes](./papers/transformer/blockwise-parallel-transformer.md)
+
 ###  1.4. <a name='AttributeRecognition'></a>Attribute Recognition
 [Hierarchical Feature Embedding for Attribute Recognition]() (2020.5.23) [My Notes](./papers/attribute-recognition/hierarchical-feature-embedding-for-attribute-recognition.md)
 
