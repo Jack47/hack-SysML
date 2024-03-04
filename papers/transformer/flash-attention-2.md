@@ -28,6 +28,9 @@ FA-2 比 FA 快2倍，意味着用同样的在 8k 上下文上训练代价，我
 ## 致谢
 基于 CUTLASS 3.x 的版本，实现了 FA-2，因为里面提供了干净的抽象，更强大的 building blocks: [CuTe](https://github.com/NVIDIA/cutlass/blob/main/media/docs/cute/00_quickstart.md)
 
+## 问题：
+1. 长序列的情况下，seq len 纬度上切分
+
 ## 参考资料
-1. [图文并茂，很简短：FlashAttention-2](https://princeton-nlp.github.io/flash-atttention-2/)
+1. [图文并茂，很简短：FlashAttention-2](https://princeton-nlp.github.io/flash-atttention-2/)：没看懂 better work-partitioning 这部分
 2. [PyTorch 下的实现(教育用途)](https://github.com/kyegomez/FlashAttention20)
