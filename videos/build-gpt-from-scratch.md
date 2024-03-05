@@ -44,6 +44,19 @@ note5: 为什么实现时 q@k/sqr_root(head_size) ? 是为了控制结果的 var
 2. 51:31 这里没太看懂 a 为什么就变成平均了？
 
 ## 常见函数
+### 如何把一个 tensor 变为可打印的 int 数组？
+```
+# scalar tensor to int
+x = torch.tensor(18)
+int(x)
+# 18
+
+z = torch.tensor([18, 19])
+z.numpy() # to nd array
+# array([18, 19])
+z.tolist()
+# [18, 19]
+```
 ### torch.randint
 ```
 torch.randint(len-batch\_size, (batch\_size,)) # (batch\_size,) 是个 tuple，用来表示要生成的 tensor 的 shape
