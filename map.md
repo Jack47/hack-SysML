@@ -386,13 +386,13 @@ Gemini: A Family of Highly Capable Multimodal Models(2023.12.11) [My Notes](pape
 webdataset [My Notes](datasets/webdataset.md)
 ###  1.13. <a name='Parallelism'></a>Parallelism
 
-Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Parallelism (2020.3): [My Notes](papers/NLP/megatron-lm.md)
-
 [Megatron 当前状态跟踪](frameworks/megatron.md)
 
 [Megatron 源码解读](frameworks/megatron-lm/source-code.md)
 
-[Efficient Large-Scale Language Model Training on GPU Clusters](https://arxiv.org/pdf/2104.04473.pdf) (2021.4 NVIDIA, Standford, Microsoft): 主要介绍了继 Megatron-LM 之后，如何结合多种并行方式，让特定 batchsize 的大transformer 模型，高通吐地运行起来。[阅读笔记](papers/efficient-large-scale-language-model-training.md)
+Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Parallelism (2020.3): [My Notes](papers/NLP/megatron-lm.md)：megatron v1, 引入了 tensor 切分(Attention 里的 Proj 和 MLP 里的两个 Linear）
+
+[Efficient Large-Scale Language Model Training on GPU Clusters](https://arxiv.org/pdf/2104.04473.pdf) (2021.4 NVIDIA, Standford, Microsoft): megatron v2, 引入了 pp 切分。如何结合 tp、pp 多种并行方式，让特定 batchsize 的大transformer 模型，高通吐地运行起来。[阅读笔记](papers/efficient-large-scale-language-model-training.md)
 
 Reducing Activation Recompution in Large Transformer Models(Megatron v3: 2022.5.10) [My Notes](./papers/NLP/megatron-v3-reducing-activation-in-large-transformer-models.md): 里面有详细的各种并行情况下**激活值的计算**，介绍了 sp 和 selective recomputation, 核心目的是进一步减少 Transformer 里的激活值内存
 

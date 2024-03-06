@@ -79,6 +79,10 @@ TP 是针对 Linear 的，所以 Transformer 里的 Layer-norm 和 dropout 都�
 
 ![](imgs/transformer-sp-tp.png)
 
+tp 和 tp & sp 情况下使用的通信方式有什么不一样？ all-reduce vs reduce-scatter(对h纬度reduce 并切分) & all-gather(h纬度合并） 的差别；其实正好是等价的
+
+另外 tp 是对参数做拆分，tp group 内部大家的数据都一样，而各自的参数不同，所以不需要同步梯度；但 sp 是对输入做了拆分（跟 ddp 的 B 纬度做拆分类似，但又有不同：LN 的参数一样，但是各自负责不同的数据 sharding，**合并**起来才是一个 batch），所以需要做[梯度 allreducel(默认，即 SUM)(layernorm, dropout 不需要)](https://github.com/NVIDIA/Megatron-LM/blob/5f9c870f9f24b482509699d206a9dbb00958f6fc/megatron/core/distributed/finalize_model_grads.py#L138), 而且给 module setattr(self.weight, 'sequence_parallel' 了）
+![](imgs/tp-pp-dp-groups.png)
 ## TODO
 1. 看如何结合两类模型并行(tp, mp)就做到训练1T的: Efficient large-scale language model training on gpu clusters using megatron-lm (2021，貌似就是megatron-lm？）
 2. 实现了 CPU offload 的插件，可以少量机器训万亿：Zero-infinity: breaking the GPU memory wall for extreme scale deep learning.
@@ -101,6 +105,5 @@ all-gather: 队长负责把数据交换给其他队员：队长需要 **发送**
 ![](../../../frameworks/fairscale/imgs/FSDP-graph-2a.png)
 
 ## 问题
-1. tp 和 tp & sp 情况下使用的通信方式有什么不一样？ all-reduce vs reduce-scatter & all-gather 的差别；另外 tp 是对参数做拆分，所以不影响梯度；sp 是对输入做了拆分（跟 ddp 的 B 纬度做拆分类似），所以需要做[梯度 allreduce(layernorm, dropout 不需要)](https://github.com/NVIDIA/Megatron-LM/blob/5f9c870f9f24b482509699d206a9dbb00958f6fc/megatron/core/distributed/finalize_model_grads.py#L138), 而且给 module setattr(self.weight, 'sequence_parallel' 了）
 
-2. transformer 输入里(Fig 6)，输入切分是在哪里做的？答：第一层 transformer 是在 embedding 过程中，如果是 sp，那就对 embedding 在 h 纬度切分(不需要通信，split 即可）；如果是其他层，是在 MLP 里计算 dropout 前切分
+1. transformer 输入里(Fig 6)，输入切分是在哪里做的？答：第一层 transformer 是在 embedding 过程中，如果是 sp，那就对 embedding 在 h 纬度切分(不需要通信，split 即可）；如果是其他层，是在 MLP 里计算 dropout 前切分
