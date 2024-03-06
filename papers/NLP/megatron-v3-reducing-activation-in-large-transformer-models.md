@@ -83,6 +83,7 @@ tp 和 tp & sp 情况下使用的通信方式有什么不一样？ all-reduce vs
 
 另外 tp 是对参数做拆分，tp group 内部大家的数据都一样，而各自的参数不同，所以不需要同步梯度；但 sp 是对输入做了拆分（跟 ddp 的 B 纬度做拆分类似，但又有不同：LN 的参数一样，但是各自负责不同的数据 sharding，**合并**起来才是一个 batch），所以需要做[梯度 allreducel(默认，即 SUM)(layernorm, dropout 不需要)](https://github.com/NVIDIA/Megatron-LM/blob/5f9c870f9f24b482509699d206a9dbb00958f6fc/megatron/core/distributed/finalize_model_grads.py#L138), 而且给 module setattr(self.weight, 'sequence_parallel' 了）
 ![](imgs/tp-pp-dp-groups.png)
+
 ## TODO
 1. 看如何结合两类模型并行(tp, mp)就做到训练1T的: Efficient large-scale language model training on gpu clusters using megatron-lm (2021，貌似就是megatron-lm？）
 2. 实现了 CPU offload 的插件，可以少量机器训万亿：Zero-infinity: breaking the GPU memory wall for extreme scale deep learning.

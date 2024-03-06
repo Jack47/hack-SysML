@@ -1,6 +1,6 @@
 1. 在解决的是什么问题？给定大模型的 batchsize 情况下，如何结合3种并行技术来最大化吞吐，同时保证严格的优化器语义
 2. 为何成功，标志/准是什么？训练吞吐更高
-3. 在前人基础上的关键创新是什么？ 
+3. 在前人基础上的关键创新是什么？
 4. 关键结果有哪些？
 5. 有哪些局限性？如何优化？
 6. 这个工作可能有什么深远的影响？
@@ -13,7 +13,7 @@
 
 本文介绍如何组合多种并行方式：tensor，pipeline，和 data 并行。探讨了多种 pipeline 的实现，提出了一个调度，可以增加 10% 的吞吐。我们量化分析了 tensor，pipeline，data parallelism 上的折衷，提供了如何配置分布式大模型训练的直觉。
 
-神奇的是，它就不用ZeRO，单纯靠TP、PP、DP来获得比ZeRO更高的训练效率
+神奇的是，它就不用ZeRO，单纯靠 TP、PP、DP来获得比ZeRO更高的训练效率，它提到在 175 和 530 B 下比 ZeRO-3 高效 70%，原因是更少的跨主机间通信
 ## 1. 介绍
 基于 Transformer 的语言模型，在 NLP 里有非常迅速的发展。同时，近期工作伸缩门大的语言模型是 zero  和 few-shot 场景下的高效学习者。
 
@@ -25,6 +25,16 @@ GPT3 在 512个 V100 上需要7个月
 1T 就是 一万亿
 
 为啥 DS 只能到 36%的峰值算力，而它能到52%
+
+关于如何配置分布式训练策略，我们提供了以下的指导经验：
+
+1. 并行的策略会影响通信的数量，kernel执行时计算效率，还有 worker 由于pipeline flushes（气泡） 花在等待计算上的时间。例如，实验发现，tensor和流水线并行可能导致2倍的吞吐了下降，即使主机间有高带宽网络，但是大模型上必须用 pipeline
+2. 流水并行里的调度策略会影响通信的数量，pipeline 气泡大小，存储激活值的内存。我们提出新的重叠的调度，可以提高10%的吞吐。【Gpipe】
+3. 超参数比如 microbatch 大小对内存和kernel的算数效率有影响。我们的实验，microbatch 大小是问题相关的，最大可提升15%的训练吞吐
+4. 规模变大后，分布式训练是**通信密集**的。当在 3072 个GPUs上训练一个T的模型时，我们的视线使用了高效的二分带宽法：892G/s给流水并行，13TB/s给数据并行
+
+## 2. 各种并行策略
+下面这三段应该是从别的论文里来的
 
 ### 数据并行：
 
@@ -40,7 +50,7 @@ Tensor(layer 内部）模型并行：每个transformer 层内部的矩阵乘法�
 1. TP所需的 all-reduce 通信代价在垮主机情况下急剧上升（相比同主机内部 NVLink 直连）
 2. TP并行维度越高，会产生更多更小的矩阵乘法(GEMMs)，会降低 GPU 使用率
 
-所以建议 2<=TP粒度<=4
+所以建议 2<=TP粒度<=4(这个从哪里来的？)
 
 类似 Tensor IntraLayer Parallelism：
 
@@ -48,7 +58,7 @@ Tensor(layer 内部）模型并行：每个transformer 层内部的矩阵乘法�
 2. Megatron-LM: Training Multi-Billion Parameter Language Models using GPU Model Parallelism
 
 ### 流水线模型并行(Pipeline model parallelism)
-不同的层分配到了多个 GPU 上。一个 batch 切分到更小的 microbatch 上(流水线上，batch越小，越能容纳更多，效率更高)，执行流是在这些microbatches 上进行流式处理的。Layers 可以有多种方式分配到 worker 上，不同的调度方法来做 forward 和backward。这些不同的选择会有不同的性能结果。为了保证严格的优化器语义，优化器步骤需要多设备间同步，会导致每个batch最后会进行 **pipeline flush**。此时无法执行新的 microbatch，只允许同一个 batch 里的 microbatch 完成。最大情况下，50%的时间会花在 pipeline flush。microbatche 的数量和流水线大小的比率越大，**pipeline flush**的时间越少。所以为了更高的效率，经常用**更大的 batch size**。因此为了效率高，尽量会用更大的batch。本文里，引入了一个新的 pipeline 调度，提高了小batch下的pipeline调度效率
+不同的层分配到了多个 GPU 上。一个 batch 切分到更小的 microbatch 上(流水线上，batch越小，越能容纳更多，效率更高)，执行流是在这些microbatches 上进行流式处理的。Layers 可以有多种方式分配到 worker 上，不同的调度方法来做 forward 和backward。这些不同的选择会有不同的性能结果。为了保证严格的优化器语义，优化器步骤需要多设备间同步，会导致每个batch最后会进行 **pipeline flush**。此时无法执行新的 microbatch，只允许同一个 batch 里的 microbatch 完成，即一组 pipeline 里，每个 batch 级别都要先 warmup，然后再 cool down。最大情况下，50%的时间会花在 pipeline flush。microbatche 的数量和流水线大小的比率越大，**pipeline flush**的时间越少。所以为了更高的效率，经常用**更大的 batch size**。因此为了效率高，尽量会用更大的batch。本文里，引入了一个新的 pipeline 调度，提高了小batch下的pipeline调度效率
 
 DAPPLE: A Pipelined Data Parallel Approach for Training Large Mode （2021）
 
@@ -72,12 +82,6 @@ Megatron 1 换无法训 1T 参数
 达到这个可扩展的吞吐，需要创新和仔细地在多个维度做工程化：高效地 kernel 实现，让大部分实现是计算密集型而非内存密集型，智能切分计算图到设备上，减少需要通过网络传输的数据大小，同时限制设备的空闲时间在低水位，领域特定的通信优化，更快的硬件。
 
 
-有以下的指导经验：
-
-1. 并行的策略会影响通信的数量，kernel执行时计算效率，还有 worker 由于pipeline flushes（气泡） 花在等待计算上的时间。例如，实验发现，tensor和流水线并行可能导致2倍的吞吐了下降，即使主机间有高带宽网络，但是大模型上必须用 pipeline
-2. 流水并行里的调度策略会影响通信的数量，pipeline 气泡大小，存储激活值的内存。我们提出新的重叠的调度，可以提高10%的吞吐。【Gpipe】
-3. 超参数比如 microbatch 大小对内存和kernel的算数效率有影响。我们的实验，microbatch 大小是问题相关的，最大可提升15%的训练吞吐
-4. 规模变大后，分布式训练是**通信密集**的。当在 3072 个GPUs上训练一个T的模型时，我们的视线使用了高效的二分带宽法：892G/s给流水并行，13TB/s给数据并行。
 
 没用使用自动探索并行策略的搜索空间，而是使用启发性。未来会用自动优化。
 
@@ -93,26 +97,27 @@ Megatron 1 换无法训 1T 参数
 ### 流水线模型并行
 使用流水线并行，一个模型里的不同层被分片到多个设备上。当流水线并行使用在多次重复的基于  transformer 的模型上时，每个设备可以分配给相同数量的transformer 层。没有可考虑更多非对称的模型架构，这种情况下划分layer到pipeline 里的 stages 是更难的。可以参考其他人的工作来解决[17,22,32]
 
-一个 batch 被划分为更小的 microbatches ，执行过程是在 microbatch 间进行流水的。流水的scheme需要保证输入看到一致的权重版本，在 forward 和 backward 里。
+一个 batch 被划分为更小的 **microbatches**(有了 microbatches，说明可能就有 gradient accumulation） ，执行过程是在 microbatch 间进行流水的。流水的scheme需要保证输入看到一致的权重版本，在 forward 和 backward 里。
 
-为了保证上述严格的优化器语义，引入了间歇性流水线flush，这样优化器步骤就可以在不同设备间进行同步（目的还是让全局的权重都是一样的？类似数据并行）。我们把这个空闲时间叫做流水线气泡，想让她尽可能小。异步的方法比如 PipeMare，PipeDream，PipeDeam-2BW，放松了权重更新的语义。未来可能会考虑这种方法。
+为了保证上述**严格的优化器语义**(指不会用老的参数去 fwd 新的数据)，引入了 **间歇性流水线flush**，这样优化器步骤就可以在不同设备间进行同步（目的还是让全局的权重都是一样的，类似数据并行）。我们把这个空闲时间叫做流水线气泡，想让她尽可能小。异步的方法比如 PipeMare，PipeDream，PipeDeam-2BW，放松了权重更新的语义。未来可能会考虑这种方法。
 
 有多种在多个设备间 forward 和 backward microbatches 的方法。每个方法在流水线气泡，通信和内存大小上表现不一样。下面讨论其中的两类：
 
 #### 2.2.1 默认调度
 
-GPipe 提出一个调度策略：一个batch里所有的microbatches先全部 forward，然后再全部backward。GPipe 里的流水线气泡 tpb 很容易量化。
+![](imgs/gpipe-microbatch.png)
+GPipe 提出一个调度策略：一个batch里所有的microbatches先全部 forward，然后再全部backward(即不允许 micro batch级别的 bwd）。GPipe 里的流水线气泡 tpb 很容易量化。
 
 tpb/tid = (p-1)\*(tf+tb)/m*(tf+tb) = (p-1)/m
 
-所以为了气泡小，需要 m >> p。对于这么大的m，这种方法需要很多内存，因为需要保存中间的激活值(使用激活值重计算，就是每层pipeline stage上输入的激活值），给一次迭代/batch 过程中所有的m个microbatches。这个可以通过早点开始 backward，并不一定要全部 microbatch forward 完，才 backward。
+所以为了气泡小，需要 m >> p。即每个 batch 里 num of microbatch 得远远大于 pipeline size。对于这么大的m，这种方法需要很多内存，因为需要保存中间的激活值(使用激活值重计算，就是每层pipeline stage上输入的激活值），给一次迭代/batch 过程中所有的m个microbatches。这个可以通过早点开始 backward，并不一定要全部 microbatch forward 完，才 backward。
 
 我们使用的是 PipeDream Flush 调度。首先进入一个热身的阶段，workers 会执行不同数量的 forward 。此调度**限制**了正在执行的（backward pass 和需要维护的 activations 的数量） microbatches 数量为流水线长度，而不是一个batch 里microbatch的数量。在热身阶段之后，每个worker执行一个 forward 和一个 backward(缩写1F1B)。最终在一个batch的尾部，我们完成所有剩余的backward轮次。这个方法的好处是节省内存，因为只需要保存 p 轮次的激活值。
 
 #### Micro Batch vs DDP
 不同：
 
-1. Micro 是想减少要保存的激活值，比如一个batch是1024，那我切为10个，每个 100。这样我可以想办法减少同时在内存里的激活值。
+1. Micro 如果没有它，那 pipeline 里第一张干完一次 fwd 之后就一致等，流水线上每个人的阶段都长。如果叠加梯度累加，就能减少要保存的激活值，比如一个batch是1024，那我切为10个，每个 100，梯度在每个 micro batch 粒度上计算（backward），但是最终是一个 batch 粒度去 allreduce avg。这样我可以想办法减少同时在内存里的激活值。
 2. Micro 是分多个 micro batch 去一个个处理。而 batch 是tensor里第一个维度，直接就一次性处理了
 
 相同:
@@ -121,11 +126,13 @@ tpb/tid = (p-1)\*(tf+tb)/m*(tf+tb) = (p-1)/m
 
 #### 2.2 交替形式的调度
 
-为了减少 pipeline bubble 的大小，每个设备可以给多个子层（模型的部分）执行计算，而不是单个连续的层集合。比如，每个设备之前有4层，比如 device 1 有1-4层，device 2 有5-8层，我们可以让每个设备执行两个模型chunk（每个有2层），比如d1有1，2，9，10；d2有3，4，11，12。这种模式下，每个设备在流水线里被划分了 **多个 stages** 。
+为了减少 pipeline bubble 的大小，每个设备可以给多个子层（模型的部分）执行计算，而不是单个连续的层集合(相当于 pipeline 切的更细，而且第一张卡 fwd 时空闲时间变少）。比如，每个设备之前有4层，比如 device 1 有1-4层，device 2 有5-8层，我们可以让每个设备执行两个模型chunk（每个有2层），比如d1有1，2，9，10；d2有3，4，11，12。这种模式下，每个设备在流水线里被划分了 **多个 stages** 。
 
-为什么不用 “先全部 forward，再全部 backward”，不切分为microbatch。原因是这样内存开销太大。我们开发了一个插入调度来比之前1F1B更加节省内存。如图F5，需要一个batch里的microbatch数量是流水线并行数量（流水的设备数量）的整数倍。
+![](imgs/1F1B-interleaved.png)
 
-如图5，pipeline flush会在新调度里更早发生。每个设备有v个stage，那么最终 bubble size 就会减少 v 个。对应的代价是需要额外的通信。量化地分析，对应的通信数量也增加了 v。这个通信是干啥的？除了 bubble size 减少，是不是设备使用率也增加了
+为什么不用 “先全部 forward，再全部 backward”，即不在 microbatch 粒度上 bwd。原因是这样的内存开销太大(NLP 里序列长，hiddensize 大，激活值很大）。我们开发了一个插入调度来比之前1F1B更加节省内存。如图F5，需要一个batch里的 **microbatch数量**是流水线并行数量（流水的设备数量）的整数倍。
+
+如图5，pipeline flush会在新调度里更早发生。每个设备有v个stage，那么最终 bubble size 就会减少 v 个。对应的代价是需要额外的通信。量化地分析，对应的通信数量也增加了 v。这个通信是干啥的(相当于 pipeline 数量增多了，需要传递激活值）？除了 bubble size 减少，是不是设备使用率也增加了
 
 ### 2.3 Tensor 并行
 使用 Tensor 模型并行，模型的一些层被切分到多个设备上。本论文里，使用Megatron里给 transformer 层里切分的方法。
@@ -157,9 +164,9 @@ Y= GeLU(XA)		Z=Dropout(YB)
 ### 3.1 符号
 * (p,t,d): 三个维度的并发。p是流水线模型并行的大小，t是tensor的并行大小，d是数据并行的大小
 * n：是 GPUs 的数量，要求：p\*t\*d = n.
-* B: 全局的batch size：是输入的参数
-* b：microbatch 大小
-* m：每个流水线里，一个 batch 的microbatch 的数量。计算为：1/b * B/d
+* B: 全局的batch size：是输入的参数(global batch size)
+* b：microbatch 大小(micro batch size)
+* m：每个流水线里，一个 batch 的microbatch 的数量(num of micro batch)。计算为： (B/d)/b
 
 ### 3.2 Tensor 和 Pipeline 模型并行
 之前计算过，使用流水并行，间隔性冲刷会导致流水线气泡，大小(p-1)/m。假设 d = 1，因此 t*p = n, => 气泡为 (n/t-1)/m。所以t增加，流水气泡减小。

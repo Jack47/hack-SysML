@@ -392,7 +392,7 @@ webdataset [My Notes](datasets/webdataset.md)
 
 Megatron-LM: Training Multi-Bilion Parameter Language Models Using Model Parallelism (2020.3): [My Notes](papers/NLP/megatron-lm.md)：megatron v1, 引入了 tensor 切分(Attention 里的 Proj 和 MLP 里的两个 Linear）
 
-[Efficient Large-Scale Language Model Training on GPU Clusters](https://arxiv.org/pdf/2104.04473.pdf) (2021.4 NVIDIA, Standford, Microsoft): megatron v2, 引入了 pp 切分。如何结合 tp、pp 多种并行方式，让特定 batchsize 的大transformer 模型，高通吐地运行起来。[阅读笔记](papers/efficient-large-scale-language-model-training.md)
+[Efficient Large-Scale Language Model Training on GPU Clusters](https://arxiv.org/pdf/2104.04473.pdf) (2021.4 NVIDIA, Standford, Microsoft): megatron v2, 引入了 pp 切分。里面探讨了 tp、pp、ddp 的各自特点。如何结合 tp、pp 多种并行方式，让特定 batchsize 的大transformer 模型，高通吐地运行起来。[阅读笔记](papers/efficient-large-scale-language-model-training.md)
 
 Reducing Activation Recompution in Large Transformer Models(Megatron v3: 2022.5.10) [My Notes](./papers/NLP/megatron-v3-reducing-activation-in-large-transformer-models.md): 里面有详细的各种并行情况下**激活值的计算**，介绍了 sp 和 selective recomputation, 核心目的是进一步减少 Transformer 里的激活值内存
 
