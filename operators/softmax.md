@@ -6,7 +6,7 @@ max 指凸显最大值，抑制远低于最大值的其他量
 
 公示如下：
 
-![](imgs/softmax-formula.png)
+![](imgs/softmax-formula.svg)
 
 也可以尝试不用指数函数，直接算，会发现用指数后能把差距大的数值距离拉大。
 
