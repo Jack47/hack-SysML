@@ -51,16 +51,17 @@ input tokens [b, s] 被输入到 [v, h] 的 word embedding, [s, h] 的 positiona
 
 (下面都是字节为单位算的，计算的都是某个 op 它的输入和中间算梯度所需的东西，比如 mask）
 
-** Attention block **: 
+** Attention block **:
+
 Q,K,V 矩阵乘：他们的共同输入是 2*sbh
 
 Q\*K 矩阵乘：需要保存 Q和K：2\*2bsh = 4sbh # [b, s, h] * [h, bs] -> 
 
-Softmax: 输出的是 2as^2b # 这里算不清楚了
+Softmax: 输出的是 2as^2b # 有 a 个 head，每个里面 Q*K 之后结果是 `2bs^2` => `2as^2b`
 
 Softmax dropout: 只需要 as^2b 的 mask
 
-Attention over Values (V) : 需要记录上一步 droput 的结果：2as^2b 和输入 value: 2bsh
+Attention over Values (V) : 需要记录上一步 dropout 的结果：2as^2b 和输入 value: 2bs(h/a)*a
 
 上述总共是 11sbh(我算出来是8，不知道其他3个从哪里来的） + 5as^b
 
