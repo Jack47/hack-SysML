@@ -8,7 +8,7 @@
 | ------------------------------------------------------------ | ---------- | ------ |
 | [CLIP-vit-large-patch14-336](https://huggingface.co/openai/clip-vit-large-patch14-336) | 400M       | 0.349  |
 | [laion--CLIP-ViT-H-14-laion2B-s32B-b79K](https://huggingface.co/laion/CLIP-ViT-H-14-laion2B-s32B-b79K) | 1B         | 0.324  |
-| [EVA02_CLIP_E_psz14_s4B](https://huggingface.co/QuanSun/EVA-CLIP) |            |        |
+| [EVA02_CLIP_E_psz14_s4B](https://huggingface.co/QuanSun/EVA-CLIP) | 4.7B       | 2.2346 |
 
 **各模型超参**：
 
@@ -55,10 +55,10 @@
     "embed_dim": 1024,
     "vision_cfg": {
         "image_size": 224,
-        "timm_model_name": "eva02_enormous_patch14_clip_224",
-        "timm_model_pretrained": false,
-        "timm_pool": "token",
-        "timm_proj": null
+        "layers": 64,
+        "width": 1792,
+        "head_width": 112,
+        "patch_size": 14
     },
     "text_cfg": {
         "context_length": 77,
@@ -79,11 +79,11 @@
 
 使用 手工推导 + 调 `calflops` 库检验 的方式进行TFLOPs计算
 
-| 模型规格                               | 总参数量    | image_encoder参数量 | image_encoder中Transformer参数量 | text_encoder参数量 | text_encoder中Transformer参数量 |
-| -------------------------------------- | ----------- | ------------------- | -------------------------------- | ------------------ | ------------------------------- |
-| CLIP-vit-large-patch14-336             | 427,944,793 | 304,293,888         | 302,309,376<br />(占比99.34%)    | 85,054,464         | 85,054,464<br />(占比100%)      |
-| laion--CLIP-ViT-H-14-laion2B-s32B-b79K | 986,109,441 | 632,076,800         | 629,678,080<br />(占比99.62%)    | 302,309,376        | 302,309,376<br />(占比100%)     |
-| EVA02_CLIP_E_psz14_s4B                 |             |                     |                                  |                    |                                 |
+| 模型规格                               | 总参数量      | image_encoder参数量 | image_encoder中Transformer参数量 | text_encoder参数量 | text_encoder中Transformer参数量 |
+| -------------------------------------- | ------------- | ------------------- | -------------------------------- | ------------------ | ------------------------------- |
+| CLIP-vit-large-patch14-336             | 427,944,793   | 304,293,888         | 302,309,376<br />(占比99.34%)    | 85,054,464         | 85,054,464<br />(占比100%)      |
+| laion--CLIP-ViT-H-14-laion2B-s32B-b79K | 986,109,441   | 632,076,800         | 629,678,080<br />(占比99.62%)    | 302,309,376        | 302,309,376<br />(占比100%)     |
+| EVA02_CLIP_E_psz14_s4B                 | 4,704,589,569 | 4,350,556,928       | 4,347,199,488<br />(占比99.92%)  | 354,032,640        | 302,309,376<br />(占比85.39%)   |
 
 由此可见Transformer的参数量在模型总参数量中占主导部分，而该部分主要由多头注意力机制MultiHeadAttention实现，假设其输入 X 的形状为 (B, L, D)，其中B为batch_size，L为seq_len，D为隐层维度，用H表示num_heads，MultiHeadAttention主体计算包括3部分：
 
@@ -142,9 +142,15 @@ $$
 
 ### (3) EVA02_CLIP_E_psz14_s4B
 
+image_encoder中的Transformer：L=257，D=1792
 
+text_encoder中的Transformer：L=77，D=1024
 
-
+带入上述公式，计算得到
+$$
+TFLOPs ≈ 2.236 + 0.0545 = 2.2905
+$$
+与调 `calflops` 库所得2.2346相近
 
 # 附录
 
