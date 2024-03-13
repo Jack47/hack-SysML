@@ -23,7 +23,7 @@ tokenizer = open_clip.get_tokenizer('ViT-L-14-336')
 # tokenizer = open_clip.get_tokenizer('EVA02-E-14')
 
 # CLIP-vit-large-patch14-336
-B = 1
+B = 128
 W = 336
 H = 336
 C = 3
@@ -43,19 +43,25 @@ L = 77
 # C = 3
 # L = 77
 
-mode = model.cuda()
+# 当不设置精度而直接torch.compile()回导致如下warning：
+# UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+torch.set_float32_matmul_precision('high') # 充分利用tensor cores来进行矩阵乘法加速
+model = torch.compile(model)
+model = model.cuda().eval()
+
 image = torch.ones(B, C, H, W).cuda()
 text = torch.ones(B, L, dtype=torch.int).cuda()
 
-ts = []
-t0 = time()
-for i in range(11):
-    t1 = time()
-    output = model(image, text)
-    t2 = time()
-    ts.append(t2 - t1)
-del ts[0]
-print(sum(ts)/len(ts), ts)
+with torch.no_grad(): # fwd过程中不进行梯度保存，从而节省空间占用，但对于运行速度影响不大
+    ts = []
+    t0 = time()
+    for i in range(14):
+        t1 = time()
+        output = model(image, text)
+        t2 = time()
+        ts.append(t2 - t1)
+    for _ in range(14): del ts[0]
+    print(sum(ts)/len(ts), ts)
 
 flops, macs, params = calculate_flops(model=model, 
                                       input_shape=((B,C,H,W)),
@@ -131,11 +137,12 @@ class MultiheadAttention(nn.MultiheadAttention):
 
 ### 1) Batch_size=1
 
-| CLIP-vit-large-patch14-336 | RTX3090用时              | A100用时                 |
-| -------------------------- | ------------------------ | ------------------------ |
-| normal_attn                | 0.03447s                 | 0.04180s                 |
-| torch_attn                 | 0.03305s                 | 0.03750s                 |
-| flash_attn                 | 0.02694s (加速比: x1.28) | 0.03067s (加速比: x1.36) |
+| CLIP-vit-large-patch14-336    | RTX3090用时              | A100用时                 |
+| ----------------------------- | ------------------------ | ------------------------ |
+| normal_attn                   | 0.03447s                 | 0.04180s                 |
+| torch_attn                    | 0.03305s                 | 0.03750s                 |
+| flash_attn                    | 0.02694s (加速比: x1.28) | 0.03067s (加速比: x1.36) |
+| flash_attn + tensor cores加速 | 0.02380 (加速比: x1.45)  |                          |
 
 | laion--CLIP-ViT-H-14-laion2B-s32B-b79K | RTX3090用时              | A100用时                 |
 | -------------------------------------- | ------------------------ | ------------------------ |
@@ -171,7 +178,14 @@ class MultiheadAttention(nn.MultiheadAttention):
 
 
 
+### 4) Batch_size=128
 
+| CLIP-vit-large-patch14-336    | RTX3090用时                  |
+| ----------------------------- | ---------------------------- |
+| normal_attn                   | 3.73205s                     |
+| torch_attn                    | 3.34647s                     |
+| flash_attn                    | 2.84249s (加速比: x1.31)     |
+| flash_attn + tensor cores加速 | 1.58557s (加速比: **x2.35**) |
 
 ## 四、思考
 
