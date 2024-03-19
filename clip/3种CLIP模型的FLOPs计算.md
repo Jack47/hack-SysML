@@ -107,13 +107,100 @@ python calculate_flops.py
 - **从统计指标上**，本项目将浮点操作分为两类：将mul/div/exp/sqrt等重操作分为一类，统称为mul；将add/sub作为轻操作分为一类，统称为add。分别统计这两类操作，以及他们的总和。
 - **从工程实现上**，本项目专注于CLIP模型结构，利用sympy可得到整个模型的FLOPs计算公式，并带入具体的超参数可计算得到FLOPs。使用sympy的好处是，通过观察公式，可以更有助于理解各个超参数对整体FLOPs的影响。
 
-**2.是否能找到这个模型在不同的硬件，比如 A100、H800 等上面的 sota 的 MFU？**
 
-本题目暂未完成
 
-**3.上面对应的 sota 指标是如何达到的？**
+**2&3. 是否能找到这个模型在不同的硬件，比如 A100、H800 等上面的 sota 的 MFU？对应的 sota 指标是如何达到的？**
 
-本题目暂未完成
+**暂未找到CLIP模型的MFU数据**。考虑到CLIP和LLM都属于Transformer，很多优化方法可以借鉴，所以这里参考了LLM模型上的一篇SOTA工作：**MegaScale: Scaling Large Language Model Training to More Than 10,000 GPUs**。他们是在Ampere架构上做的实验。
+
+下表是论文中MegaScale与Megatron-LM在不同配置下的MFU对比
+
+![image-20240319141024568](3种CLIP模型的FLOPs计算.assets/image-20240319141024568.png)
+
+在论文中，给出了不同优化手段对MFU的影响。如下表所示。
+
+<img src="3种CLIP模型的FLOPs计算.assets/image-20240319125819692.png" alt="image-20240319125819692" style="zoom:50%;" />
+
+上述优化手段分别为：
+
+**1) PTB(Parallel Transformer Block)**
+
+修改模型结构，将MLP和Attention由串行改为并行。
+
+<img src="3种CLIP模型的FLOPs计算.assets/image-20240319125729071.png" alt="image-20240319125729071" style="zoom:50%;" />
+
+
+
+**2) SWA(Sliding window attention)**
+
+滑动窗口注意力。
+
+
+
+**3) TP overlap**
+
+该论文采用了序列并行和张量并行。观察到All-Gather和Reduce-Scatter处于关键路径上，该论文将All-Gather与ColParaLinear进行融合，Reduce-Scatter与RowParaLinear进行融合，掩盖掉通信开销。
+
+融合：矩阵分块计算，相邻块的通信和计算可以重叠。
+
+![image-20240319133912980](3种CLIP模型的FLOPs计算.assets/image-20240319133912980.png)
+
+
+
+
+
+**4) DP overlap**
+
+该论文中的数据并行，采用Zero2中的策略。存在两类通信：
+
+- all-gather：前向传播时，让每个gpu上都能拿到当前层的全部权重。
+- reduce-scatter：反向传播时，将梯度reduce后，再分发给不同gpu。
+
+<img src="3种CLIP模型的FLOPs计算.assets/image-20240319132048264.png" alt="image-20240319132048264" style="zoom: 67%;" />
+
+模型可以被切分为不同的chunk。重叠通信的方式为：
+
+- all-gather：
+  - 当前chunk的all-gather操作，与前面的chunk的前向计算重叠。
+  - 第一个chunk的all-gather与输入数据加载重叠。
+- reduce-scatter：
+  - 当前chunk的reduce-scatter操作，与后面的chunk的反向计算重叠。
+
+
+
+**5) PP overlap**
+
+采用1F1D的流水并行，并将send/receive与计算重叠。如下图所示：
+
+<img src="3种CLIP模型的FLOPs计算.assets/image-20240319133313490.png" alt="image-20240319133313490" style="zoom:80%;" />
+
+
+
+**6) Efficient Operators**
+
+用了FlashAttention V2；对layernorm、gelu做了算子融合，说原先这些算子是由更基本的算子组合出来的。
+
+
+
+**7) misc（其他杂项的优化）**
+
+包括Data Pipeline、Collective Communication Group Initialization、 Network Performance Tuning
+
+- **Data Pipeline**包括：
+  - **Asynchronous data preprocessing**：数据预处理与最后一个批次的梯度同步重叠。
+  - **Redundant dataloader elimination**：
+    - 问题：多个GPU workers在加载输入数据时，同时读硬盘，使得硬盘成为瓶颈；
+    - 解决：观察到一台机器中的GPU workers位于同一个tensor parallel group中，它们是共享输入数据的；所以，该论文用一个专门的数据加载器，将输入数据从硬盘加载到共享内存，然后由各个GPU workers将输入数据从共享内存加载到各自的GPU显存中。
+
+Collective Communication Group Initialization和Network Performance Tuning的优化后续再补充上来。
+
+
+
+**8) LAMB**
+
+一种优化器，能在增大batch size时保持模型训练精度。
+
+
 
 **4.我们使用的 clip 会切换调整，如何实现一个 python 函数快速计算当前给定的 clip 规格，返回 TFLOPs ？**
 
