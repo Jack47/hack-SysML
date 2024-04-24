@@ -5,6 +5,9 @@
 5. 有哪些局限性？如何优化？
 6. 这个工作可能有什么深远的影响？
 
+
+Tutel 只是允许在每次迭代设置不同 expert capacity，**不产生**任何额外的切换开销(通过adaptive pipelining 做到的）。保证**不 drop tokens**，但是没法避免  zero-padding
+
 two-dimensional hierarchical(2DH) All-to-All
 
 flexible All-to-All enable efficient MoE dispatch/combine in exa-scale (4096 A100)

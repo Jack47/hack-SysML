@@ -1005,9 +1005,13 @@ GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding
 
 [FasterMoE: Modeling and Optimizing Training of Large-Scale Dynamic Pre-Trained Models](papers/moe/faster-moe.md)
 
-[TUTEL: Adaptive Mixture-of-Experts at Scale(2022.6)](papers/moe/tutel.md)
+TUTEL: Adaptive Mixture-of-Experts at Scale(2022.6)[My Notes](papers/moe/tutel.md)
 
 SE-MoE: A **Scalable** And **Efficient** Mixture-of-Experts Distributed Training and Inference System(2022.5 Paddle) [My Notes](papers/moe/se-moe.md)
+
+MegaBlocks: Efficient Sparse Training with Mixture of Experts(2022.11) [My Notes](papers/moe/megablocks.md)
+
+Mixture-of-Experts Meets Instruction Tuning: A Winning Combination for Large Language Models(2023.7) [My Notes](papers/moe/moe-meets-instruction-tuning.md)
 
 
 ## Reinforcement Learning
