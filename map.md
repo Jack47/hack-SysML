@@ -432,6 +432,14 @@ Zero Bubble Pipeline Parallelism (2023.11.30) [My Notes](papers/parallelism/zero
 
 jiazhihao的，里面有一个模拟器，能预测出速度
 
+### Explain
+The Internal State of an LLM Knows When It's Lying (2023.10) [My Notes](papers/explain) : 读取模型内部的激活值，然后根据分类器来分类，方法叫 Statement Accuracy Prediction, based on Language Model Activations
+
+Representation Engineering: A Top-Down Approach to AI Transparency(2023.10.10): 开源了
+Linear artificial Tomography(线性人工断层摄影术）。可以监控、控制最后行为
+
+Language Models(Mostly) Know What They Know(2022.11.21 Anthropic): 开放问题任务上让模型自我评估，根据模型的 Loss 或者 Entropy 来判断模型知道什么，通过模型答案的分布来判断是否有幻觉（不确定，
+
 ###  1.14. <a name='Quantization'></a>Quantization 
 [8-bit inference with tensorrt(2017.5.8)](papers/quantization/8-bit-inference-with-TensorRT.md)
 
@@ -1009,7 +1017,7 @@ TUTEL: Adaptive Mixture-of-Experts at Scale(2022.6)[My Notes](papers/moe/tutel.m
 
 SE-MoE: A **Scalable** And **Efficient** Mixture-of-Experts Distributed Training and Inference System(2022.5 Paddle) [My Notes](papers/moe/se-moe.md)
 
-MegaBlocks: Efficient Sparse Training with Mixture of Experts(2022.11) [My Notes](papers/moe/megablocks.md)
+MegaBlocks: Efficient Sparse Training with Mixture of Experts(2022.11) [My Notes](papers/moe/megablocks.md), [Code](papers/moe/megablocks-code.md)
 
 Mixture-of-Experts Meets Instruction Tuning: A Winning Combination for Large Language Models(2023.7) [My Notes](papers/moe/moe-meets-instruction-tuning.md)
 
