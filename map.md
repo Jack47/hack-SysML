@@ -818,7 +818,9 @@ tf.data: A Machine Learning Data Processing Framework: (2021) [My Notes](./frame
 
 Faster Neural Network Training with Data Echoing(2020) 如果数据这块 I/O 时间过长，可以对数据进行重用
 
-The RefinedWeb Dataset for Falcon LLM: Outperforming Curated Corpora with Web Data, and Web Data Only(2023.6): release 了一个 600B tokens 的数据集，在上面训了一个 1/7B 系列的模型，可以作为高质量数据集的 baseline
+Data Selection for Language Modes via Importance Resampling(49 引用，2023.2)
+
+The RefinedWeb Dataset for Falcon LLM: Outperforming Curated Corpora with Web Data, and Web Data Only（391 引用，2023.6): release 了一个 600B tokens 的数据集，在上面训了一个 1/7B 系列的模型，可以作为高质量数据集的 baseline
 
 RedPajama Data V2 (2023.10): 100T 上去重后得到的 30T 的数据（有40多个预先计算好的数据质量的标注，可以用来做过滤和权重）。所有数据处理的脚本都开源了，数据也开源了
 
