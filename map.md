@@ -818,6 +818,9 @@ tf.data: A Machine Learning Data Processing Framework: (2021) [My Notes](./frame
 
 Faster Neural Network Training with Data Echoing(2020) 如果数据这块 I/O 时间过长，可以对数据进行重用
 
+Scaling Laws and Interpretability of Learning from Repeated Data (2022.5 Anthropic): 重复数据会导致 test loss 在训练中途增加。推测是发生了记忆，泛化性降低
+
+Scaling Laws [笔记](./papers/data/scaling-laws.md)
 Data Selection for Language Modes via Importance Resampling(49 引用，2023.2)
 
 The RefinedWeb Dataset for Falcon LLM: Outperforming Curated Corpora with Web Data, and Web Data Only（391 引用，2023.6): release 了一个 600B tokens 的数据集，在上面训了一个 1/7B 系列的模型，可以作为高质量数据集的 baseline
@@ -832,6 +835,11 @@ The Deep Learning Revolution and Its Implications for Computer Architecture and 
 Let's build GPT: from scratch, in code, spelled out (2023.1.18) [My Notes](videos/build-gpt-from-scratch.md)
 
 Let's build the GPT Tokenizer (2023.2.21) [My Notes](videos/build-gpt-tokenizer.md)
+
+[1hr Talk] [Intro to Large Language Models](https://www.youtube.com/watch?v=zjkBMFhNj_g)(Andrej Karpthy)
+
+State of GPT(Andrej Karpathy)
+
 
 ##  9. <a name='Hardware'></a>Hardware
 
