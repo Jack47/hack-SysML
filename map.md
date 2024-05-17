@@ -1044,6 +1044,8 @@ MegaBlocks: Efficient Sparse Training with Mixture of Experts(2022.11) [My Notes
 
 Mixture-of-Experts Meets Instruction Tuning: A Winning Combination for Large Language Models(2023.7) [My Notes](papers/moe/moe-meets-instruction-tuning.md)
 
+A Hybrid Tensor-Expert-Data Parallelism Approach to Optimize Mixture-of-Experts Training(2023.5.14) [My Notes](papers/moe/hybrid.md)
+
 
 ## Reinforcement Learning
 
