@@ -442,6 +442,7 @@ Language Models(Mostly) Know What They Know(2022.11.21 Anthropic): 开放问题�
 
 Studying Large Language Model Generalization with Influence Funtions(Anthropic)
 
+The Platonic Representation Hypothesis [My Notes](papers/explain/the-platonic-representation-hypothesis.md)
 
 ###  1.14. <a name='Quantization'></a>Quantization 
 [8-bit inference with tensorrt(2017.5.8)](papers/quantization/8-bit-inference-with-TensorRT.md)
@@ -545,6 +546,7 @@ An Initial Exploration of Theoretical Support for Language Model Data Engineerin
 
 PyTorch Accelerating Generative AI with PyTorch II: GPT, Fast (2023.11.30) [My Notes](./frameworks/pytorch/accelerating-generative-ai-ii.md)
 
+Does Fine-Tuning LLMs on New Knowledge Encourage Hallucinations?(2024.5.13) [My Notes](./papers/NLP/new-knowledge-finetuning-hallucinations.md)
 
 #### Context Scaling(Longer Context)
 
@@ -1044,7 +1046,7 @@ MegaBlocks: Efficient Sparse Training with Mixture of Experts(2022.11) [My Notes
 
 Mixture-of-Experts Meets Instruction Tuning: A Winning Combination for Large Language Models(2023.7) [My Notes](papers/moe/moe-meets-instruction-tuning.md)
 
-A Hybrid Tensor-Expert-Data Parallelism Approach to Optimize Mixture-of-Experts Training(2023.5.14) [My Notes](papers/moe/hybrid.md)
+A Hybrid Tensor-Expert-Data Parallelism Approach to Optimize Mixture-of-Experts Training(2023.5.14) [My Notes](papers/moe/hybrid-deepspeed-ted.md)
 
 
 ## Reinforcement Learning
