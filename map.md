@@ -878,6 +878,9 @@ NVIDIA Automatic Mixed Precision training [My Notes](./hardware/GPU/mixed-precis
 Fractional GPUs: Software-based Compute and Memory Bandwidth Reservation for GPUs: 实现了比 NV 自己的 MPS 更好的划分GPU ，跑多个 程序的方式。 之前腾讯的Gaia Stack 里实现有一些限制，本质是限制了调用次数，比如 kernel 得发射很多，才比较有效，而且多个程序之间没有物理隔离。[开源了实现](https://github.com/sakjain92/Fractional-GPUs). [My Notes](./hardware/GPU/fractional-GPUs)
 
 
+### Training Instability
+
+[Is Flash Attention Stable?](./hardware/GPU/is-flash-attention-stable.md)
 
 Optimizing Convolutitonal Layers: NV 官网的优化卷积运算的指南。[Notes](./hardware/GPU/optimizing-conv-layers.md)
 
