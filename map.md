@@ -444,6 +444,8 @@ Studying Large Language Model Generalization with Influence Funtions(Anthropic)
 
 The Platonic Representation Hypothesis [My Notes](papers/explain/the-platonic-representation-hypothesis.md)
 
+Mapping the Mind of a Large Language Model (Anthropic 2024.5.21)
+
 ###  1.14. <a name='Quantization'></a>Quantization 
 [8-bit inference with tensorrt(2017.5.8)](papers/quantization/8-bit-inference-with-TensorRT.md)
 
@@ -547,6 +549,11 @@ An Initial Exploration of Theoretical Support for Language Model Data Engineerin
 PyTorch Accelerating Generative AI with PyTorch II: GPT, Fast (2023.11.30) [My Notes](./frameworks/pytorch/accelerating-generative-ai-ii.md)
 
 Does Fine-Tuning LLMs on New Knowledge Encourage Hallucinations?(2024.5.13) [My Notes](./papers/NLP/new-knowledge-finetuning-hallucinations.md)
+
+#### SFT
+LIMA: aligment tuning 只是简单教会了 base LLM 选择了一个跟用户交互的子分布。千个高质量的例子就足够了
+
+The Unlocking Spell on Base LLMs: Rethinking Alignment via In-Context-Learning 提出了简单的、不需要训练的 alignment 方法：Untuned LLMs with Restyled In-Context ALignment.
 
 #### Context Scaling(Longer Context)
 
