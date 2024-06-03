@@ -26,3 +26,6 @@
 有几个限制：
 1. 构造这些数据的心智代价比较高，很难扩展
 2. 在 decode 阶段的 unlucky sample 或者是对抗样本会导致 weak response。
+
+
+文章里观察到一点：在 validation set 上的 perplexity 增加（意味着很可能 overfitting ），但是模型输出的质量，人肉评估后发现业提高了。这个有点违背直觉的发现说明在特定任务上，传统的 ppl 测量方法可能没法完全捕获 overfitting 到特定训练 pattern 上带来的质量提升
