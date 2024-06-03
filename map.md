@@ -551,7 +551,7 @@ PyTorch Accelerating Generative AI with PyTorch II: GPT, Fast (2023.11.30) [My N
 Does Fine-Tuning LLMs on New Knowledge Encourage Hallucinations?(2024.5.13) [My Notes](./papers/NLP/new-knowledge-finetuning-hallucinations.md)
 
 #### SFT
-LIMA: aligment tuning 只是简单教会了 base LLM 选择了一个跟用户交互的子分布。千个高质量的例子就足够了
+LIMA: aligment tuning 只是简单教会了 base LLM 选择了一个跟用户交互的子分布。千个高质量的例子就足够了 [My Notes](./papers/NLP/LIMA.md)
 
 The Unlocking Spell on Base LLMs: Rethinking Alignment via In-Context-Learning 提出了简单的、不需要训练的 alignment 方法：Untuned LLMs with Restyled In-Context ALignment.
 
