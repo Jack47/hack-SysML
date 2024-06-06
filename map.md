@@ -876,6 +876,8 @@ NVIDIA Automatic Mixed Precision training [My Notes](./hardware/GPU/mixed-precis
 
 [What Every Programmer Should Know About Floating-Point Arithmetic](https://floating-point-gui.de/) [My Notes](./hardware/GPU/what-every-programmer-should-know-about-floating-point.md)
 
+[bf16](./hardware/GPU/bf16.md)
+
 [fp16](./hardware/GPU/fp16.md)
 
 [int8: A100 里带的](./hardware/GPU/a100.md)
