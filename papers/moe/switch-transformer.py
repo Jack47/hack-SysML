@@ -86,4 +86,62 @@ def router(inputs, expert_capacity):
     dispatch_tensor = mtf.cast(combine tensor, tf.bool)
     return dispatch_tensor, combine_tensor, aux loss
 
-    
+def switch_layer(inputs, n, capacity_factor, num experts):
+    """Distributed switch transformer feed−forward layer."""
+    # num cores (n) = total cores for training the model (scalar).
+    # d model = model hidden size (scalar).
+    # num experts = total number of experts.
+    # capacity factor = extra buffer for each expert.
+    # inputs shape: [batch, seq len, d model]
+    batch, seq len, d model = inputs.get shape()
+    # Each core will route tokens per core tokens to the correct experts.
+    tokens_per_core = batch ∗ seq len / num cores
+    # Each expert will have shape [num cores, expert capacity, d model].
+    # Each core is responsible for sending expert capacity tokens
+    # to each expert.
+    expert_capacity = tokens_per_core ∗ capacity_factor / num experts # 这里论文里就有问题，不应该再除以 num_experts 了，因为 capacity_factor 里已经除了 num_experts
+    # Reshape to setup per core expert dispatching.
+    # shape: [batch, seq len, d model] −> [num cores, tokens per core, d model]
+    # Core layout: [n, 1, 1] −> [n, 1, 1]
+    # 把 bsh 的 inputs 切分到 cores 上
+    inputs = mtf.reshape(inputs, [num cores, tokens per core, d model])
+    # Core Layout: [n, 1, 1] −> [n, 1, 1, 1], [n, 1, 1, 1]
+    # dispatch tensor (boolean) shape: [num cores, tokens per core, num experts, expert capacity] # 是一个类似 one_hot 的
+    # dispatch tensor is used for routing tokens to the correct expert.
+    # combine tensor (float) shape: [num cores, tokens per core, num experts, expert capacity]
+    # combine tensor used for combining expert outputs and scaling with router
+    # probability.
+    dispatch_tensor, combine_tensor, aux_loss = router(inputs, expert_capacity)
+    # Matmul with large boolean tensor to assign tokens to the correct expert.
+    # Core Layout: [n, 1, 1], −> [1, n, 1, 1]
+    # [num cores, tokens per core, d_model] @ [num cores, tokens_per_core, num experts, expert capacity]
+    # -> [num cores, tokens per core, num experts, expert capacity]
+    # expert inputs shape: [num experts, num_cores, expert_capacity, d model]
+    # 没搞明白这个步骤维度怎么变化的
+    expert_inputs = mtf.einsum([inputs, dispatch_tensor], reduce_dims=[tokens_per_core])
+    # 这里省略了 all2all，所以下面的 mtf.reshape 是直接模拟的 all2all 之后的结果？
+    # All−to−All communication. Cores split across num cores and now we want to split
+    # across num experts. This sends tokens, routed locally, to the correct expert now
+    # split across different cores.
+    # Core layout: [1, n, 1, 1] −> [n, 1, 1, 1]
+    expert inputs = mtf.reshape(expert inputs, [num experts, num cores, expert capacity, d model])
+    # expert_capacity 这个维度上，FFN 计算时并没有考虑 batch 和 顺序，因为只需要计算出来，之后 all2all 返回完，会再重新拼起来
+    # 所以 FFN 前是固定某种顺序就行。比如 batch 已经混合在 b*s 里了。而 all2all 时到达的顺序就是根据 rank 来的？
+    # Standard feed forward computation, where each expert will have its own
+    # unique set of parameters.
+    # Total unique parameters created: num experts ∗ (d model ∗ d ff ∗ 2).
+    # expert outputs shape: [num experts, num cores, expert capacity, d model]
+    expert outputs = feed forward(expert inputs)
+    # All−to−All communication. Cores are currently split across the experts
+    # dimension, which needs to be switched back to being split across num cores.
+    # Core Layout: [n, 1, 1, 1] −> [1, n, 1, 1]
+    expert outputs = mtf.reshape(expert outputs, [num experts, num cores, expert capacity, d model])
+    # Convert back to input shape and multiply outputs of experts by the routing probability.
+    # expert outputs shape: [num experts, num cores, tokens per core, d model]
+    # expert outputs combined shape: [num cores, tokens per core, d model]
+    # Core Layout: [1, n, 1, 1] −> [n, 1, 1]
+    expert outputs combined = mtf.einsum([expert outputs, combine tensor], reduce dims=[tokens per core])
+    # Remove tokens per core shapes used for local routing dispatching to match input shape.
+    # Core Layout: [n, 1, 1] −> [n, 1, 1]
+    outputs = mtf.reshape(expert outputs combined, [batch, seq len, d model])
+    return outputs, aux loss
