@@ -13,7 +13,7 @@ def load_balance_loss(router_probs, expert_mask):
     # For each core, get the fraction of tokens routed to each expert.
     # density 1 shape: [num cores, num experts]
     # 每个 expert 上平均多少个(归一化之后的，求和是1)
-    density_1 = mtf.reduce_mean(expert_mask, reduced_dim=tokens_per_core)
+    density_1 = mtf.reduce_mean(expert_mask, reduced_dim=tokens_per_core) # 即在 [, i, ] 上求均值
     # For each core, get fraction of probability mass assigned to each expert
     # from the router across all tokens.
     # density 1 proxy shape: [num cores, num experts]
@@ -23,7 +23,7 @@ def load_balance_loss(router_probs, expert_mask):
     # density l proxy for a single core: vector of length num experts that sums to 1.
     # Want both vectors to have uniform allocation (1/num_experts) across all num expert elements.
     # The two vectors will be pushed towards uniform allocation when the dot product is minimized.
-    # dot product 的结果是标量
+    # reduce_mean 没指定 reduced_dim，所以是所有元素的均值，即结果是标量
     loss = mtf.reduce_mean(density_1_proxy * density_1) * (num_experts^2)
 
     return loss
@@ -60,26 +60,30 @@ def router(inputs, expert_capacity):
     # the batch indices, to each expert, with position in expert
     # make sure that not more that expert capacity examples can be routed to
     # each expert.
-    # [num_cores, tokens_per_core, num_experts]
-    # 问题：这里维度只需要 2 维? [num_cores, num_experts]，不需要维度的这个序列
+    # [, token_i, ] 上累加 -> [num_cores, tokens_per_core, num_experts]，即 [, tj , expert_i] 代表 expert_i 在 tj 时处理了多少 token
+    # 也可以当作当前 token 在 expert_i 里的位置，如果超过 capacity 了，就会被处理掉
+
     position_in_expert = mtf.cumsum(expert_mask, dimension=tokens_per_core) ∗ expert_mask
     # Keep only tokens that fit within expert capacity.
     expert_mask ∗= mtf.less(position_in_expert, expert_capacity) # 干掉溢出的
-    expert_mask_flat = mtf.reduce_sum(expert mask, reduced_dim=experts_dim) # [num_cores, tokens_per_core, num_experts] -> [num_cores, tokens_per_core]
+    # [num_cores, tokens_per_core, num_experts] -> [num_cores, tokens_per_core] 因为本来是 one_hot，此时 sum 之后那就是 one_hot 的反向？
+    expert_mask_flat = mtf.reduce_sum(expert mask, reduced_dim=experts_dim)
     # Mask out the experts that have overflowed the expert capacity.
-    expert gate ∗= expert mask flat
+    expert_gate ∗= expert_mask_flat
     # combine tensor used for combining expert outputs and scaling with router probability.
     # 用来收集专家输出的组合张量，并使用路由器概率进行缩放(加权）
-    # 主要是 expert_gate(权重) * expert_mask(是否溢出) * expert_index(选了谁) * position_in_expert(在哪个位置: seq index)
+    # 主要是 expert_gate(权重) * expert_mask(是否溢出) * expert_index(选了谁) * position_in_expert(处在被选的 expert 里 seq 里的哪个位置: seq index)
     # combine_tensor shape: [num cores, tokens per core, num_experts, expert_capacity]
     combine_tensor = (
-    expert gate ∗ expert mask flat ∗ # [num_cores, tokens_per_core] * [num_cores, tokens_per_core]
+    expert_gate ∗ expert mask flat ∗ # [num_cores, tokens_per_core] * [num_cores, tokens_per_core]
     mtf.one_hot(expert_index, dimension=num_experts) ∗ # -> [num_cores, tokens_per_core, num_experts]
     mtf.one_hot(position_in_expert, dimension=expert_capacity)) # [num_cores, tokens_per_core, num_experts] (one_hot)-> [num_cores, tokens_per_core, num_experts, expert_capacity]
     # Cast back outputs to bfloat16 for the rest of the layer.
-    combine_tensor = mtf.to bfloat16(combine tensor)
+    combine_tensor = mtf.to bfloat16(combine_tensor)
     # Create binary dispatch tensor that is 1 if the token gets routed to the corresponding expert.
     # dispatch tensor shape: [num cores, tokens per core, num experts, expert capacity]
-    # dispatch 只关心是否要发给某个 expert，所以就不用知道是这个 expert 里的具体位置了
+    # dispatch 只关心是否要发给某个 expert，所以就不用知道是这个 expert 里的具体位置了。有点类似 one_hot
     dispatch_tensor = mtf.cast(combine tensor, tf.bool)
-    return dispatch tensor, combine tensor, aux loss
+    return dispatch_tensor, combine_tensor, aux loss
+
+    
