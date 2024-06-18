@@ -400,6 +400,7 @@ LightSeq: Sequence Level Parallelism for Districuted Training of Long Context Tr
 
 Ring Attention with Blockwise Transformers for Near-Infinite Context (2023.11.27)(Hao Liu, berkeley) [My Notes](./papers/NLP/ring-attention-with-blockwise-transformers.md)
 
+DeepSpeed Ulysses: System Optimizations for Enabling Training of Extreme Long Sequence Transformer Models (2023.10) [My Notes](./papers/NLP/deepspeed-ulysses.md)
 ####  1.13.1. <a name='DataParallel'></a>Data Parallel
 [PyTorch Distributed: Experiences on Accelerating Data Parallel Training](https://arxiv.org/pdf/2006.15704.pdf)(2020.6.28) [My Notes](papers/PyTorch%20Distributed-Data%20Parallel%20Training.md)
 
