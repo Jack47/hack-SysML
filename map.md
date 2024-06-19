@@ -910,6 +910,7 @@ PyTorch 里的几种 Profiler 方式：[My Notes](frameworks/pytorch/profiler.md
 
 Hotline Profiler(2023): Automatic Annotation and A Multi-Scale Timeline for Visualizing Time-Use in DNN Training. [My Notes](frameworks/hotline-profiler.md)
 
+The FLOPs Calculus of Language Model Training. [My Notes](hardware/GPU/flops-calculus-lm.md)
 cuBLAS: [My Notes](./hardware/GPU/cublas.md)
 
 [pytorch cuda api](./hardware/GPU/pytorch-cuda.md)
