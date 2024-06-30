@@ -1071,6 +1071,8 @@ MINEDOJO: Building Open-Ended Embodied Agents with Internet-Scale Knowledge(Neur
 
 DreamerV3: Mastering Diverse Domains through World Models
 
+OpenRLHF: An Easy-to-use, Scalable and High-performance RLHF Framework(2024) [My Notes](papers/RLHF/openrlhf.md)
+
 ## Chips
 
 The Deep Learning Revolution and Its Implications for Computer Architecture and Chip Design. [My Notes](./hardware/the-deep-learning-revolution-and-its-implications-for-computer-architecture-and-chip-design.md)
