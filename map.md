@@ -1073,6 +1073,8 @@ DreamerV3: Mastering Diverse Domains through World Models
 
 OpenRLHF: An Easy-to-use, Scalable and High-performance RLHF Framework(2024) [My Notes](papers/RLHF/openrlhf.md)
 
+An Adaptive Placement and Parallelism Framework for Accelerating RLHF Training [My Notes](papers/RLHF/an-adaptive-placement-and-parallelism-framework-for-accelerating-RLHF-training.md)
+
 ## Chips
 
 The Deep Learning Revolution and Its Implications for Computer Architecture and Chip Design. [My Notes](./hardware/the-deep-learning-revolution-and-its-implications-for-computer-architecture-and-chip-design.md)
