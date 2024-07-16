@@ -584,6 +584,10 @@ Representation Engineering: A Top-Down Approach to AI Transparency
 #### Inference
 [概览](frameworks/LLM/methods.md)
 
+Fast Distributed Inference Serving for Large Language Models(2023.5.10): 不是 FCFS 的调度，而是可以在 token 级别上抢占的
+
+#### RLHF
+ReaLHF: Optimized RLHF Training for Large Language Models through Parameter Reallocation (2024.6) [Notes](./papers
 #### Eval
 [概览](frameworks/LLM/eval-methods.md)
 
