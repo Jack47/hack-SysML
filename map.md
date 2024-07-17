@@ -531,13 +531,6 @@ QLoRA: Efficient Finetuning of Quantized LLMs(2023 5.23): 是一个高效的 fin
 
 Guidance(Microsoft): constrained prompting, 让模型更稳定地按照特定的格式进行输出
 
-llama.cpp: 把 Facebook 的 LLaMA 模型使用 C/C++ 进行移植：[My Notes](frameworks/LLM/llama.cpp.md)
-
-vLLM: Easy, Fast, and Cheap LLM Serving with **PagedAttention** [My Notes](frameworks/LLM/vLLM.md)
-
-How continuous batching enables 23x throughput in LLM inference while reducing p50 latency(2023 6.23) [My Notes](frameworks/LLM/continuous-batching.md)
-
-[Hugging Face Text Generation Inference](https://github.com/huggingface/text-generation-inference/tree/main) [My Notes](frameworks/LLM/text-generation-inference.md)
 
 Numbers every LLM Developer should known [My Notes](frameworks/LLM/numbers-every-llm-developer-should-known.md)
 
@@ -584,7 +577,17 @@ Representation Engineering: A Top-Down Approach to AI Transparency
 #### Inference
 [概览](frameworks/LLM/methods.md)
 
+llama.cpp: 把 Facebook 的 LLaMA 模型使用 C/C++ 进行移植：[My Notes](frameworks/LLM/llama.cpp.md)
+
+vLLM: Easy, Fast, and Cheap LLM Serving with **PagedAttention** [My Notes](frameworks/LLM/vLLM.md)
+
+How continuous batching enables 23x throughput in LLM inference while reducing p50 latency(2023 6.23) [My Notes](frameworks/LLM/continuous-batching.md)
+
+[Hugging Face Text Generation Inference](https://github.com/huggingface/text-generation-inference/tree/main) [My Notes](frameworks/LLM/text-generation-inference.md)
+
 Fast Distributed Inference Serving for Large Language Models(2023.5.10): 不是 FCFS 的调度，而是可以在 token 级别上抢占的
+
+SARATHI: Efficient LLM Inference by Piggybacking Decodes with Chunked Prefills(2023.8.31) [My Notes](papers/
 
 #### RLHF
 ReaLHF: Optimized RLHF Training for Large Language Models through Parameter Reallocation (2024.6) [Notes](./papers
