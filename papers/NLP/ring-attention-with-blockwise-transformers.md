@@ -38,6 +38,7 @@ PS:上面这个就是 `Q*KT*V` 的过程，和 FA 实现里的外层是K，里�
 ## 2. 长文下显存限制
 
 ## 3. Ring Attention with Blockwise Parallel Transformers
+下面都是 BPT 里的内容，方便理解它。
 
 图2:
 ![](imgs/ring-BPT.png)
@@ -46,6 +47,10 @@ Top(a): 我们使用同样原版的 Transformer 架构，但是重组一下计�
 
 Bottom(b): 每个主机负责迭代 query 上的外层循环里的一步（即 Qi 是固定在某台主机上计算的），而 KV 块是在主机间滚动的。如图所示，一个设备从左边的第一个 query 开始；然后它在 kv blocks 上循序迭代（水平方向）。query block，结合 kv blocks，就可以用来计算 self attention（黄色框），输出传递给 ffn（绿色框)。即 不需要 Ki*Vj 的情况？只会是 `Ki*Vi`
 
+### 3.2 为什么用 BlockwiseBlock Parallel
+这种模式下，计算都是串行的，效率会怎么样呢？ blockwise parallelization 的收益主要取决于模型大小和硬件配置。当模型很大，或者 cl 很大，那么一个 block 就足以达到最大的算术密度，让原始的长度下无法并行。这种场景下，blockwise parallel 让长序列变短，这样可以处理大模型和更大的上下文。而且让我们可以**不用等待 self-attention 的完成**，可以分配一（大）块显存给 ffn 的计算
+
+另一个 BPT 的显著优势是，可以利用硬件上 SRAM 比 HBM 快很多的特性。跟 FA 和 Memory Efficient Attention 类似。没太懂，是说它尽量不写回 SRAM？那通信 KV blocks 时，可以从 SRAM 发送出去？（应该不行）
 
 ## 疑问
 0. 实现里：怎么组成 ring？
