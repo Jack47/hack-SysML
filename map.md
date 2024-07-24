@@ -761,6 +761,8 @@ OneFlow: Redesign the Distributed Deep Learning Framework from Scratch。主要�
 [Accelerate(hugging face)](./frameworks/pytorch/accelerate.md)
 
 [PyTorch 里相关的一些加速变量和方法](./frameworks/pytorch/accelerate-methods.md)
+
+[源码编译时常用的加速编译的方法](./frameworks/compile.md)
 ####  5.5.1. <a name='JIT'></a>JIT
 
 ![](https://github.com/pytorch/tvm/blob/master/pt_execution.png?raw=true)

@@ -60,6 +60,14 @@ Forward hooks, Backward hooks
 ## torch.view(shape) -> Tensor
 在原始tensor数据不改变的条件下，返回新的tensor。要求新tensor的纬度是原始纬度的子空间，否则需要用 reshape() 来进行维度变换，此时得到的 tensor 不与原始 tensor 共享内存
 
+比如 cp 的情况下，经常用来把 sequence 维度切分为 cp_size * 2 的大小：
+
+```
+      # 前面不变的维度        # 要切分的维度  # 切分为多少块                 # 剩余不变的维度
+t.view(*t.shape[0:seq_dim], 2*cp_size, *t.shape[seq_dim]// (2*cp_size), *t.shape[seq_dim+1:])
+比如 (10,20,30,40)的shape，seq_dim为2，cp_size 为5，那么切分后为：(10,20,10,3,40)
+```
+
 ## stride 属性
 tensor的 stride 步长，代表从索引中的一个维度跨到下一个维度的跨度
 
