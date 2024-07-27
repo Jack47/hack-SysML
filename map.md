@@ -380,6 +380,7 @@ NExt-GPT: Any-to-Any Multimodal LLM(2023.9.11) [My Notes](papers/multimodal/next
 
 Gemini: A Family of Highly Capable Multimodal Models(2023.12.11) [My Notes](papers/multimodal/gemini.md)
 
+DISTMM: Accelerating Distributed Multimodal Model Training(2024) [My Notes](papers/multimodal/distmm.md)
 
 
 #### dataset
