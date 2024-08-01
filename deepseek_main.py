@@ -54,7 +54,7 @@ from transformers.utils import (
     replace_return_docstrings,
 )
 from transformers.utils.import_utils import is_torch_fx_available
-from .configuration_deepseek import DeepseekV2Config
+from configuration_deepseek import DeepseekV2Config
 import torch.distributed as dist
 import numpy as np
 
@@ -565,13 +565,13 @@ class DeepseekV2MoE(nn.Module):
         orig_shape = hidden_states.shape
         topk_idx, topk_weight, aux_loss = self.gate(hidden_states)
         hidden_states = hidden_states.view(-1, hidden_states.shape[-1])
-        flat_topk_idx = topk_idx.view(-1)
+        flat_topk_idx, flat_topk_weight = topk_idx.view(-1),topk_weight.view(-1)
 
         f_j = torch.zeros(self.config.n_routed_experts, device=hidden_states.device)  # 专家j的token数
         P_j = torch.zeros(self.config.n_routed_experts, device=hidden_states.device)  # 专家j的权重，表示被选中的概率
         for i in range(self.config.n_routed_experts):
             f_j[i] = (flat_topk_idx == i).sum().float()
-            P_j[i] = topk_weight[flat_topk_idx == i].sum().float()
+            P_j[i] = flat_topk_weight[flat_topk_idx == i].sum().float()
 
         device_loads_f = torch.zeros(self.ep_size, device=hidden_states.device)  # 第i个设备的负载
         device_loads_P = torch.zeros(self.ep_size, device=hidden_states.device)  # 第i个设备被选中的概率
@@ -1907,4 +1907,20 @@ class DeepseekV2ForSequenceClassification(DeepseekV2PreTrainedModel):
             hidden_states=transformer_outputs.hidden_states,
             attentions=transformer_outputs.attentions,
         )
+
+if __name__ == '__main__':
+    import json
+    json_file_path = 'config.json'
+    with open(json_file_path, 'r') as f:
+        config_dict = json.load(f)
+
+    config = DeepseekV2Config.from_dict(config_dict)
+    model = DeepseekV2MoE(config)
+    batch_size = 8
+    seq_length = 128
+    hidden_size = config.hidden_size
+    hidden_states = torch.randn(batch_size, seq_length, hidden_size)
+    output = model(hidden_states)
+
+    print("Output shape:", output.shape)
 
