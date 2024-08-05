@@ -1916,8 +1916,8 @@ if __name__ == '__main__':
 
     config = DeepseekV2Config.from_dict(config_dict)
     model = DeepseekV2MoE(config)
-    batch_size = 8
-    seq_length = 128
+    batch_size = 1
+    seq_length = 16
     hidden_size = config.hidden_size
     hidden_states = torch.randn(batch_size, seq_length, hidden_size)
     output = model(hidden_states)
