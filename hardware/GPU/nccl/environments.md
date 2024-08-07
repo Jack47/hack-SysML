@@ -1,3 +1,6 @@
+## timeout
+`TORCH_NCCL_BLOCKING_WAIT`
+
 为了有高效的 GPU 间传输性能，社区交付了 GPUDirect RDMA 技术。它提供了 NV GPU 和远端系统之间的直接通信，绕过了 CPU，避免了系统内存里数据拷贝，导致**性能提升很大**。
 
 ## NCCL_NET_GDR_LEVEL(formerly NCCL_IB_GDR_LEVEL)
