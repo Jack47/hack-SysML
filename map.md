@@ -977,6 +977,7 @@ JAX: Compiling machine learning programs via high-level tracing(2011?), [My Note
 目前支持 TensorFlow, JAX
 
 下面这几篇都是做 inference 的：
+[推理和训练时的差异](./frameworks/training-vs-inference.md)
 
 [IOS: Inter-Operator Scheduler For CNN Acceleration](./papers/parallelism/IOS-Inter-Operator-Scheduler-For-CNN-Acceleration.md)(MLSys 2021): 开源了。主要用 dp 来做推理时算子间的调度。因为 multi branch下conv算子更小了，而新的GPU上 SM 越来越多
 
