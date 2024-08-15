@@ -383,6 +383,8 @@ Gemini: A Family of Highly Capable Multimodal Models(2023.12.11) [My Notes](pape
 DISTMM: Accelerating Distributed Multimodal Model Training(2024) [My Notes](papers/multimodal/distmm.md)
 
 
+InternVL: Sclaing up Vision Foundation Models and Aligning for Generic Visual-Linguistic Tasks [My Notes](papers/multimodal/internvl.md)
+
 #### dataset
 webdataset [My Notes](datasets/webdataset.md)
 ###  1.13. <a name='Parallelism'></a>Parallelism
