@@ -597,7 +597,7 @@ SARATHI: Efficient LLM Inference by Piggybacking Decodes with Chunked Prefills(2
 MEDUSA: Simple LLM Inference Acceleration Framework with Multiple Decoding Heads (2024.6.14) [My Notes](papers/LLM/medusa.md)
 
 #### RLHF
-ReaLHF: Optimized RLHF Training for Large Language Models through Parameter Reallocation (2024.6) [Notes](./papers/ReaLHF-optimized-through-parameter-rellocation.md)
+ReaLHF: Optimized RLHF Training for Large Language Models through Parameter Reallocation (2024.6) [Notes](./papers/RLHF/ReaLHF-optimized-through-parameter-rellocation.md)
 #### Eval
 [概览](frameworks/LLM/eval-methods.md)
 
