@@ -596,7 +596,10 @@ SARATHI: Efficient LLM Inference by Piggybacking Decodes with Chunked Prefills(2
 
 MEDUSA: Simple LLM Inference Acceleration Framework with Multiple Decoding Heads (2024.6.14) [My Notes](papers/LLM/medusa.md)
 
-NanoFlow: [My Notes](papers/LLM/nanoflow.md)
+SGLang: (2023.6.6) [My Notes](papers/LLM/sglang.md)
+
+NanoFlow: (2024.8.22) [My Notes](papers/LLM/nanoflow.md)
+
 #### RLHF
 ReaLHF: Optimized RLHF Training for Large Language Models through Parameter Reallocation (2024.6) [Notes](./papers/RLHF/ReaLHF-optimized-through-parameter-rellocation.md)
 #### Eval
@@ -609,7 +612,7 @@ INT8 SmoothQuant(W8A8)(Accurate and Efficient Post-Training Quantization for Lar
 
 INT4 and INT8 Weight-Only(W4A16 and W8A16)
 
-GPTQ: Accurate Post-Training *Quantization* for *Generative Pre-trained Transformers* (Han Song 2022.10)
+GPTQ: Accurate Post-Training *Quantization* for *Generative Pre-trained Transformers* (Han Song 2021.10)
 
 ### Checkpoint
 Microsoft CheckFreq : [My Notes](papers/)
