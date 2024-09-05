@@ -600,8 +600,7 @@ SGLang: (2023.6.6) [My Notes](papers/LLM/sglang.md)
 
 NanoFlow: (2024.8.22) [My Notes](papers/LLM/nanoflow.md)
 
-#### RLHF
-ReaLHF: Optimized RLHF Training for Large Language Models through Parameter Reallocation (2024.6) [Notes](./papers/RLHF/ReaLHF-optimized-through-parameter-rellocation.md)
+推理在采样阶段使用的方法说明 [My Notes](papers/LLM/sampling.md)
 #### Eval
 [概览](frameworks/LLM/eval-methods.md)
 
@@ -1091,6 +1090,11 @@ ST-MoE: Designing Stable And Transferable Sparse Expert Models [My Notes](papers
 MINEDOJO: Building Open-Ended Embodied Agents with Internet-Scale Knowledge(NeurIPS 2022)
 
 DreamerV3: Mastering Diverse Domains through World Models
+
+## RLHF
+NeMo-Aligner (2024.5.4) [Notes](./papers/RLHF/nemo-aligner.md)
+
+ReaLHF: Optimized RLHF Training for Large Language Models through Parameter Reallocation (2024.6) [Notes](./papers/RLHF/ReaLHF-optimized-through-parameter-rellocation.md)
 
 OpenRLHF: An Easy-to-use, Scalable and High-performance RLHF Framework(2024) [My Notes](papers/RLHF/openrlhf.md)
 
