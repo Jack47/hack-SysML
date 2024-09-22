@@ -869,6 +869,7 @@ Let's build the GPT Tokenizer (2023.2.21) [My Notes](videos/build-gpt-tokenizer.
 
 State of GPT(Andrej Karpathy)
 
+Stanford CS25: V4 I Hyung Won Chung of OpenAI [My Notes](videos/identify-understand-predict.md)
 
 ##  9. <a name='Hardware'></a>Hardware
 
