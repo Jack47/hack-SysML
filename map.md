@@ -567,6 +567,7 @@ Understanding data influence on context scaling: a close look at baseline soluti
 
 DeepSpeed Ulysses: System Optimizations for Enabling Training of Extreme Long Sequence Transformer Models(2023.8) [My Notes](frameworks/LLM/deepspeed-ulysses.md)
 
+Inverse scaling can become U-shaped: 逆扩展可以在模型参数更大，耗费算力更大后性能变好
 
 #### Support Chinese
 Efficient and Effective Text Encoding for Chinese LLAMA and Alpaca [My notes](./papers/NLP/efficient-and-effective-text-encoding-for-chinese-llama-and-alpaca.md)
@@ -870,6 +871,8 @@ Let's build the GPT Tokenizer (2023.2.21) [My Notes](videos/build-gpt-tokenizer.
 State of GPT(Andrej Karpathy)
 
 Stanford CS25: V4 I Hyung Won Chung of OpenAI [My Notes](videos/identify-understand-predict.md)
+
+Stanford CS25: V4 I Jason Wei & Hyung Won Chung of OpenAI [My Notes](videos/intuitions-on-language-models.md)
 
 ##  9. <a name='Hardware'></a>Hardware
 
