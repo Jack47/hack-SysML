@@ -617,6 +617,8 @@ GPTQ: Accurate Post-Training *Quantization* for *Generative Pre-trained Transfor
 ### Checkpoint
 Microsoft CheckFreq : [My Notes](papers/)
 
+ByteCheckpoint: A Unified Checkpointing System for LLM Development: [My Notes](). 即能加速 save 和 load，又能解决不同框架之间的转换以及 tp 的变化
+
 ### Recommenders 
 
 PERSIA: An Open, Hybrid System Scaling Deep Learning-based Recommenders up to 100 Trillion Parameters(2021) [Notes](./papers/recommender/persia.md), [Siyu Wang's Notes](./papers/recommender/Persia_note_siyuwang.md)
